@@ -26,4 +26,13 @@ public class ClassComptableService {
     public List<ClassComptable> findAll() {
         return classComptableDao.findAll();
     }
+    public int save(ClassComptable classComptable){
+        if(findByRef(classComptable.getRef()) != null){
+            return -1;
+        }
+        else{
+            classComptableDao.save(classComptable);
+            return 1;
+        }
+    }
 }

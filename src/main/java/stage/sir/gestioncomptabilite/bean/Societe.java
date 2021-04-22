@@ -1,5 +1,7 @@
 package stage.sir.gestioncomptabilite.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -11,6 +13,7 @@ public class Societe {
     private String ice; //Identifiant Commun de l'Entreprise
     private String adresse;
     private String raisonSociale;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateCreation;
     private Double age;
 
