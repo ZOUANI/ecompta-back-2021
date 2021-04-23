@@ -1,9 +1,11 @@
 package stage.sir.gestioncomptabilite.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Societe {
@@ -16,8 +18,37 @@ public class Societe {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateCreation;
     private Double age;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
+    @OneToMany(mappedBy = "societe")
+    private List<DeclarationIR> declarationIRs;
+    
+    
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
+    @OneToMany(mappedBy = "societeEmp")
+    private List<Employe> employes;
+    
+    
+    
+    
+    
+    
+    public List<Employe> getEmployes() {
+		return employes;
+	}
 
-    public long getId() {
+	public void setEmployes(List<Employe> employes) {
+		this.employes = employes;
+	}
+
+	public List<DeclarationIR> getDeclarationIRs() {
+		return declarationIRs;
+	}
+
+	public void setDeclarationIRs(List<DeclarationIR> declarationIRs) {
+		this.declarationIRs = declarationIRs;
+	}
+
+	public long getId() {
         return id;
     }
 
