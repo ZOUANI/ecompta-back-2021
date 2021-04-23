@@ -17,6 +17,10 @@ public class TypeDeclarationTvaProvided {
     public TypeDeclarationTva findByRef(@PathVariable String ref) {
         return typeDeclarationTvaService.findByRef(ref);
     }
+    @GetMapping("libelle/{libelle}")
+    public TypeDeclarationTva findByLibelle(@PathVariable String libelle) {
+        return typeDeclarationTvaService.findByLibelle(libelle);
+    }
 
     @DeleteMapping("ref/{ref}")
     public int deleteByRef(@PathVariable String ref) {

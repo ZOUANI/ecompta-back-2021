@@ -14,6 +14,10 @@ public class TypeDeclarationTvaService {
         return typeDeclarationTvaDao.findByRef(ref);
     }
 
+    public TypeDeclarationTva findByLibelle(String libelle) {
+        return typeDeclarationTvaDao.findByLibelle(libelle);
+    }
+
     @Transactional
     public int deleteByRef(String ref) {
         int resultdeclarationtva = declarationTvaService.deleteByTypeDeclarationTvaRef(ref);
