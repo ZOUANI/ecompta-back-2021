@@ -7,15 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import stage.sir.gestioncomptabilite.bean.Employe;
+
 import stage.sir.gestioncomptabilite.dao.EmployeDao;
 
 @Service
 public class EmployeService {
 	@Autowired
 	EmployeDao employeDao;
-	
-	
-	
+
 
 	public Employe findByCin(String cin) {
 		return employeDao.findByCin(cin);

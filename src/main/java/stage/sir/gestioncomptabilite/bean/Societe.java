@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 import java.util.Date;
 
+
 @Entity
 public class Societe {
     @Id
@@ -17,6 +18,7 @@ public class Societe {
     private Double age;
 
     public long getId() {
+
         return id;
     }
 
@@ -54,6 +56,7 @@ public class Societe {
 
     public void setAnneeExploitation(int anneeExploitation) {
         this.anneeExploitation = anneeExploitation;
+
     }
 
     public Double getAge() {

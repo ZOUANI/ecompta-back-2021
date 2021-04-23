@@ -23,6 +23,7 @@ public class TauxISService {
         return tauxISDao.deleteByRef(ref);
     }
 
+
     public List<TauxIS> findAll() {
         return tauxISDao.findAll();
     }

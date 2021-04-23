@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,13 +19,12 @@ public class Employe {
 	private String nom;
 	private String prenom;
 	private Double salaire;
-	
+
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
 	@OneToMany(mappedBy = "employe")
 	private List<DeclarationIREmploye> declarationIREmployes;
-	
-	
-	
+
+
 	public Double getSalaire() {
 		return salaire;
 	}

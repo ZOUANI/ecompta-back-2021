@@ -1,4 +1,5 @@
-package stage.sir.gestioncomptabilite.ws;
+package stage.sir.gestioncomptabilite.webService;
+
 
 import java.util.List;
 import java.util.Optional;

@@ -99,6 +99,10 @@ public class FactureService {
            /* facture.setTrim(dateUtil.compareDates(facture.getDateOperation()));
             facture.setAnnee(facture.getDateOperation().getYear());
             facture.setMois(facture.getDateOperation().getMonth());*/
+
+            facture.setDeclarationIR(null);
+            facture.setDeclarationIS(null);
+            facture.setDeclarationTva(null);
             factureDao.save(facture);
             return 1;
         }

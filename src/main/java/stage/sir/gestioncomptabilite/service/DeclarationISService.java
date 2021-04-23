@@ -49,7 +49,7 @@ public class DeclarationISService {
     public List<DeclarationIS> findAll() {
         return declarationISDao.findAll();
     }
-    
+
     public void calculMontantIS(DeclarationIS decIS){
         List<TauxIS> tauxISList = tauxISService.findAll();
         Double montant =0.0;
@@ -95,6 +95,7 @@ public class DeclarationISService {
          else if(societe == null){ return -2; }
          else if(tauxIS == null){ return -3; }
          else{
+             calculMontantIS(declarationIS);
              affectMontantPaye(declarationIS);
              declarationISDao.save(declarationIS);
              return 1;

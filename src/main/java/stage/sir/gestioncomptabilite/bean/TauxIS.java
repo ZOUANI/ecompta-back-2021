@@ -2,6 +2,7 @@ package stage.sir.gestioncomptabilite.bean;
 
 import javax.persistence.*;
 
+
 @Entity
 public class TauxIS {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -10,7 +11,6 @@ public class TauxIS {
     private Double resultatFiscalMin;
     private Double resultatFiscalMax;
     private Double pourcentage;
-
 
     public long getId() {
         return id;
