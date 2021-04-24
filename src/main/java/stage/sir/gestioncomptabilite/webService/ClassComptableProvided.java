@@ -1,4 +1,4 @@
-package stage.sir.gestioncomptabilite.ws;
+package stage.sir.gestioncomptabilite.webService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +28,7 @@ public class ClassComptableProvided {
     public List<ClassComptable> findAll() {
         return classComptableService.findAll();
     }
+
     @PostMapping("/")
     public int save(@RequestBody ClassComptable classComptable) {
         return classComptableService.save(classComptable);

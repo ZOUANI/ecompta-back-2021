@@ -19,13 +19,8 @@ public class TauxIr {
 	private Double salaireMax;
 	private Double pourcentage;
 	@OneToMany(mappedBy = "tauxIr")
-	private List<Details> detailsTauxDetails; 
-	
-	
-	
-	
-	
-	
+	private List<Details> detailsTauxDetails;
+
 	public List<Details> getDetailsTauxDetails() {
 		return detailsTauxDetails;
 	}
@@ -56,8 +51,5 @@ public class TauxIr {
 	public void setPourcentage(Double pourcentage) {
 		this.pourcentage = pourcentage;
 	}
-	
-	
-	
 
 }

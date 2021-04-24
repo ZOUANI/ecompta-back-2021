@@ -1,4 +1,5 @@
-package stage.sir.gestioncomptabilite.ws;
+package stage.sir.gestioncomptabilite.webService;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,10 @@ public class TypeDeclarationTvaProvided {
         return typeDeclarationTvaService.findByRef(ref);
     }
 
+    @GetMapping("libelle/{libelle}")
+    public TypeDeclarationTva findByLibelle(@PathVariable String libelle) {
+        return typeDeclarationTvaService.findByLibelle(libelle);
+    }
     @DeleteMapping("ref/{ref}")
     public int deleteByRef(@PathVariable String ref) {
         return typeDeclarationTvaService.deleteByRef(ref);

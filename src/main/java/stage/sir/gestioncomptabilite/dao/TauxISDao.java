@@ -6,4 +6,6 @@ import stage.sir.gestioncomptabilite.bean.TauxIS;
 
 @Repository
 public interface TauxISDao extends JpaRepository<TauxIS, Long> {
+    TauxIS findByRef(String ref);
+    int deleteByRef(String ref);
 }

@@ -18,8 +18,8 @@ public class DeclarationIS {
     private Societe societe;
     @OneToOne
     private TauxIS tauxIS;
-    @ManyToOne
-    private TauxIsConfig tauxIsConfig;
+   /* @ManyToOne
+    private TauxIsConfig tauxIsConfig; */
 
     public String getRef() {
         return ref;
@@ -83,14 +83,6 @@ public class DeclarationIS {
 
     public void setMontantISPaye(Double montantISPaye) {
         this.montantISPaye = montantISPaye;
-    }
-
-    public TauxIsConfig getTauxIsConfig() {
-        return tauxIsConfig;
-    }
-
-    public void setTauxIsConfig(TauxIsConfig tauxIsConfig) {
-        this.tauxIsConfig = tauxIsConfig;
     }
 
     public Societe getSociete() {

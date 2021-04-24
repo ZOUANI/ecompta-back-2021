@@ -7,15 +7,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import stage.sir.gestioncomptabilite.bean.Employe;
+
 import stage.sir.gestioncomptabilite.dao.EmployeDao;
 
 @Service
 public class EmployeService {
 	@Autowired
 	EmployeDao employeDao;
+
+	public List<Employe> findBySocieteEmpIce(String ice) {
+		return employeDao.findBySocieteEmpIce(ice);
+	}
+
+	@Autowired
+	SocieteService societeService;
+	
+	
+	  
 	
 	
 	
+	
+
+
+
 
 	public Employe findByCin(String cin) {
 		return employeDao.findByCin(cin);
@@ -38,5 +53,6 @@ public class EmployeService {
 	public List<Employe> findAll() {
 		return employeDao.findAll();
 	}
+	
 
 }

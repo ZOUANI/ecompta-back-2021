@@ -1,4 +1,4 @@
-package stage.sir.gestioncomptabilite.ws;
+package stage.sir.gestioncomptabilite.webService;
 
 import java.util.List;
 
@@ -20,7 +20,10 @@ public class EmployeProvided {
 	EmployeService employeService;
 
 	
-	
+	@GetMapping("/societe/ice/{ice}")
+	public List<Employe> findBySocieteEmpIce(@PathVariable String ice) {
+		return employeService.findBySocieteEmpIce(ice);
+	}
 	@GetMapping("/cin/{cin}")
 	public Employe findByCin(@PathVariable String cin) {
 		return employeService.findByCin(cin);

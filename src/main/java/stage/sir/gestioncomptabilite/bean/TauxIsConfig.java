@@ -13,6 +13,8 @@ public class TauxIsConfig {
     private Long id;
     private String ref;
     private Double cotisationMinimale; //3000dh  taux IS fixé à 10%
+    //CM = (CA HT + produits)*0.5%
+
     private Date dateMin;
     private Date dateMax;
 

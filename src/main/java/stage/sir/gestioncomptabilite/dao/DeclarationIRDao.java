@@ -1,5 +1,6 @@
 package stage.sir.gestioncomptabilite.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,8 @@ public interface DeclarationIRDao extends JpaRepository<DeclarationIR,Long>  {
 	Optional<DeclarationIR> findById(Long id);
 	DeclarationIR findByRef(String ref);
 	int deleteByMois(Integer mois);
+	List<DeclarationIR> findByMoisAndAnnee(Integer mois,Integer annee);
+	
 	
 
 }
