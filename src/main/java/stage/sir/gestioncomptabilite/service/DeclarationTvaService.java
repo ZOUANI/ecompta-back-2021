@@ -45,6 +45,7 @@ public class DeclarationTvaService {
     }
 
     public int save(DeclarationTva declarationTva){
+        declarationTva.setRef(System.currentTimeMillis()+"");
         if (findByRef(declarationTva.getRef())!=null){
             return -1;
         }

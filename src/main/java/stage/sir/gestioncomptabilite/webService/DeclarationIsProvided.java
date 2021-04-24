@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "Gestion-Comptabilité/declarationIS")
-public class DeclarationISWS {
+public class DeclarationIsProvided {
 
     @Autowired
     DeclarationISService declarationISService;

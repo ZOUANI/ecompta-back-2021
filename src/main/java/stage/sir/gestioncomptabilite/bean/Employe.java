@@ -19,16 +19,15 @@ public class Employe {
 	private String nom;
 	private String prenom;
 	private Double salaire;
-	@ManyToOne
-	Societe societeEmp;
-	
-	
+
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
 	@OneToMany(mappedBy = "employe")
 	private List<DeclarationIREmploye> declarationIREmployes;
+
 	
 	 
-	
+	@ManyToOne
+	Societe societeEmp;
 	
 	
 	
@@ -49,6 +48,10 @@ public class Employe {
 	public void setDeclarationIREmployes(List<DeclarationIREmploye> declarationIREmployes) {
 		this.declarationIREmployes = declarationIREmployes;
 	}
+
+
+
+
 	public Double getSalaire() {
 		return salaire;
 	}

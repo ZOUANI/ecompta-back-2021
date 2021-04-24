@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import stage.sir.gestioncomptabilite.bean.Societe;
 import stage.sir.gestioncomptabilite.dao.SocieteDao;
 
+import java.util.Calendar;
+
 import java.util.List;
 
 @Service
@@ -34,6 +36,10 @@ public class SocieteService {
             return -1;
         }
         else{
+            Calendar c = Calendar. getInstance();
+            int anneeAct = c. get(Calendar. YEAR);
+            int annee = societe.getAnneeExploitation();
+            societe.setAge((double) anneeAct-annee);
             societeDao.save(societe);
             return 1;
         }

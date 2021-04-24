@@ -28,6 +28,7 @@ public class ClassComptableProvided {
     public List<ClassComptable> findAll() {
         return classComptableService.findAll();
     }
+
     @PostMapping("/")
     public int save(@RequestBody ClassComptable classComptable) {
         return classComptableService.save(classComptable);

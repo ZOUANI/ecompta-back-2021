@@ -10,8 +10,13 @@ import java.util.List;
 
 @Service
 public class TypeDeclarationTvaService {
+
     public TypeDeclarationTva findByRef(String ref) {
         return typeDeclarationTvaDao.findByRef(ref);
+    }
+
+    public TypeDeclarationTva findByLibelle(String libelle) {
+        return typeDeclarationTvaDao.findByLibelle(libelle);
     }
 
     @Transactional

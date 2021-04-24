@@ -1,4 +1,4 @@
-package stage.sir.gestioncomptabilite.webService;
+package stage.sir.gestioncomptabilite.ws;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

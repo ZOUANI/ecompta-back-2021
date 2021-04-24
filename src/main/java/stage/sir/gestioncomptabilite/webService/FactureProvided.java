@@ -9,6 +9,7 @@ import stage.sir.gestioncomptabilite.service.FactureService;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RequestMapping(value = "gestion-comptabilite/facture")
 public class FactureProvided {
     @Autowired

@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+
 @Entity
 public class Societe {
     @Id
@@ -16,9 +17,9 @@ public class Societe {
     private String nom;
     private String adresse;
     private String raisonSociale;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date dateCreation;
+    private int anneeExploitation;
     private Double age;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
     @OneToMany(mappedBy = "societe")
     private List<DeclarationIR> declarationIRs;
@@ -49,19 +50,9 @@ public class Societe {
 		return employes;
 	}
 
-	public void setEmployes(List<Employe> employes) {
-		this.employes = employes;
-	}
 
-	public List<DeclarationIR> getDeclarationIRs() {
-		return declarationIRs;
-	}
+    public long getId() {
 
-	public void setDeclarationIRs(List<DeclarationIR> declarationIRs) {
-		this.declarationIRs = declarationIRs;
-	}
-
-	public long getId() {
         return id;
     }
 
@@ -93,12 +84,13 @@ public class Societe {
         this.raisonSociale = raisonSociale;
     }
 
-    public Date getDateCreation() {
-        return dateCreation;
+    public int getAnneeExploitation() {
+        return anneeExploitation;
     }
 
-    public void setDateCreation(Date dateCreation) {
-        this.dateCreation = dateCreation;
+    public void setAnneeExploitation(int anneeExploitation) {
+        this.anneeExploitation = anneeExploitation;
+
     }
 
     public Double getAge() {

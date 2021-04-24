@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "Gestion-Comptabilité/societe")
-public class SocieteWS {
+public class SocieteProvided {
     @Autowired
     SocieteService societeService;
 

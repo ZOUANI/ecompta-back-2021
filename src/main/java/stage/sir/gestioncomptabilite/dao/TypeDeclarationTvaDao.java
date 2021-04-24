@@ -8,4 +8,6 @@ import stage.sir.gestioncomptabilite.bean.TypeDeclarationTva;
 public interface TypeDeclarationTvaDao extends JpaRepository<TypeDeclarationTva, Long> {
     TypeDeclarationTva findByRef(String ref);
     int deleteByRef(String ref);
+
+    TypeDeclarationTva findByLibelle(String libelle);
 }
