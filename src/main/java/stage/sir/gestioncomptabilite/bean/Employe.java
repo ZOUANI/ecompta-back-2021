@@ -32,6 +32,11 @@ public class Employe {
 	
 	
 	
+	@Override
+	public String toString() {
+		return "Employe [id=" + id + ", cin=" + cin + ", nom=" + nom + ", prenom=" + prenom + ", salaire=" + salaire
+				+ ", societeEmp=" + societeEmp + ", declarationIREmployes=" + declarationIREmployes + "]";
+	}
 	public Societe getSocieteEmp() {
 		return societeEmp;
 	}

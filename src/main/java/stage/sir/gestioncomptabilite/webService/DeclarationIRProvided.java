@@ -21,6 +21,12 @@ public class DeclarationIRProvided {
 	@Autowired
 	DeclarationIRService declarationIRService;
 	
+	
+	
+	@GetMapping("/mois/{mois}/annee/{annee}")
+	public List<DeclarationIR> findByMoisAndAnnee(@PathVariable Integer mois,@PathVariable Integer annee) {
+		return declarationIRService.findByMoisAndAnnee(mois, annee);
+	}
 	@GetMapping("/ref/{ref}")
 	public DeclarationIR findByRef(@PathVariable String ref) {
 		return declarationIRService.findByRef(ref);

@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 public class DeclarationIREmploye {
 	
@@ -18,6 +20,7 @@ public class DeclarationIREmploye {
 	private Double salaireNet;
 	private Double salaireBrut;
 	private Double montantIR;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
 	@OneToMany(mappedBy = "declarationIREmploye")
 	List<Details> detailsEmploye;
 	
@@ -31,6 +34,15 @@ public class DeclarationIREmploye {
 
 	
 	
+	
+	
+	@Override
+	public String toString() {
+		return "DeclarationIREmploye [id=" + id + ", refEmp=" + refEmp + ", salaireNet=" + salaireNet + ", salaireBrut="
+				+ salaireBrut + ", montantIR=" + montantIR + ", detailsEmploye=" + detailsEmploye + ", employe="
+				+ employe + ", declarationIR=" + declarationIR + "]";
+	}
+
 	public List<Details> getDetailsEmploye() {
 		return detailsEmploye;
 	}
