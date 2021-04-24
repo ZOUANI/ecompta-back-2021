@@ -5,8 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import stage.sir.gestioncomptabilite.bean.*;
 import stage.sir.gestioncomptabilite.dao.FactureDao;
+import stage.sir.gestioncomptabilite.vo.ObjectVo;
 //import stage.sir.gestioncomptabilite.service.util.DateUtil;
 
+import javax.persistence.EntityManager;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,6 +28,8 @@ public class FactureService {
     private DeclarationIRService declarationIRService;
     @Autowired
     private  DeclarationTvaService declarationTvaService;
+    @Autowired
+    private EntityManager entityManager;
 
     // private DateUtil dateUtil;
 
@@ -96,6 +101,10 @@ public class FactureService {
             facture.setDeclarationIR(null);
             facture.setDeclarationIS(null);
             facture.setDeclarationTva(null);
+            facture.setMontantTVA(tv.getValeur());
+            facture.setTrim(Trouvertrim(facture.getDateOperation()));
+            facture.setMois(facture.getDateOperation().getMonth());//mois !!
+            facture.setAnnee(facture.getDateOperation().getYear());// annee!!
             factureDao.save(facture);
             return 1;
         }
@@ -103,6 +112,37 @@ public class FactureService {
 
 
     }
+    public double Trouvertrim(Date date){
+        if(date.getMonth() <= 3){
+            return 1;
+        }
+        else if(date.getMonth() > 3 && date.getMonth() <= 6){
+            return 2;
+        }
+        else if(date.getMonth() > 6 && date.getMonth() <= 9){
+            return 3;
+        }
+        else {
+            return 4;
+        }
+
+    }
+    public List<Facture>  findByMultiTache(ObjectVo objectVo) {
+        long ma, min;
+        ma = objectVo.getDmax().getTime();
+        min = objectVo.getDmin().getTime();
+        String request = "SELECT f FROM Facture f WHERE 1=1 ";
+        if (objectVo.getDmin().getTime() - objectVo.getDmax().getTime() < 0){
+            request += " AND f.dateOperation <=" + ma + "";
+            request += " AND f.dateOperation >=" + min + "";
+
+        }
+        return entityManager.createQuery(request).getResultList();
+
+
+    }
+
+
 
 
 }
