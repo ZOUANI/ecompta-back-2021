@@ -11,6 +11,9 @@ import java.util.List;
 public interface FactureDao extends JpaRepository<Facture,Long> {
     public Facture findByRef(String ref);
     public int deleteByRef(String ref);
+    public List<Facture> findByDeclarationISRef(String ref);
+    public int deleteByDeclarationISRef(String ref);
+    List<Facture> findByTypeOperationAndDeclarationISRef(String type, String ref);
     List<Facture> findBySocieteSourceIceAndAnneeAndTrim(String ice, double annee,double trim);
     List<Facture> findBySocieteSourceIceAndAnneeAndMois(String ice, double annee, double mois);
     List<Facture> findBySocieteSourceIceAndAnneeAndTrimAndTypeOperation(String ice, double annee,double trim,String typeoperation);

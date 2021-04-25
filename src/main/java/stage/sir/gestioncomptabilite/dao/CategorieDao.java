@@ -9,4 +9,6 @@ import java.util.List;
 public interface CategorieDao extends JpaRepository<Categorie,Long > {
     List<Categorie> findAll();
     List<Categorie> findBySectionRef(String ref);
+    Categorie findByRef(String ref);
+    int deleteByRef(String ref);
 }

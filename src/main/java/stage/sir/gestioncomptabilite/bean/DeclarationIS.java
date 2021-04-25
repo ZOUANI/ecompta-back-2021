@@ -1,7 +1,10 @@
 package stage.sir.gestioncomptabilite.bean;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 public class DeclarationIS {
@@ -11,15 +14,20 @@ public class DeclarationIS {
     private String ref;
     private Double totalHTGain;
     private Double totalHTCharge;
-    private Double totalHTDiff; //resultatFiscal
+    private Double totalHTDiff;
     private Double montantISCalcule;
     private Double montantISPaye;
     @ManyToOne
     private Societe societe;
     @OneToOne
     private TauxIS tauxIS;
-   /* @ManyToOne
-    private TauxIsConfig tauxIsConfig; */
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "declarationIS")
+    private List<Facture> facture;
+
+    @ManyToOne
+    private TauxIsConfig tauxIsConfig;
 
     public String getRef() {
         return ref;
@@ -101,5 +109,19 @@ public class DeclarationIS {
         this.tauxIS = tauxIS;
     }
 
+    public List<Facture> getFacture() {
+        return facture;
+    }
 
+    public void setFacture(List<Facture> facture) {
+        this.facture = facture;
+    }
+
+    public TauxIsConfig getTauxIsConfig() {
+        return tauxIsConfig;
+    }
+
+    public void setTauxIsConfig(TauxIsConfig tauxIsConfig) {
+        this.tauxIsConfig = tauxIsConfig;
+    }
 }

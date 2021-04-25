@@ -9,7 +9,7 @@ import stage.sir.gestioncomptabilite.service.SocieteService;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "Gestion-Comptabilité/societe")
+@RequestMapping(value = "gestion-comptabilite/societe")
 public class SocieteProvided {
     @Autowired
     SocieteService societeService;

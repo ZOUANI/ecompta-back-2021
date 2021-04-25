@@ -1,15 +1,15 @@
 package stage.sir.gestioncomptabilite.webService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import stage.sir.gestioncomptabilite.bean.DeclarationIS;
 import stage.sir.gestioncomptabilite.service.DeclarationISService;
+import stage.sir.gestioncomptabilite.vo.DeclarationIsVo;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "Gestion-Comptabilité/declarationIS")
+@RequestMapping(value = "gestion-comptabilite/declarationIS")
 public class DeclarationIsProvided {
 
     @Autowired
@@ -41,6 +41,11 @@ public class DeclarationIsProvided {
     @DeleteMapping("/societe/ice/{ice}")
     public int deleteBySocieteIce(@PathVariable String ice) {
         return declarationISService.deleteBySocieteIce(ice);
+    }
+
+    @PostMapping("/criteria/")
+    public List<DeclarationIS> searchCriteria(@RequestBody DeclarationIsVo declarationIsVo) {
+        return declarationISService.searchCriteria(declarationIsVo);
     }
 
     @GetMapping("/")

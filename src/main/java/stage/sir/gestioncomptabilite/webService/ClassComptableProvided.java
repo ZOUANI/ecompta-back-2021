@@ -9,7 +9,7 @@ import stage.sir.gestioncomptabilite.service.ClassComptableService;
 import java.util.List;
 
 @RestController
-@RequestMapping("gestion-class/class-comptable")
+@RequestMapping("gestion-comptabilite/class-comptable")
 public class ClassComptableProvided {
     @Autowired
     private ClassComptableService classComptableService;

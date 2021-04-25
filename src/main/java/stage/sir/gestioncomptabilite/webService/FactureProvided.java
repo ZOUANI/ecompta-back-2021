@@ -9,7 +9,6 @@ import stage.sir.gestioncomptabilite.service.FactureService;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200"})
 @RequestMapping(value = "gestion-comptabilite/facture")
 public class FactureProvided {
     @Autowired
@@ -40,6 +39,22 @@ public class FactureProvided {
     public List<Facture> findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(@PathVariable String ice, @PathVariable double annee,@PathVariable double mois,@PathVariable String typeoperation) {
         return factureService.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(ice, annee, mois, typeoperation);
     }
+
+    @GetMapping("/declarationIS/ref/{ref}")
+    public List<Facture> findByDeclarationISRef(@PathVariable String ref) {
+        return factureService.findByDeclarationISRef(ref);
+    }
+
+    @DeleteMapping("/declarationIS/ref/{ref}")
+    public int deleteByDeclarationISRef(@PathVariable String ref) {
+        return factureService.deleteByDeclarationISRef(ref);
+    }
+
+    @GetMapping("/typeOperation/type/{type}/declarationIS/ref/{ref}")
+    public List<Facture> findByTypeOperationAndDeclarationISRef(@PathVariable String type, @PathVariable String ref) {
+        return factureService.findByTypeOperationAndDeclarationISRef(type, ref);
+    }
+
     @GetMapping("/")
     public List<Facture> findAll() {
         return factureService.findAll();

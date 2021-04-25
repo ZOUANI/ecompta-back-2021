@@ -39,10 +39,9 @@ public class DeclarationIRService {
 	
 	
 	public int save(DeclarationIR declarationIR) {
-		if (declarationIRDao.findById(declarationIR.getId())!=null) {
+		if(findByRef(declarationIR.getRef()) != null){
 			return -1;
-			
-		}else {
+		} else{
 			Societe societe=societeService.findByIce(declarationIR.getSociete().getIce());
 			declarationIR.setSociete(societe);
 			declarationIRDao.save(declarationIR);

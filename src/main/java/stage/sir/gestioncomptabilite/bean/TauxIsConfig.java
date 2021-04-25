@@ -12,9 +12,7 @@ public class TauxIsConfig {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String ref;
-    private Double cotisationMinimale; //3000dh  taux IS fixé à 10%
-    //CM = (CA HT + produits)*0.5%
-
+    private Double cotisationMinimale;
     private Date dateMin;
     private Date dateMax;
 
