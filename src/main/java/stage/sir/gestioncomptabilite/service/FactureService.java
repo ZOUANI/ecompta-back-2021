@@ -5,8 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import stage.sir.gestioncomptabilite.bean.*;
 import stage.sir.gestioncomptabilite.dao.FactureDao;
+import stage.sir.gestioncomptabilite.vo.ObjectVo;
 //import stage.sir.gestioncomptabilite.service.util.DateUtil;
 
+import javax.persistence.EntityManager;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,8 +26,11 @@ public class FactureService {
     private DeclarationISService declarationISService;
     @Autowired
     private DeclarationIRService declarationIRService;
-    // @Autowired
-   // private DeclarationTVAService declarationTVAService;
+    @Autowired
+    private  DeclarationTvaService declarationTvaService;
+    @Autowired
+    private EntityManager entityManager;
+
 
     // private DateUtil dateUtil;
 
@@ -69,15 +75,9 @@ public class FactureService {
         facture.setTva(tv);
         ClassComptable cpt = comptComptableService.findByRef(facture.getClassComptable().getRef());
         facture.setClassComptable(cpt);
-        DeclarationIR ir = declarationIRService.findByRef(facture.getDeclarationIR().getRef());
-        facture.setDeclarationIR(ir);
-        DeclarationIS is = declarationISService.findByRef(facture.getDeclarationIS().getRef());
-        facture.setDeclarationIS(is);
-       // DeclarationTVA dtva = declarationTVAService.findByRef(facture.getDeclarationTVA().getRef());
-       // facture.setDeclarationTVA(dtva);
         Facture facture1 = factureDao.findByRef(facture.getRef());
 
-        if ((facture1 != null) &&(facture1.getSocieteSource().getIce() == facture.getSocieteSource().getIce()) && (facture1.getSocieteDistination().getIce() == facture.getSocieteDistination().getIce()) ) {
+        if ((facture1 != null) &&(facture1.getSocieteSource().getIce() == facture.getSocieteSource().getIce())  ) {
             return -1;
         } else if (societeS == null) {
             return -2;
@@ -99,14 +99,46 @@ public class FactureService {
            /* facture.setTrim(dateUtil.compareDates(facture.getDateOperation()));
             facture.setAnnee(facture.getDateOperation().getYear());
             facture.setMois(facture.getDateOperation().getMonth());*/
-
             facture.setDeclarationIR(null);
             facture.setDeclarationIS(null);
             facture.setDeclarationTva(null);
+            facture.setMontantTVA(facture.getTva().getValeur());
+            facture.setTrim(Trouvertrim(facture.getDateOperation()));
+            facture.setMois(facture.getDateOperation().getMonth());
+            facture.setAnnee(facture.getDateOperation().getYear());
             factureDao.save(facture);
             return 1;
         }
 
+
+
+    }
+    public double Trouvertrim(Date date){
+        if(date.getMonth() <= 3){
+            return 1;
+        }
+        else if(date.getMonth() > 3 && date.getMonth() <= 6){
+            return 2;
+        }
+        else if(date.getMonth() > 6 && date.getMonth() <= 9){
+            return 3;
+        }
+        else {
+            return 4;
+        }
+
+    }
+    public List<Facture>  findByMultiTache(ObjectVo objectVo){
+        long ma, min;
+        ma = objectVo.getDmax().getTime();
+        min = objectVo.getDmin().getTime();
+        String request = "SELECT f FROM Facture f WHERE 1=1 ";
+        if (objectVo.getDmin().getTime() - objectVo.getDmax().getTime() < 0){
+            request += " AND f.dateOperation <=" + ma + "";
+            request += " AND f.dateOperation >=" + min + "";
+
+        }
+        return entityManager.createQuery(request).getResultList();
 
 
     }

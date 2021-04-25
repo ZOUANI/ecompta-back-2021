@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import stage.sir.gestioncomptabilite.bean.Facture;
 import stage.sir.gestioncomptabilite.service.FactureService;
+import stage.sir.gestioncomptabilite.vo.ObjectVo;
+
 
 import java.util.List;
 
@@ -53,5 +55,9 @@ public class FactureProvided {
     @PostMapping("/")
     public int save(@RequestBody Facture facture) {
         return factureService.save(facture);
+    }
+    @PostMapping("/MultiTache")
+    public List<Facture> findByMultiTache(@RequestBody ObjectVo objectVo) {
+        return factureService.findByMultiTache(objectVo);
     }
 }
