@@ -132,6 +132,7 @@ public class DeclarationIREmployeService {
 			declarationIREmploye.setDeclarationIR(nvDeclarationIR);
 			declarationIREmployeDao.save(declarationIREmploye);
 			List<Details> details=detailsService.findByDeclarationIR(declarationIREmploye.getEmploye().getSalaire());
+			
 			declarationIREmploye.setDetailsEmploye(details);
 			detailsService.save(declarationIREmploye);
 			

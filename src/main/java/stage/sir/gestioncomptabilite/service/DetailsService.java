@@ -69,11 +69,14 @@ public class DetailsService {
 
 	public int save(DeclarationIREmploye declarationIREmploye) {
 		for (Details details : declarationIREmploye.getDetailsEmploye()) {
+			//System.out.println(declarationIREmploye.toString());
 			
-			
+			details.setDeclarationIREmploye(declarationIREmploye);
+			//DeclarationIREmploye decla=declarationIREmployeService.findByEmployeCin(declarationIREmploye.getEmploye().getCin());
+			//details.setDeclarationIREmploye(decla);
 			detailsDao.save(details);
 			
-			System.out.println(details.toString());
+			
 		}
 		return 1;
 	}

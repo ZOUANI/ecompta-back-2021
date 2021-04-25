@@ -17,12 +17,11 @@ import stage.sir.gestioncomptabilite.dao.DeclarationIRDao;
 
 @Service
 public class DeclarationIRService {
-	
+
 	@Autowired
 	DeclarationIRDao declarationIRDao;
-	
-	
-	public List<DeclarationIR> findByMoisAndAnnee(Integer mois,Integer annee) {
+
+	public List<DeclarationIR> findByMoisAndAnnee(Integer mois, Integer annee) {
 		return declarationIRDao.findByMoisAndAnnee(mois, annee);
 	}
 
@@ -31,55 +30,61 @@ public class DeclarationIRService {
 
 	@Autowired
 	SocieteService societeService;
-	
-	
-	
-	
 
-	
-	
 	public DeclarationIR findByRef(String ref) {
 		return declarationIRDao.findByRef(ref);
 	}
+
 	public DeclarationIR findByAnnee(Integer annee) {
 		return declarationIRDao.findByAnnee(annee);
 	}
+
 	@Transactional
 	public int deleteByMois(Integer mois) {
 		return declarationIRDao.deleteByMois(mois);
 	}
-	
-	
+
 	public void prepareDeclaration(DeclarationIR declarationIR) {
-		List<DeclarationIREmploye> DeclarationIREmploye =declarationIREmployeService.findByDeclarationIREmployes(declarationIR);
+		List<DeclarationIREmploye> DeclarationIREmploye = declarationIREmployeService
+				.findByDeclarationIREmployes(declarationIR);
 		System.out.println(DeclarationIREmploye.toString());
 		declarationIR.setDeclarationsIREmployes(DeclarationIREmploye);
-		
-		
-		
+
 	}
-	
-	
-	
+
+	public DeclarationIR createDeclarationIr(DeclarationIR declarationIR) {
+		Object[] res = save(declarationIR, true);
+		if (Integer.parseInt(res[0].toString()) > 0) {
+			return (DeclarationIR) res[1];
+		} else {
+			return null;
+		}
+
+	}
+
 	public int save(DeclarationIR declarationIR) {
-		if (declarationIRDao.findByRef(declarationIR.getRef())!=null) {
-			return -1;
-			
-		}else {
-			Societe societe=societeService.findByIce(declarationIR.getSociete().getIce());
+		return (Integer) save(declarationIR,false)[0];
+	}
+
+	private Object[] save(DeclarationIR declarationIR, boolean simuler) {
+		if (declarationIRDao.findByRef(declarationIR.getRef()) != null) {
+			return new Object[] { -1, null };
+
+		} else {
+			// Societe
+			// societe=societeService.findByIce(declarationIR.getSociete().getIce());
+			Societe societe = societeService.findByIce("2");
 			declarationIR.setSociete(societe);
 			prepareDeclaration(declarationIR);
-			
-			
-			double total=declarationIREmployeService.calculTotal(declarationIR.getDeclarationsIREmployes());
+
+			double total = declarationIREmployeService.calculTotal(declarationIR.getDeclarationsIREmployes());
 			declarationIR.setTotal(total);
-			
-			
-			
-			declarationIRDao.save(declarationIR);
-			
-			declarationIREmployeService.save(declarationIR);
-			return 1;
+
+			if (simuler == false) {
+				declarationIRDao.save(declarationIR);
+				declarationIREmployeService.save(declarationIR);
+			}
+			return new Object[] { 1, declarationIR };
 		}
 	}
 

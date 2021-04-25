@@ -35,6 +35,7 @@ public class Details {
 	public void setTauxIr(TauxIr tauxIr) {
 		this.tauxIr = tauxIr;
 	}
+	
 	public DeclarationIREmploye getDeclarationIREmploye() {
 		return declarationIREmploye;
 	}

@@ -15,16 +15,16 @@ public class EmployeService {
 	@Autowired
 	EmployeDao employeDao;
 
-	public List<Employe> findBySocieteEmpIce(String ice) {
-		return employeDao.findBySocieteEmpIce(ice);
-	}
+	
 
 	@Autowired
 	SocieteService societeService;
 	
 	
 	  
-	
+	public List<Employe> findBySocieteEmpIce(String ice) {
+		return employeDao.findBySocieteEmpIce(ice);
+	}
 	
 	
 	
