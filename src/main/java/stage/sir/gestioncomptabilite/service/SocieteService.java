@@ -15,7 +15,9 @@ public class SocieteService {
 
     @Autowired
     SocieteDao societeDao;
-
+    
+    
+    
     public Societe findByIce(String ice) {
         return societeDao.findByIce(ice);
     }

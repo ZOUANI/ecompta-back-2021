@@ -53,19 +53,6 @@ public class FactureService {
         return factureDao.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(ice, annee, mois, typeoperation);
     }
 
-    public List<Facture> findByDeclarationISRef(String ref) {
-        return factureDao.findByDeclarationISRef(ref);
-    }
-
-    @Transactional
-    public int deleteByDeclarationISRef(String ref) {
-        return factureDao.deleteByDeclarationISRef(ref);
-    }
-
-    public List<Facture> findByTypeOperationAndDeclarationISRef(String type, String ref) {
-        return factureDao.findByTypeOperationAndDeclarationISRef(type, ref);
-    }
-
     public List<Facture> findAll() {
         return factureDao.findAll();
     }
@@ -120,54 +107,9 @@ public class FactureService {
             return 1;
         }
 
+
+
     }
 
-
-    public int saveFacturesIS(DeclarationIS declarationIS, List<Facture> listFactures){
-        for (Facture f: listFactures){
-            f.setDeclarationIS(declarationIS);
-            Societe societeS = societeService.findByIce(f.getSocieteSource().getIce());
-            f.setSocieteSource(societeS);
-            Societe societeD = societeService.findByIce(f.getSocieteDistination().getIce());
-            f.setSocieteDistination(societeD);
-            Tva tv = tvaService.findByRef(f.getTva().getRef());
-            f.setTva(tv);
-            ClassComptable cpt = comptComptableService.findByRef(f.getClassComptable().getRef());
-            f.setClassComptable(cpt);
-            DeclarationIR ir = declarationIRService.findByRef(f.getDeclarationIR().getRef());
-            f.setDeclarationIR(ir);
-            // DeclarationTVA dtva = declarationTVAService.findByRef(facture.getDeclarationTVA().getRef());
-            // facture.setDeclarationTVA(dtva);
-            Facture facture1 = factureDao.findByRef(f.getRef());
-
-            if ((facture1 != null) &&(facture1.getSocieteSource().getIce() == f.getSocieteSource().getIce()) && (facture1.getSocieteDistination().getIce() == f.getSocieteDistination().getIce()) ) {
-                return -1;
-            } else if (societeS == null) {
-                return -2;
-            } else if (societeD == null) {
-                return -3;
-            } else if (tv == null) {
-                return -4;
-            } else if (cpt == null) {
-                return -5;
-            }
-        /*else {
-           /* Long v =util.dateUtil(facture.getDateOperation());
-            if(v> 0) {
-                facture.setTrim(v);
-
-            }*/
-            else{
-           /* facture.setTrim(dateUtil.compareDates(facture.getDateOperation()));
-            facture.setAnnee(facture.getDateOperation().getYear());
-            facture.setMois(facture.getDateOperation().getMonth());*/
-
-                f.setDeclarationIR(null);
-                f.setDeclarationTva(null);
-                factureDao.save(f);
-            }
-        }
-        return 1;
-    }
 
 }

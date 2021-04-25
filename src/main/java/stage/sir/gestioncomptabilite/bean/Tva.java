@@ -11,6 +11,15 @@ public class Tva {
     private Long id;
     private String ref;
     private String libelle;
+    private double valeur ;
+
+    public double getValeur() {
+        return valeur;
+    }
+
+    public void setValeur(double valeur) {
+        this.valeur = valeur;
+    }
 
     public Long getId() {
         return id;

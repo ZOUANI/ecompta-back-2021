@@ -1,9 +1,11 @@
 package stage.sir.gestioncomptabilite.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -12,10 +14,42 @@ public class Societe {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String ice; //Identifiant Commun de l'Entreprise
+    private String nom;
     private String adresse;
     private String raisonSociale;
     private int anneeExploitation;
     private Double age;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
+    @OneToMany(mappedBy = "societe")
+    private List<DeclarationIR> declarationIRs;
+    
+    
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
+    @OneToMany(mappedBy = "societeEmp")
+    private List<Employe> employes;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public List<Employe> getEmployes() {
+		return employes;
+	}
+
 
     public long getId() {
 

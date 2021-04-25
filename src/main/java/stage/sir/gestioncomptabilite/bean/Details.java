@@ -8,7 +8,8 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Details {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	private Double valeur;
@@ -23,12 +24,18 @@ public class Details {
 	
 	
 	
+	@Override
+	public String toString() {
+		return "Details [id=" + id + ", valeur=" + valeur + ", pourcentage=" + pourcentage + ", montantTrancheRevenu="
+				+ montantTrancheRevenu + ", tauxIr=" + tauxIr + ", declarationIREmploye=" + declarationIREmploye + "]";
+	}
 	public TauxIr getTauxIr() {
 		return tauxIr;
 	}
 	public void setTauxIr(TauxIr tauxIr) {
 		this.tauxIr = tauxIr;
 	}
+	
 	public DeclarationIREmploye getDeclarationIREmploye() {
 		return declarationIREmploye;
 	}

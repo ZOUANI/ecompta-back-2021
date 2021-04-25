@@ -30,6 +30,21 @@ public class DeclarationIR {
 	private List<DeclarationIREmploye> declarationsIREmployes;
 	
 	
+	
+	
+	
+	
+	@Override
+	public String toString() {
+		return "DeclarationIR [id=" + id + ", ref=" + ref + ", mois=" + mois + ", annee=" + annee + ", total=" + total
+				+ ", societe=" + societe + ", declarationsIREmployes=" + declarationsIREmployes + "]";
+	}
+	public List<DeclarationIREmploye> getDeclarationsIREmployes() {
+		return declarationsIREmployes;
+	}
+	public void setDeclarationsIREmployes(List<DeclarationIREmploye> declarationsIREmployes) {
+		this.declarationsIREmployes = declarationsIREmployes;
+	}
 	public String getRef() {
 		return ref;
 	}

@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,6 +23,33 @@ public class Employe {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
 	@OneToMany(mappedBy = "employe")
 	private List<DeclarationIREmploye> declarationIREmployes;
+
+	
+	 
+	@ManyToOne
+	Societe societeEmp;
+	
+	
+	
+	@Override
+	public String toString() {
+		return "Employe [id=" + id + ", cin=" + cin + ", nom=" + nom + ", prenom=" + prenom + ", salaire=" + salaire
+				+ ", societeEmp=" + societeEmp + ", declarationIREmployes=" + declarationIREmployes + "]";
+	}
+	public Societe getSocieteEmp() {
+		return societeEmp;
+	}
+	public void setSocieteEmp(Societe societeEmp) {
+		this.societeEmp = societeEmp;
+	}
+	public List<DeclarationIREmploye> getDeclarationIREmployes() {
+		return declarationIREmployes;
+	}
+	public void setDeclarationIREmployes(List<DeclarationIREmploye> declarationIREmployes) {
+		this.declarationIREmployes = declarationIREmployes;
+	}
+
+
 
 
 	public Double getSalaire() {

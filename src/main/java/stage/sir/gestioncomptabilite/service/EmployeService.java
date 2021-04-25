@@ -15,6 +15,22 @@ public class EmployeService {
 	@Autowired
 	EmployeDao employeDao;
 
+	
+
+	@Autowired
+	SocieteService societeService;
+	
+	
+	  
+	public List<Employe> findBySocieteEmpIce(String ice) {
+		return employeDao.findBySocieteEmpIce(ice);
+	}
+	
+	
+	
+
+
+
 
 	public Employe findByCin(String cin) {
 		return employeDao.findByCin(cin);
@@ -37,5 +53,6 @@ public class EmployeService {
 	public List<Employe> findAll() {
 		return employeDao.findAll();
 	}
+	
 
 }

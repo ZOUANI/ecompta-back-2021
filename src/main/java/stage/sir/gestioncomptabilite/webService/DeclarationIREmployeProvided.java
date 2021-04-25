@@ -21,10 +21,23 @@ import stage.sir.gestioncomptabilite.service.DeclarationIREmployeService;
 public class DeclarationIREmployeProvided {
 	@Autowired
 	DeclarationIREmployeService declarationIREmployeService;
-	@GetMapping("employe/cin/{cin}")
-	public List<DeclarationIREmploye> findByEmployeCin(@PathVariable String cin) {
-		return declarationIREmployeService.findByEmployeCin(cin);
+	
+	
+	
+	
+	
+	
+
+	@GetMapping("/employe/cin/{cin}")
+	public DeclarationIREmploye findByEmployeCin(@PathVariable String cin) {
+		return (DeclarationIREmploye) declarationIREmployeService.findByEmployeCin(cin);
 	}
+
+	@GetMapping("/declarationir/ref/{ref}")
+	public List<DeclarationIREmploye> findByDeclarationIRRef(@PathVariable String ref) {
+		return declarationIREmployeService.findByDeclarationIRRef(ref);
+	}
+	
 	@GetMapping("/refemp/{refEmp}")
 	public DeclarationIREmploye findByRefEmp(@PathVariable String refEmp) {
 		return declarationIREmployeService.findByRefEmp(refEmp);
@@ -33,10 +46,11 @@ public class DeclarationIREmployeProvided {
 	public int deleteByEmployeCin(@PathVariable String cin) {
 		return declarationIREmployeService.deleteByEmployeCin(cin);
 	}
+	/*
 	@PostMapping("/")
 	public int save(@RequestBody DeclarationIREmploye declarationIREmploye) {
 		return declarationIREmployeService.save(declarationIREmploye);
-	}
+	}*/
 	
 	
 	
