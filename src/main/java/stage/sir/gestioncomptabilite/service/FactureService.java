@@ -157,10 +157,10 @@ public class FactureService {
             f.setTva(tv);
             ClassComptable cpt = comptComptableService.findByRef(f.getClassComptable().getRef());
             f.setClassComptable(cpt);
-            DeclarationIR ir = declarationIRService.findByRef(f.getDeclarationIR().getRef());
-            f.setDeclarationIR(ir);
-            // DeclarationTVA dtva = declarationTVAService.findByRef(facture.getDeclarationTVA().getRef());
-            // facture.setDeclarationTVA(dtva);
+            //DeclarationIR ir = declarationIRService.findByRef(f.getDeclarationIR().getRef());
+            //f.setDeclarationIR(ir);
+            //DeclarationTVA dtva = declarationTVAService.findByRef(facture.getDeclarationTVA().getRef());
+            //facture.setDeclarationTVA(dtva);
             Facture facture1 = factureDao.findByRef(f.getRef());
 
             if ((facture1 != null) &&(facture1.getSocieteSource().getIce() == f.getSocieteSource().getIce()) && (facture1.getSocieteDistination().getIce() == f.getSocieteDistination().getIce()) ) {
