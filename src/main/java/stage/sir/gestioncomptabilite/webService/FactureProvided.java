@@ -42,15 +42,6 @@ public class FactureProvided {
         return factureService.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(ice, annee, mois, typeoperation);
     }
 
-    @GetMapping("/declarationIS/ref/{ref}")
-    public List<Facture> findByDeclarationISRef(@PathVariable String ref) {
-        return factureService.findByDeclarationISRef(ref);
-    }
-
-    @DeleteMapping("/declarationIS/ref/{ref}")
-    public int deleteByDeclarationISRef(@PathVariable String ref) {
-        return factureService.deleteByDeclarationISRef(ref);
-    }
 
     @GetMapping("/typeOperation/type/{type}/declarationIS/ref/{ref}")
     public List<Facture> findByTypeOperationAndDeclarationISRef(@PathVariable String type, @PathVariable String ref) {

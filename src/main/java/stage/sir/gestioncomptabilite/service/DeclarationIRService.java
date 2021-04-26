@@ -35,9 +35,11 @@ public class DeclarationIRService {
 	public int deleteByMois(Integer mois) {
 		return declarationIRDao.deleteByMois(mois);
 	}
-	
-	
-	
+
+	public List<DeclarationIR> findByMoisAndAnnee(Integer mois, Integer annee) {
+		return declarationIRDao.findByMoisAndAnnee(mois, annee);
+	}
+
 	public int save(DeclarationIR declarationIR) {
 		if (declarationIRDao.findById(declarationIR.getId())!=null) {
 			return -1;
