@@ -51,6 +51,10 @@ public class FactureService {
         return factureDao.findBySocieteSourceIceAndAnneeAndMois(ice, annee, mois);
     }
 
+    public List<Facture> findBySocieteSourceIceAndAnnee(String ice, double annee) {
+        return factureDao.findBySocieteSourceIceAndAnnee(ice, annee);
+    }
+
     public List<Facture> findBySocieteSourceIceAndAnneeAndTrimAndTypeOperation(String ice, double annee, double trim, String typeoperation) {
         return factureDao.findBySocieteSourceIceAndAnneeAndTrimAndTypeOperation(ice, annee, trim, typeoperation);
     }
@@ -59,8 +63,8 @@ public class FactureService {
         return factureDao.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(ice, annee, mois, typeoperation);
     }
 
-    public List<Facture> findByTypeOperationAndDeclarationISRef(String type, String ref) {
-        return factureDao.findByTypeOperationAndDeclarationISRef(type, ref);
+    public List<Facture> findBySocieteSourceIceAndAnneeAndTypeOperation(String ice, double annee, String typeoperation) {
+        return factureDao.findBySocieteSourceIceAndAnneeAndTypeOperation(ice, annee, typeoperation);
     }
 
     public List<Facture> findAll() {
@@ -147,6 +151,8 @@ public class FactureService {
     }
 
     public int saveFacturesIS(DeclarationIS declarationIS, List<Facture> listFactures){
+        double gain = 0;
+        double charge = 0;
         for (Facture f: listFactures){
             f.setDeclarationIS(declarationIS);
             Societe societeS = societeService.findByIce(f.getSocieteSource().getIce());
@@ -157,10 +163,6 @@ public class FactureService {
             f.setTva(tv);
             ClassComptable cpt = comptComptableService.findByRef(f.getClassComptable().getRef());
             f.setClassComptable(cpt);
-            //DeclarationIR ir = declarationIRService.findByRef(f.getDeclarationIR().getRef());
-            //f.setDeclarationIR(ir);
-            //DeclarationTVA dtva = declarationTVAService.findByRef(facture.getDeclarationTVA().getRef());
-            //facture.setDeclarationTVA(dtva);
             Facture facture1 = factureDao.findByRef(f.getRef());
 
             if ((facture1 != null) &&(facture1.getSocieteSource().getIce() == f.getSocieteSource().getIce()) && (facture1.getSocieteDistination().getIce() == f.getSocieteDistination().getIce()) ) {
@@ -174,11 +176,10 @@ public class FactureService {
             } else if (cpt == null) {
                 return -5;
             }else {
-                f.setDeclarationIR(null);
-                f.setDeclarationTva(null);
                 factureDao.save(f);
+                return 1;
             }
         }
-        return 1;
+        return 0;
     }
 }

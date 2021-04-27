@@ -7,10 +7,6 @@ import java.util.List;
 
 @Repository
 public interface DeclarationISDao extends JpaRepository<DeclarationIS, Long> {
-    DeclarationIS findByAnnee(Integer annee);
-    int deleteByAnnee(Integer annee);
+    DeclarationIS findByAnnee(double annee);
     List<DeclarationIS> findBySocieteIce(String ice);
-    int deleteBySocieteIce(String ice);
-    DeclarationIS findByRef(String ref);
-    int deleteByRef(String ref);
 }

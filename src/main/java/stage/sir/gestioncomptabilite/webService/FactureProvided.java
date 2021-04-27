@@ -42,10 +42,14 @@ public class FactureProvided {
         return factureService.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(ice, annee, mois, typeoperation);
     }
 
+    @GetMapping("/societeSource/ice/{ice}/annee/{annee}")
+    public List<Facture> findBySocieteSourceIceAndAnnee(@PathVariable String ice, @PathVariable double annee) {
+        return factureService.findBySocieteSourceIceAndAnnee(ice, annee);
+    }
 
-    @GetMapping("/typeOperation/type/{type}/declarationIS/ref/{ref}")
-    public List<Facture> findByTypeOperationAndDeclarationISRef(@PathVariable String type, @PathVariable String ref) {
-        return factureService.findByTypeOperationAndDeclarationISRef(type, ref);
+    @GetMapping("/societeSource/ice/{ice}/annee/{annee}/typeoperation/{typeoperation}")
+    public List<Facture> findBySocieteSourceIceAndAnneeAndTypeOperation( @PathVariable String ice, @PathVariable double annee, @PathVariable String typeoperation) {
+        return factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(ice, annee, typeoperation);
     }
 
     @GetMapping("/")

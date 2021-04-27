@@ -30,7 +30,7 @@ public class SocieteProvided {
     }
 
     @PostMapping("/")
-    public void save(@RequestBody Societe societe) {
-        societeService.save(societe);
+    public int save(@RequestBody Societe societe) {
+        return societeService.save(societe);
     }
 }
