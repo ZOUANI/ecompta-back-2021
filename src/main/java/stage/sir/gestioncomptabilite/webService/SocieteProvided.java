@@ -9,7 +9,7 @@ import stage.sir.gestioncomptabilite.service.SocieteService;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "Gestion-Comptabilité/societe")
+@RequestMapping(value = "gestion-comptabilite/societe")
 public class SocieteProvided {
     @Autowired
     SocieteService societeService;
@@ -30,7 +30,7 @@ public class SocieteProvided {
     }
 
     @PostMapping("/")
-    public void save(@RequestBody Societe societe) {
-        societeService.save(societe);
+    public int save(@RequestBody Societe societe) {
+        return societeService.save(societe);
     }
 }

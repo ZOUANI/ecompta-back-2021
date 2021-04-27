@@ -1,5 +1,7 @@
 package stage.sir.gestioncomptabilite.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,10 +14,10 @@ public class TauxIsConfig {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String ref;
-    private Double cotisationMinimale; //3000dh  taux IS fixé à 10%
-    //CM = (CA HT + produits)*0.5%
-
+    private Double cotisationMinimale;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateMin;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateMax;
 
     public Long getId() {

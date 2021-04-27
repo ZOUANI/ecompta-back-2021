@@ -10,7 +10,6 @@ import stage.sir.gestioncomptabilite.service.TypeDeclarationTvaService;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200"})
 @RequestMapping("gestion-comptabilite/typedeclarationtva")
 public class TypeDeclarationTvaProvided {
 

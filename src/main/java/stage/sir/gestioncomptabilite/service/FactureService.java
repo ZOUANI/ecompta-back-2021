@@ -51,12 +51,20 @@ public class FactureService {
         return factureDao.findBySocieteSourceIceAndAnneeAndMois(ice, annee, mois);
     }
 
+    public List<Facture> findBySocieteSourceIceAndAnnee(String ice, double annee) {
+        return factureDao.findBySocieteSourceIceAndAnnee(ice, annee);
+    }
+
     public List<Facture> findBySocieteSourceIceAndAnneeAndTrimAndTypeOperation(String ice, double annee, double trim, String typeoperation) {
         return factureDao.findBySocieteSourceIceAndAnneeAndTrimAndTypeOperation(ice, annee, trim, typeoperation);
     }
 
     public List<Facture> findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(String ice, double annee, double mois, String typeoperation) {
         return factureDao.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(ice, annee, mois, typeoperation);
+    }
+
+    public List<Facture> findBySocieteSourceIceAndAnneeAndTypeOperation(String ice, double annee, String typeoperation) {
+        return factureDao.findBySocieteSourceIceAndAnneeAndTypeOperation(ice, annee, typeoperation);
     }
 
     public List<Facture> findAll() {
@@ -140,8 +148,38 @@ public class FactureService {
         }
         return entityManager.createQuery(request).getResultList();
 
-
     }
 
+    public int saveFacturesIS(DeclarationIS declarationIS, List<Facture> listFactures){
+        double gain = 0;
+        double charge = 0;
+        for (Facture f: listFactures){
+            f.setDeclarationIS(declarationIS);
+            Societe societeS = societeService.findByIce(f.getSocieteSource().getIce());
+            f.setSocieteSource(societeS);
+            Societe societeD = societeService.findByIce(f.getSocieteDistination().getIce());
+            f.setSocieteDistination(societeD);
+            Tva tv = tvaService.findByRef(f.getTva().getRef());
+            f.setTva(tv);
+            ClassComptable cpt = comptComptableService.findByRef(f.getClassComptable().getRef());
+            f.setClassComptable(cpt);
+            Facture facture1 = factureDao.findByRef(f.getRef());
 
+            if ((facture1 != null) &&(facture1.getSocieteSource().getIce() == f.getSocieteSource().getIce()) && (facture1.getSocieteDistination().getIce() == f.getSocieteDistination().getIce()) ) {
+                return -1;
+            } else if (societeS == null) {
+                return -2;
+            } else if (societeD == null) {
+                return -3;
+            } else if (tv == null) {
+                return -4;
+            } else if (cpt == null) {
+                return -5;
+            }else {
+                factureDao.save(f);
+                return 1;
+            }
+        }
+        return 0;
+    }
 }

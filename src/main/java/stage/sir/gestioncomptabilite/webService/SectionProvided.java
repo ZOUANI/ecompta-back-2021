@@ -12,7 +12,7 @@ import stage.sir.gestioncomptabilite.service.SectionService;
 import java.util.List;
 
 @RestController
-@RequestMapping("gestion-section/section")
+@RequestMapping("gestion-comptabilite/section")
 public class SectionProvided {
     @Autowired
     private SectionService sectionService;

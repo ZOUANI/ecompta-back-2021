@@ -11,7 +11,6 @@ import stage.sir.gestioncomptabilite.vo.DeclarationTvaVo2;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200"})
 @RequestMapping("gestion-comptabilite/declarationtva")
 public class DeclarationTvaProvided {
 

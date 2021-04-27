@@ -14,7 +14,6 @@ public class Societe {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String ice; //Identifiant Commun de l'Entreprise
-    private String nom;
     private String adresse;
     private String raisonSociale;
     private int anneeExploitation;
@@ -29,22 +28,6 @@ public class Societe {
     @OneToMany(mappedBy = "societeEmp")
     private List<Employe> employes;
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    public String getNom() {
-		return nom;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
 
 	public List<Employe> getEmployes() {
 		return employes;

@@ -9,4 +9,6 @@ import java.util.List;
 public interface SectionDao extends JpaRepository<Section,Long > {
     List<Section> findAll();
     List<Section> findByClassComptableRef(String ref);
+    Section findByRef(String ref);
+    int deleteByRef(String ref);
 }
