@@ -35,22 +35,84 @@ public class DeclarationIRService {
 	public int deleteByMois(Integer mois) {
 		return declarationIRDao.deleteByMois(mois);
 	}
+	
+	public void prepareDeclaration(DeclarationIR declarationIR) {
+		List<DeclarationIREmploye> DeclarationIREmploye = declarationIREmployeService.findByDeclarationIREmployes(declarationIR);
+				
+		System.out.println(DeclarationIREmploye.toString());
+		declarationIR.setDeclarationsIREmployes(DeclarationIREmploye);
+
+	}
+	
+	
+	
 
 	public List<DeclarationIR> findByMoisAndAnnee(Integer mois, Integer annee) {
 		return declarationIRDao.findByMoisAndAnnee(mois, annee);
 	}
+	
+	
+	
+	
+	
+	
+/*	public DeclarationIR createDeclarationIr(DeclarationIR declarationIR) {
+		Object[] res = save(declarationIR, true);
+		if (Integer.parseInt(res[0].toString()) > 0) {
+			return (DeclarationIR) res[1];
+		} else {
+			return null;
+		}
 
+	}*/
+	
+	public List<DeclarationIREmploye> createDeclarationIr(DeclarationIR declarationIR) {
+		
+		
+		Object[] res = save(declarationIR, true,false);
+		if (Integer.parseInt(res[0].toString()) > 0) {
+			DeclarationIR dec=  (DeclarationIR) res[1];
+			return (List<DeclarationIREmploye>) dec.getDeclarationsIREmployes();
+		} else {
+			return null;
+		}
+
+	}
+	
+	public int saveModification(DeclarationIR declarationIR) {
+		Object[] saveModi = save(declarationIR, false,true);
+		return 1;
+	}
+	
 	public int save(DeclarationIR declarationIR) {
-		if (declarationIRDao.findById(declarationIR.getId())!=null) {
-			return -1;
+		return (Integer) save(declarationIR,false,false)[0];
+	}
+
+	private Object[] save(DeclarationIR declarationIR, boolean simuler,boolean saveModification) {
+		if (declarationIRDao.findByRef(declarationIR.getRef())!=null) {
+			return new Object[] { -1, null };
 			
 		}else {
-			Societe societe=societeService.findByIce(declarationIR.getSociete().getIce());
+			
+			Societe societe = societeService.findByIce("2");
+			
 			declarationIR.setSociete(societe);
-			declarationIRDao.save(declarationIR);
-			return 1;
+			if (saveModification ==false) {
+				
+			
+			prepareDeclaration(declarationIR);
+			}
+			double total = declarationIREmployeService.calculTotal(declarationIR.getDeclarationsIREmployes());
+			declarationIR.setTotal(total);
+			
+			if (simuler == false) {
+				declarationIRDao.save(declarationIR);
+				declarationIREmployeService.save(declarationIR);
+			}
+			return new Object[] { 1, declarationIR };
 		}
-	}
+		}
+	
 
 	public List<DeclarationIR> findAll() {
 		return declarationIRDao.findAll();
@@ -59,5 +121,7 @@ public class DeclarationIRService {
 	public Optional<DeclarationIR> findById(Long id) {
 		return declarationIRDao.findById(id);
 	}
+
+
 
 }

@@ -136,7 +136,7 @@ public class DeclarationIREmployeService {
 			declarationIREmploye.setDetailsEmploye(details);
 			detailsService.save(declarationIREmploye);
 			
-		
+			
 		}
 		
 		return 1;

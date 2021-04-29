@@ -29,11 +29,7 @@ public class DeclarationIR {
 	@OneToMany(mappedBy = "declarationIR")
 	private List<DeclarationIREmploye> declarationsIREmployes;
 	
-	
-	
-	
-	
-	
+
 	@Override
 	public String toString() {
 		return "DeclarationIR [id=" + id + ", ref=" + ref + ", mois=" + mois + ", annee=" + annee + ", total=" + total

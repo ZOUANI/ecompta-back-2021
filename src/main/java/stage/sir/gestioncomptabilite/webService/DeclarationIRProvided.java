@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import stage.sir.gestioncomptabilite.bean.DeclarationIR;
+import stage.sir.gestioncomptabilite.bean.DeclarationIREmploye;
 import stage.sir.gestioncomptabilite.service.DeclarationIRService;
 
 @RestController
@@ -23,7 +25,30 @@ public class DeclarationIRProvided {
 	DeclarationIRService declarationIRService;
 	
 	
+	@PostMapping("/saveModification")
+	public int saveModification(@RequestBody DeclarationIR declarationIR) {
+		return declarationIRService.saveModification(declarationIR);
+	}
 	
+	
+	
+	
+	
+	
+/*	@PostMapping("/createDeclarationIr")
+	public DeclarationIR createDeclarationIr(@RequestBody DeclarationIR declarationIR) {
+		return declarationIRService.createDeclarationIr(declarationIR);
+	}*/
+	
+	
+	@PostMapping("/createDeclarationIr")
+	public List<DeclarationIREmploye> createDeclarationIr(@RequestBody DeclarationIR declarationIR) {
+		return declarationIRService.createDeclarationIr(declarationIR);
+	}
+	/*@GetMapping("/createDeclarationIr")
+	public DeclarationIR createDeclarationIr(@RequestParam DeclarationIR declarationIR) {
+		return declarationIRService.createDeclarationIr(declarationIR);
+	}*/
 	@GetMapping("/mois/{mois}/annee/{annee}")
 	public List<DeclarationIR> findByMoisAndAnnee(@PathVariable Integer mois,@PathVariable Integer annee) {
 		return declarationIRService.findByMoisAndAnnee(mois, annee);
