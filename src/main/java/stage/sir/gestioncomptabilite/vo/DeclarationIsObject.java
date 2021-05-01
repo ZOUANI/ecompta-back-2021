@@ -1,32 +1,20 @@
-package stage.sir.gestioncomptabilite.bean;
+package stage.sir.gestioncomptabilite.vo;
 
-import javax.persistence.*;
+import stage.sir.gestioncomptabilite.bean.Facture;
 
-@Entity
-public class DeclarationIS {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+import java.util.ArrayList;
+import java.util.List;
+
+public class DeclarationIsObject {
     private double annee;
+    private String iceSociete;
     private Double totalHTGain;
     private Double totalHTCharge;
     private Double totalHTDiff;
     private Double montantISCalcule;
     private Double montantISPaye;
-    @ManyToOne
-    private Societe societe;
-    @ManyToOne
-    private TauxIS tauxIS;
-    @ManyToOne
-    private TauxIsConfig tauxIsConfig;
-
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+    private List<Facture> factureD = new ArrayList<Facture>();
+    private List<Facture> factureC = new ArrayList<Facture>();
 
     public double getAnnee() {
         return annee;
@@ -76,27 +64,28 @@ public class DeclarationIS {
         this.montantISPaye = montantISPaye;
     }
 
-    public Societe getSociete() {
-        return societe;
+    public List<Facture> getFactureD() {
+        return factureD;
     }
 
-    public void setSociete(Societe societe) {
-        this.societe = societe;
+    public void setFactureD(List<Facture> factureD) {
+        this.factureD = factureD;
     }
 
-    public TauxIS getTauxIS() {
-        return tauxIS;
+    public List<Facture> getFactureC() {
+        return factureC;
     }
 
-    public void setTauxIS(TauxIS tauxIS) {
-        this.tauxIS = tauxIS;
+    public void setFactureC(List<Facture> factureC) {
+        this.factureC = factureC;
     }
 
-    public TauxIsConfig getTauxIsConfig() {
-        return tauxIsConfig;
+    public String getIceSociete() {
+        return iceSociete;
     }
 
-    public void setTauxIsConfig(TauxIsConfig tauxIsConfig) {
-        this.tauxIsConfig = tauxIsConfig;
+    public void setIceSociete(String iceSociete) {
+        this.iceSociete = iceSociete;
     }
+
 }
