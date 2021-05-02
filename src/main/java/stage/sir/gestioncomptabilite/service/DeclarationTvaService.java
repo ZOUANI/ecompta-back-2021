@@ -8,9 +8,12 @@ import stage.sir.gestioncomptabilite.bean.Facture;
 import stage.sir.gestioncomptabilite.bean.Societe;
 import stage.sir.gestioncomptabilite.bean.TypeDeclarationTva;
 import stage.sir.gestioncomptabilite.dao.DeclarationTvaDao;
+import stage.sir.gestioncomptabilite.util.StringUtil;
+import stage.sir.gestioncomptabilite.vo.DeclarationTvaCriteria;
 import stage.sir.gestioncomptabilite.vo.DeclarationTvaVo1;
 import stage.sir.gestioncomptabilite.vo.DeclarationTvaVo2;
 
+import javax.persistence.EntityManager;
 import java.util.*;
 
 @Service
@@ -65,7 +68,7 @@ public class DeclarationTvaService {
             List<Facture> factures = new ArrayList<Facture>();
             double tvac = 0,tvap = 0,dtva = 0;
             if (declarationTva.getTypeDeclarationTva().getLibelle().equals("trimestrielle")){
-                 factures = factureService.findBySocieteSourceIceAndAnneeAndTrim(declarationTva.getSociete().getIce(),declarationTva.getAnnee(),declarationTva.getTrim());
+                factures = factureService.findBySocieteSourceIceAndAnneeAndTrim(declarationTva.getSociete().getIce(),declarationTva.getAnnee(),declarationTva.getTrim());
             }else {
                 factures = factureService.findBySocieteSourceIceAndAnneeAndMois(declarationTva.getSociete().getIce(),declarationTva.getAnnee(),declarationTva.getMois());
             }
@@ -95,12 +98,12 @@ public class DeclarationTvaService {
         List<Facture> facturesvente = new ArrayList<Facture>();
         List<Facture> facturesachat = new ArrayList<Facture>();
         double tvacollecter = 0,tvadeductible = 0,differencetva = 0;
-        if (declarationTvaVo1.getTypedeclarationtva().equals("trimestrielle")){
+        if (declarationTvaVo1.getTypedeclarationtva().equals("TDTV1")){
             facturesvente = factureService.findBySocieteSourceIceAndAnneeAndTrimAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getTrim(),"type-1");
             facturesachat = factureService.findBySocieteSourceIceAndAnneeAndTrimAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getTrim(),"type-2");
         }else {
             facturesvente = factureService.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getMois(),"type-1");
-            facturesvente = factureService.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getMois(),"type-2");
+            facturesachat = factureService.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getMois(),"type-2");
         }
         for (Facture facture:facturesvente) {
             tvacollecter += facture.getMontantTVA();
@@ -116,7 +119,31 @@ public class DeclarationTvaService {
         declarationTvaVo2.setDifferencetva(differencetva);
         return declarationTvaVo2;
     }
-
+    public List<DeclarationTva> findByCriteria(DeclarationTvaCriteria declarationTvaCriteria){
+        String query = "SELECT d FROM DeclarationTva d WHERE 1=1";
+        if (StringUtil.isNotEmpty(declarationTvaCriteria.getSocieteref())){
+            query += " AND d.societe.ice = '" + declarationTvaCriteria.getSocieteref() + "'";
+        }
+        if (StringUtil.isNotEmpty(declarationTvaCriteria.getTypedeclarationtva())){
+            query += " AND d.typeDeclarationTva.ref = '" + declarationTvaCriteria.getTypedeclarationtva() + "'";
+        }
+        if (StringUtil.isNotEmpty(declarationTvaCriteria.getAnnee())){
+            query += " AND d.annee = '" + declarationTvaCriteria.getAnnee() + "'";
+        }
+        if (StringUtil.isNotEmpty(declarationTvaCriteria.getMois())){
+            query += " AND d.mois = '" + declarationTvaCriteria.getMois() + "'";
+        }
+        if (StringUtil.isNotEmpty(declarationTvaCriteria.getTrim())){
+            query += " AND d.trim = '" + declarationTvaCriteria.getMois() + "'";
+        }
+        if (StringUtil.isNotEmpty(declarationTvaCriteria.getDifftvamin())){
+            query += " AND d.difftva >= '" + declarationTvaCriteria.getDifftvamin() + "'";
+        }
+        if (StringUtil.isNotEmpty(declarationTvaCriteria.getDifftvamax())){
+            query += " AND d.difftva <= '" + declarationTvaCriteria.getDifftvamax() + "'";
+        }
+        return entityManager.createQuery(query).getResultList();
+    }
     public List<DeclarationTva> findByAnneeAndMois(double annee, double mois) {
         return declarationTvaDao.findByAnneeAndMois(annee, mois);
     }
@@ -133,5 +160,6 @@ public class DeclarationTvaService {
     TypeDeclarationTvaService typeDeclarationTvaService;
     @Autowired
     FactureService factureService;
-
+    @Autowired
+    private EntityManager entityManager;
 }

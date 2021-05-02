@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import stage.sir.gestioncomptabilite.bean.DeclarationTva;
 import stage.sir.gestioncomptabilite.service.DeclarationTvaService;
+import stage.sir.gestioncomptabilite.vo.DeclarationTvaCriteria;
 import stage.sir.gestioncomptabilite.vo.DeclarationTvaVo1;
 import stage.sir.gestioncomptabilite.vo.DeclarationTvaVo2;
 
@@ -64,6 +65,10 @@ public class DeclarationTvaProvided {
     @PostMapping("/findfacturesandcalcultva")
     public DeclarationTvaVo2 findfacturesandcalcultva(@RequestBody DeclarationTvaVo1 declarationTvaVo1) {
         return declarationTvaService.findfacturesandcalcultva(declarationTvaVo1);
+    }
+    @PostMapping("/criteria")
+    public List<DeclarationTva> findByCriteria(@RequestBody DeclarationTvaCriteria declarationTvaCriteria) {
+        return declarationTvaService.findByCriteria(declarationTvaCriteria);
     }
 
     @Autowired
