@@ -6,6 +6,7 @@ import javax.persistence.*;
 public class DeclarationIS {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    private String ref;
     private double annee;
     private Double totalHTGain;
     private Double totalHTCharge;
@@ -98,5 +99,13 @@ public class DeclarationIS {
 
     public void setTauxIsConfig(TauxIsConfig tauxIsConfig) {
         this.tauxIsConfig = tauxIsConfig;
+    }
+
+    public String getRef() {
+        return ref;
+    }
+
+    public void setRef(String ref) {
+        this.ref = ref;
     }
 }

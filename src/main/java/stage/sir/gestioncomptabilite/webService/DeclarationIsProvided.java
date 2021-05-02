@@ -16,6 +16,17 @@ public class DeclarationIsProvided {
     @Autowired
     DeclarationISService declarationISService;
 
+
+    @GetMapping("/ref/{ref}")
+    public DeclarationIS findByRef(@PathVariable String ref) {
+        return declarationISService.findByRef(ref);
+    }
+
+    @DeleteMapping("/ref/{ref}")
+    public int deleteByRef(@PathVariable String ref) {
+        return declarationISService.deleteByRef(ref);
+    }
+
     @GetMapping("/societe/ice/{ice}")
     public List<DeclarationIS> findBySocieteIce(@PathVariable String ice) {
         return declarationISService.findBySocieteIce(ice);

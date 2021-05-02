@@ -2,6 +2,7 @@ package stage.sir.gestioncomptabilite.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import stage.sir.gestioncomptabilite.bean.DeclarationIS;
 import stage.sir.gestioncomptabilite.bean.Facture;
 import stage.sir.gestioncomptabilite.bean.Societe;
@@ -31,6 +32,15 @@ public class DeclarationISService {
     @Autowired
     EntityManager entityManager;
 
+
+    public DeclarationIS findByRef(String ref) {
+        return declarationISDao.findByRef(ref);
+    }
+
+    @Transactional
+    public int deleteByRef(String ref) {
+        return declarationISDao.deleteByRef(ref);
+    }
 
     public DeclarationIS findByAnnee(double annee) {
         return declarationISDao.findByAnnee(annee);
@@ -85,8 +95,9 @@ public class DeclarationISService {
     public int save(DeclarationIS declarationIS) {
         Societe societe = societeService.findByIce(declarationIS.getSociete().getIce());
         declarationIS.setSociete(societe);
-        if(findByAnnee(declarationIS.getAnnee()) != null){ return -1; }
-        else if(societe == null){ return -2; }
+        if (findByRef(declarationIS.getRef()) != null){ return -1; }
+        else if(findByAnnee(declarationIS.getAnnee()) != null){ return -2; }
+        else if(societe == null){ return -3; }
         else{
             List<Facture> facturesD = new ArrayList<Facture>();
             List<Facture> facturesC = new ArrayList<Facture>();
