@@ -28,7 +28,7 @@ public class Facture {
     @ManyToOne
     private Societe societeDistination;
     @ManyToOne
-    private ClassComptable classComptable;
+    private ClasseComptable classComptable;
     @ManyToOne
     private DeclarationTva declarationTva;
     @ManyToOne
@@ -148,11 +148,11 @@ public class Facture {
         this.societeDistination = societeDistination;
     }
 
-    public ClassComptable getClassComptable() {
+    public ClasseComptable getClassComptable() {
         return classComptable;
     }
 
-    public void setClassComptable(ClassComptable classComptable) {
+    public void setClassComptable(ClasseComptable classComptable) {
         this.classComptable = classComptable;
     }
 

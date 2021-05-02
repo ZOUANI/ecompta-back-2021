@@ -1,5 +1,6 @@
 package stage.sir.gestioncomptabilite.service;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -41,11 +42,12 @@ public class DeclarationIREmployeService {
 	
 	Societe societe;
 	
-	
+	@Autowired
+	TauxIrService tauxIrService;
 	
 	List<DeclarationIREmploye> findByDeclarationIREmployes(DeclarationIR declarationIR){
 		List<Employe> employes=employeService.findBySocieteEmpIce(declarationIR.getSociete().getIce());
-		System.out.println(employes.toString());
+		
 		List<DeclarationIREmploye> declarationIREmployes= new ArrayList<>();
 		
 		
@@ -75,7 +77,7 @@ public class DeclarationIREmployeService {
 			declarationIREmployes.add(declaration);
 			
 		}
-		System.out.println(declarationIREmployes.toString());
+		
 		return declarationIREmployes;
 	}
 	
@@ -124,6 +126,32 @@ public class DeclarationIREmployeService {
 		declarationIREmploye.setDetailsEmploye(detailsList);
 		
 	}
+	@Autowired
+	EmployeDao employeDao;
+	public DeclarationIREmploye updateMontantEmploye(Employe employe) {
+		
+		Employe employe2=employeService.findByCin(employe.getCin());
+		employe.setId(employe2.getId());
+		
+		employeDao.save(employe);
+		List<TauxIr> tauxIrs=tauxIrService.findByDeclarationIR(employe.getSalaire());
+		List<Details> details=detailsService.findByDeclarationIR(employe.getSalaire());
+		DeclarationIREmploye declarationIREmploye=new DeclarationIREmploye();
+		double ir=0;
+		for (Details details1 : details) {
+			ir+=details1.getMontantTrancheRevenu();
+		}
+		declarationIREmploye.setSalaireBrut(employe.getSalaire());
+		declarationIREmploye.setSalaireNet(employe.getSalaire()-ir);
+		declarationIREmploye.setDetailsEmploye(details);
+		declarationIREmploye.setMontantIR(ir);
+		declarationIREmploye.setEmploye(employe);
+		
+		
+		return declarationIREmploye;
+	}
+	
+	
 	
 	public int save(DeclarationIR declarationIR) {
 		for (DeclarationIREmploye declarationIREmploye : declarationIR.getDeclarationsIREmployes()) {
@@ -143,7 +171,9 @@ public class DeclarationIREmployeService {
 		
 		
 	}
-	
+
+
+
 	
 	
 	

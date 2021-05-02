@@ -3,28 +3,21 @@ package stage.sir.gestioncomptabilite.bean;
 import javax.persistence.*;
 
 @Entity
-public class Categorie {
+public class CompteComptable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
    private long id;
-   private String ref;
    private String libelle;
+    private String code;
    @ManyToOne
-   private Section section;
+   private SousClasseComptable sousClasseComptable;
+
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getRef() {
-        return ref;
-    }
-
-    public void setRef(String ref) {
-        this.ref = ref;
     }
 
     public String getLibelle() {
@@ -35,11 +28,19 @@ public class Categorie {
         this.libelle = libelle;
     }
 
-    public Section getSection() {
-        return section;
+    public String getCode() {
+        return code;
     }
 
-    public void setSection(Section section) {
-        this.section = section;
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public SousClasseComptable getSousClasseComptable() {
+        return sousClasseComptable;
+    }
+
+    public void setSousClasseComptable(SousClasseComptable sousClasseComptable) {
+        this.sousClasseComptable = sousClasseComptable;
     }
 }

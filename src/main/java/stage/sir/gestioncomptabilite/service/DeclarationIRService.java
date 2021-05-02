@@ -39,7 +39,7 @@ public class DeclarationIRService {
 	public void prepareDeclaration(DeclarationIR declarationIR) {
 		List<DeclarationIREmploye> DeclarationIREmploye = declarationIREmployeService.findByDeclarationIREmployes(declarationIR);
 				
-		System.out.println(DeclarationIREmploye.toString());
+		
 		declarationIR.setDeclarationsIREmployes(DeclarationIREmploye);
 
 	}

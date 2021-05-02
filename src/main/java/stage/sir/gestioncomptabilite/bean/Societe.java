@@ -29,6 +29,18 @@ public class Societe {
     private List<Employe> employes;
     
 
+    
+    
+    
+    
+	@Override
+	public String toString() {
+		return "Societe [id=" + id + ", ice=" + ice + ", adresse=" + adresse + ", raisonSociale=" + raisonSociale
+				+ ", anneeExploitation=" + anneeExploitation + ", age=" + age + ", declarationIRs=" + declarationIRs
+				+ ", employes=" + employes + "]";
+	}
+
+
 	public List<Employe> getEmployes() {
 		return employes;
 	}
