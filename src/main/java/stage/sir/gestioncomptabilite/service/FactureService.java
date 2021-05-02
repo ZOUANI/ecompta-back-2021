@@ -140,7 +140,9 @@ public class FactureService extends AbstractFacade<Facture>{
         facture.setSocieteDistination(societeD);
         Tva tv = tvaService.findByRef(facture.getTva().getRef());
         facture.setTva(tv);
+
         ClasseComptable cpt = comptComptableService.findByNumero(facture.getClassComptable().getNumero());
+
         facture.setClassComptable(cpt);
         Facture facture1 = factureDao.findByRef(facture.getRef());
 
