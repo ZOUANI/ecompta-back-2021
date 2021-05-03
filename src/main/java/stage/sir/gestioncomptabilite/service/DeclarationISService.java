@@ -93,6 +93,7 @@ public class DeclarationISService {
     }
 
     public int save(DeclarationIS declarationIS) {
+        declarationIS.setRef(System.currentTimeMillis()+"");
         Societe societe = societeService.findByIce(declarationIS.getSociete().getIce());
         declarationIS.setSociete(societe);
         if (findByRef(declarationIS.getRef()) != null){ return -1; }
