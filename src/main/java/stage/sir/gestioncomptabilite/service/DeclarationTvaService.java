@@ -74,7 +74,7 @@ public class DeclarationTvaService {
             }
             DeclarationTva myDeclarationTva = findByRef(declarationTva.getRef());
             for (Facture facture:factures){
-                if (facture.getTypeOperation().equals("type-1")){
+                if (facture.getTypeOperation().equals("VENDRE")){
                     tvac += facture.getMontantTVA();
                     facture.setDeclarationTva(myDeclarationTva);
                     factureService.update(facture);
@@ -99,11 +99,11 @@ public class DeclarationTvaService {
         List<Facture> facturesachat = new ArrayList<Facture>();
         double tvacollecter = 0,tvadeductible = 0,differencetva = 0;
         if (declarationTvaVo1.getTypedeclarationtva().equals("TDTV1")){
-            facturesvente = factureService.findBySocieteSourceIceAndAnneeAndTrimAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getTrim(),"type-1");
-            facturesachat = factureService.findBySocieteSourceIceAndAnneeAndTrimAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getTrim(),"type-2");
+            facturesvente = factureService.findBySocieteSourceIceAndAnneeAndTrimAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getTrim(),"VENDRE");
+            facturesachat = factureService.findBySocieteSourceIceAndAnneeAndTrimAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getTrim(),"ACHAT");
         }else {
-            facturesvente = factureService.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getMois(),"type-1");
-            facturesachat = factureService.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getMois(),"type-2");
+            facturesvente = factureService.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getMois(),"VENDRE");
+            facturesachat = factureService.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getMois(),"ACHAT");
         }
         for (Facture facture:facturesvente) {
             tvacollecter += facture.getMontantTVA();

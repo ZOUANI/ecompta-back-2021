@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 
 import stage.sir.gestioncomptabilite.bean.DeclarationIREmploye;
+import stage.sir.gestioncomptabilite.bean.Employe;
 
 @Repository
 public interface DeclarationIREmployeDao extends JpaRepository<DeclarationIREmploye,Long> {
@@ -20,6 +21,7 @@ public interface DeclarationIREmployeDao extends JpaRepository<DeclarationIREmpl
 	List<DeclarationIREmploye> findByDeclarationIRRef(String ref);
 	
 	int deleteByEmployeCin(String cin);
+	
 	
 	
 	

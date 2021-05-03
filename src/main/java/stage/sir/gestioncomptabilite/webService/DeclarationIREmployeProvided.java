@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import stage.sir.gestioncomptabilite.bean.DeclarationIR;
 import stage.sir.gestioncomptabilite.bean.DeclarationIREmploye;
+import stage.sir.gestioncomptabilite.bean.Employe;
 import stage.sir.gestioncomptabilite.dao.DeclarationIREmployeDao;
 import stage.sir.gestioncomptabilite.service.DeclarationIREmployeService;
 
@@ -22,11 +24,13 @@ public class DeclarationIREmployeProvided {
 	@Autowired
 	DeclarationIREmployeService declarationIREmployeService;
 	
+
 	
 	
-	
-	
-	
+	@PostMapping("/updateMontantEmploye")
+	public DeclarationIREmploye updateMontantEmploye(@RequestBody Employe employe) {
+		return declarationIREmployeService.updateMontantEmploye(employe);
+	}
 
 	@GetMapping("/employe/cin/{cin}")
 	public DeclarationIREmploye findByEmployeCin(@PathVariable String cin) {
@@ -46,10 +50,10 @@ public class DeclarationIREmployeProvided {
 	public int deleteByEmployeCin(@PathVariable String cin) {
 		return declarationIREmployeService.deleteByEmployeCin(cin);
 	}
-	/*
-	@PostMapping("/")
-	public int save(@RequestBody DeclarationIREmploye declarationIREmploye) {
-		return declarationIREmployeService.save(declarationIREmploye);
+	
+	/*@PostMapping("/")
+	public int save(@RequestBody DeclarationIR declarationIR) {
+		return declarationIREmployeService.save(declarationIR);
 	}*/
 	
 	
