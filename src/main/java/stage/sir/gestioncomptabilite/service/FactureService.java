@@ -65,9 +65,7 @@ public class FactureService extends AbstractFacade<Facture>{
     public List<Facture> findAll() {
         return factureDao.findAll();
     }
-    /*public void update(Facture facture){
-        factureDao.save(facture);
-    }*/
+
 
     public int save(Facture facture) {
         Societe societeS = societeService.findByIce(facture.getSocieteSource().getIce());
