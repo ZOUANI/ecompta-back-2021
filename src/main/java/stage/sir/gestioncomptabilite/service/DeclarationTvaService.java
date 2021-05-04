@@ -50,9 +50,8 @@ public class DeclarationTvaService {
     }
 
     public int save(DeclarationTva declarationTva){
-        declarationTva.setRef(System.currentTimeMillis()+"");
-        if (findByRef(declarationTva.getRef())!=null){
-            return -1;
+        if (declarationTva.getEtatDeclaration() == null){
+            declarationTva.setRef(System.currentTimeMillis()+"");
         }
         Societe s = societeService.findByIce(declarationTva.getSociete().getIce());
         declarationTva.setSociete(s);
@@ -88,6 +87,50 @@ public class DeclarationTvaService {
             myDeclarationTva.setTvaperdue(tvap);
             dtva = tvac - tvap;
             myDeclarationTva.setDifftva(dtva);
+            myDeclarationTva.setEtatDeclaration(etatDeclarationService.findByRef("Valider"));
+            declarationTvaDao.save(myDeclarationTva);
+            return 1;
+        }
+    }
+    public int savebrouillon(DeclarationTva declarationTva){
+        if (declarationTva.getEtatDeclaration() == null){
+            declarationTva.setRef(System.currentTimeMillis()+"");
+        }
+        Societe s = societeService.findByIce(declarationTva.getSociete().getIce());
+        declarationTva.setSociete(s);
+        TypeDeclarationTva t = typeDeclarationTvaService.findByRef(declarationTva.getTypeDeclarationTva().getRef());
+        declarationTva.setTypeDeclarationTva(t);
+        if (s==null){
+            return  -2;
+        }
+        else if (t==null){
+            return -3;
+        }else {
+            declarationTvaDao.save(declarationTva);
+            List<Facture> factures = new ArrayList<Facture>();
+            double tvac = 0,tvap = 0,dtva = 0;
+            if (declarationTva.getTypeDeclarationTva().getLibelle().equals("trimestrielle")){
+                factures = factureService.findBySocieteSourceIceAndAnneeAndTrim(declarationTva.getSociete().getIce(),declarationTva.getAnnee(),declarationTva.getTrim());
+            }else {
+                factures = factureService.findBySocieteSourceIceAndAnneeAndMois(declarationTva.getSociete().getIce(),declarationTva.getAnnee(),declarationTva.getMois());
+            }
+            DeclarationTva myDeclarationTva = findByRef(declarationTva.getRef());
+            for (Facture facture:factures){
+                if (facture.getTypeOperation().equals("VENDRE")){
+                    tvac += facture.getMontantTVA();
+                    facture.setDeclarationTva(myDeclarationTva);
+                    factureService.update(facture);
+                }else {
+                    tvap += facture.getMontantTVA();
+                    facture.setDeclarationTva(myDeclarationTva);
+                    factureService.update(facture);
+                }
+            }
+            myDeclarationTva.setTvacollecter(tvac);
+            myDeclarationTva.setTvaperdue(tvap);
+            dtva = tvac - tvap;
+            myDeclarationTva.setDifftva(dtva);
+            myDeclarationTva.setEtatDeclaration(etatDeclarationService.findByRef("Brouillon"));
             declarationTvaDao.save(myDeclarationTva);
             return 1;
         }
@@ -162,4 +205,6 @@ public class DeclarationTvaService {
     FactureService factureService;
     @Autowired
     private EntityManager entityManager;
+    @Autowired
+    EtatDeclarationService etatDeclarationService;
 }
