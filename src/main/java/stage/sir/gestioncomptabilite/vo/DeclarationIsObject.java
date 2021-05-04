@@ -1,6 +1,7 @@
 package stage.sir.gestioncomptabilite.vo;
 
 import stage.sir.gestioncomptabilite.bean.Facture;
+import stage.sir.gestioncomptabilite.bean.TauxIsConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ public class DeclarationIsObject {
     private Double montantISPaye;
     private List<Facture> factureD = new ArrayList<Facture>();
     private List<Facture> factureC = new ArrayList<Facture>();
+    private TauxIsConfig tauxIsConfig;
 
     public double getAnnee() {
         return annee;
@@ -88,4 +90,11 @@ public class DeclarationIsObject {
         this.iceSociete = iceSociete;
     }
 
+    public TauxIsConfig getTauxIsConfig() {
+        return tauxIsConfig;
+    }
+
+    public void setTauxIsConfig(TauxIsConfig tauxIsConfig) {
+        this.tauxIsConfig = tauxIsConfig;
+    }
 }
