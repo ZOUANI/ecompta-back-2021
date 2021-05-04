@@ -57,12 +57,29 @@ public class DeclarationTvaService {
         declarationTva.setSociete(s);
         TypeDeclarationTva t = typeDeclarationTvaService.findByRef(declarationTva.getTypeDeclarationTva().getRef());
         declarationTva.setTypeDeclarationTva(t);
+        if (declarationTva.getTypeDeclarationTva().getLibelle().equals("trimestrielle")){
+            if (declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndTrim(declarationTva.getSociete().getIce(),"Brouillon",declarationTva.getAnnee(),declarationTva.getTrim())!= null){
+                declarationTva.setId(declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndTrim(declarationTva.getSociete().getIce(),"Brouillon",declarationTva.getAnnee(),declarationTva.getTrim()).getId());
+            }
+        }else {
+            if (declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndMois(declarationTva.getSociete().getIce(),"Brouillon",declarationTva.getAnnee(),declarationTva.getMois())!= null){
+                declarationTva.setId(declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndMois(declarationTva.getSociete().getIce(),"Brouillon",declarationTva.getAnnee(),declarationTva.getMois()).getId());
+            }
+        }
+
         if (s==null){
             return  -2;
         }
         else if (t==null){
             return -3;
-        }else {
+        }
+        else if (declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndTrim(declarationTva.getSociete().getIce(),"Valider",declarationTva.getAnnee(),declarationTva.getTrim())!= null){
+            return -4;
+        }
+        else if (declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndMois(declarationTva.getSociete().getIce(),"Valider",declarationTva.getAnnee(),declarationTva.getMois())!= null){
+            return -5;
+        }
+        else {
             declarationTvaDao.save(declarationTva);
             List<Facture> factures = new ArrayList<Facture>();
             double tvac = 0,tvap = 0,dtva = 0;
@@ -73,7 +90,7 @@ public class DeclarationTvaService {
             }
             DeclarationTva myDeclarationTva = findByRef(declarationTva.getRef());
             for (Facture facture:factures){
-                if (facture.getTypeOperation().equals("VENDRE")){
+                if (facture.getTypeOperation().equals("Credit")){
                     tvac += facture.getMontantTVA();
                     facture.setDeclarationTva(myDeclarationTva);
                     factureService.update(facture);
@@ -100,12 +117,28 @@ public class DeclarationTvaService {
         declarationTva.setSociete(s);
         TypeDeclarationTva t = typeDeclarationTvaService.findByRef(declarationTva.getTypeDeclarationTva().getRef());
         declarationTva.setTypeDeclarationTva(t);
+        if (declarationTva.getTypeDeclarationTva().getLibelle().equals("trimestrielle")){
+            if (declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndTrim(declarationTva.getSociete().getIce(),"Brouillon",declarationTva.getAnnee(),declarationTva.getTrim())!= null){
+                declarationTva.setId(declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndTrim(declarationTva.getSociete().getIce(),"Brouillon",declarationTva.getAnnee(),declarationTva.getTrim()).getId());
+            }
+        }else {
+            if (declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndMois(declarationTva.getSociete().getIce(),"Brouillon",declarationTva.getAnnee(),declarationTva.getMois())!= null){
+                declarationTva.setId(declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndMois(declarationTva.getSociete().getIce(),"Brouillon",declarationTva.getAnnee(),declarationTva.getMois()).getId());
+            }
+        }
         if (s==null){
             return  -2;
         }
         else if (t==null){
             return -3;
-        }else {
+        }
+        else if (declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndTrim(declarationTva.getSociete().getIce(),"Valider",declarationTva.getAnnee(),declarationTva.getTrim())!= null){
+            return -4;
+        }
+        else if (declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndMois(declarationTva.getSociete().getIce(),"Valider",declarationTva.getAnnee(),declarationTva.getMois())!= null){
+            return -5;
+        }
+        else {
             declarationTvaDao.save(declarationTva);
             List<Facture> factures = new ArrayList<Facture>();
             double tvac = 0,tvap = 0,dtva = 0;
@@ -116,7 +149,7 @@ public class DeclarationTvaService {
             }
             DeclarationTva myDeclarationTva = findByRef(declarationTva.getRef());
             for (Facture facture:factures){
-                if (facture.getTypeOperation().equals("VENDRE")){
+                if (facture.getTypeOperation().equals("Credit")){
                     tvac += facture.getMontantTVA();
                     facture.setDeclarationTva(myDeclarationTva);
                     factureService.update(facture);
@@ -142,11 +175,11 @@ public class DeclarationTvaService {
         List<Facture> facturesachat = new ArrayList<Facture>();
         double tvacollecter = 0,tvadeductible = 0,differencetva = 0;
         if (declarationTvaVo1.getTypedeclarationtva().equals("TDTV1")){
-            facturesvente = factureService.findBySocieteSourceIceAndAnneeAndTrimAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getTrim(),"VENDRE");
-            facturesachat = factureService.findBySocieteSourceIceAndAnneeAndTrimAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getTrim(),"ACHAT");
+            facturesvente = factureService.findBySocieteSourceIceAndAnneeAndTrimAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getTrim(),"Credit");
+            facturesachat = factureService.findBySocieteSourceIceAndAnneeAndTrimAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getTrim(),"Debit");
         }else {
-            facturesvente = factureService.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getMois(),"VENDRE");
-            facturesachat = factureService.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getMois(),"ACHAT");
+            facturesvente = factureService.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getMois(),"Credit");
+            facturesachat = factureService.findBySocieteSourceIceAndAnneeAndMoisAndTypeOperation(declarationTvaVo1.getSocieteref(),declarationTvaVo1.getAnnee(),declarationTvaVo1.getMois(),"Debit");
         }
         for (Facture facture:facturesvente) {
             tvacollecter += facture.getMontantTVA();
