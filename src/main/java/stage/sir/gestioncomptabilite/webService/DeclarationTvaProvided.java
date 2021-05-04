@@ -70,6 +70,10 @@ public class DeclarationTvaProvided {
     public List<DeclarationTva> findByCriteria(@RequestBody DeclarationTvaCriteria declarationTvaCriteria) {
         return declarationTvaService.findByCriteria(declarationTvaCriteria);
     }
+    @PostMapping("/savebrouillon")
+    public int savebrouillon(@RequestBody DeclarationTva declarationTva) {
+        return declarationTvaService.savebrouillon(declarationTva);
+    }
 
     @Autowired
     DeclarationTvaService declarationTvaService;

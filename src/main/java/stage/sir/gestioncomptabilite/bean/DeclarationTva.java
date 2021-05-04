@@ -17,6 +17,16 @@ public class DeclarationTva {
     private Societe societe;
     @ManyToOne
     private TypeDeclarationTva typeDeclarationTva;
+    @ManyToOne
+    private EtatDeclaration etatDeclaration;
+
+    public EtatDeclaration getEtatDeclaration() {
+        return etatDeclaration;
+    }
+
+    public void setEtatDeclaration(EtatDeclaration etatDeclaration) {
+        this.etatDeclaration = etatDeclaration;
+    }
 
     public String getRef() {
         return ref;
