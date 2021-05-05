@@ -74,6 +74,10 @@ public class DeclarationTvaProvided {
     public int savebrouillon(@RequestBody DeclarationTva declarationTva) {
         return declarationTvaService.savebrouillon(declarationTva);
     }
+    @PostMapping("/convertToXmlFile")
+    public void convertToXmlFile(@RequestBody DeclarationTva declarationTva) {
+        declarationTvaService.convertToXmlFile(declarationTva);
+    }
 
     @Autowired
     DeclarationTvaService declarationTvaService;
