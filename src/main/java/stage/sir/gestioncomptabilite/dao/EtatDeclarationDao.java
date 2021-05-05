@@ -9,4 +9,5 @@ public interface EtatDeclarationDao extends JpaRepository<EtatDeclaration,Long> 
     EtatDeclaration findByRef(String ref);
     int deleteByRef(String ref);
 
+    EtatDeclaration findByLibelle(String libelle);
 }
