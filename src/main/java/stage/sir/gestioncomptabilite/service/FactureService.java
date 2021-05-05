@@ -32,6 +32,7 @@ public class FactureService extends AbstractFacade<Facture>{
     @Autowired
     private EntityManager entityManager;
 
+
     public Facture findByRef(String ref) {
         return factureDao.findByRef(ref);
     }
@@ -68,6 +69,7 @@ public class FactureService extends AbstractFacade<Facture>{
 
 
     public int save(Facture facture) {
+        String etatCredit,etatDebit;
         Societe societeS = societeService.findByIce(facture.getSocieteSource().getIce());
         facture.setSocieteSource(societeS);
         Societe societeD = societeService.findByIce(facture.getSocieteDistination().getIce());
@@ -101,6 +103,19 @@ public class FactureService extends AbstractFacade<Facture>{
             facture.setTrim(Trouvertrim(facture.getDateOperation()));
             facture.setMois(facture.getDateOperation().getMonth() +1);
             facture.setAnnee(facture.getDateOperation().getYear() + 1900);
+
+            if(facture.getTypeOperation().equals("CRÉDIT")){
+                etatCredit = String.valueOf(facture.getMontantTTC());
+                etatDebit = "-";
+                facture.setCredit(etatCredit);
+                facture.setDebit(etatDebit);
+            }
+            if(facture.getTypeOperation().equals("DÉBIT")){
+                etatDebit = String.valueOf(facture.getMontantTTC());
+                etatCredit = "-";
+                facture.setCredit(etatCredit);
+                facture.setDebit(etatDebit);
+            }
             factureDao.save(facture);
             return 1;
         }
@@ -124,13 +139,34 @@ public class FactureService extends AbstractFacade<Facture>{
         }
 
     }
+
     public List<Facture>  Journal(FactureVo factureVo){
 
         String request = "SELECT f FROM Facture f WHERE 1=1 ";
+
         request+=addConstraintMinMaxDate("f","dateOperation",factureVo.getDmin(),factureVo.getDmax());
         return entityManager.createQuery(request).getResultList();
 
     }
+    public FactureVo CalculSomme(FactureVo factureVo){
+        List<Facture> listjournal = Journal(factureVo);
+        double sommecredit = 0,sommeDebit = 0;
+        for (Facture facture: listjournal) {
+            if(facture.getTypeOperation().equals("CRÉDIT")){
+                sommecredit += facture.getMontantTTC();
+
+            }
+            else {
+                sommeDebit += facture.getMontantTTC();
+
+
+            }
+        }
+        factureVo.setTotalcredit(sommecredit);
+        factureVo.setTotaldebit(sommeDebit);
+        return factureVo;
+    }
+
     public int update(Facture facture){
         Societe societeS = societeService.findByIce(facture.getSocieteSource().getIce());
         facture.setSocieteSource(societeS);
