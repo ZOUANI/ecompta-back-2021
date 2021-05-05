@@ -1,5 +1,6 @@
 package stage.sir.gestioncomptabilite.bean;
 
+
 import javax.persistence.*;
 
 @Entity
@@ -19,6 +20,8 @@ public class DeclarationIS {
     private TauxIS tauxIS;
     @ManyToOne
     private TauxIsConfig tauxIsConfig;
+    @ManyToOne
+    private EtatDeclaration etatDeclaration;
 
 
     public long getId() {
@@ -101,11 +104,10 @@ public class DeclarationIS {
         this.tauxIsConfig = tauxIsConfig;
     }
 
-    public String getRef() {
-        return ref;
-    }
+    public String getRef() { return ref; }
 
-    public void setRef(String ref) {
-        this.ref = ref;
-    }
+    public void setRef(String ref) { this.ref = ref; }
+
+    public EtatDeclaration getEtatDeclaration() { return etatDeclaration; }
+    public void setEtatDeclaration(EtatDeclaration etatDeclaration) { this.etatDeclaration = etatDeclaration; }
 }

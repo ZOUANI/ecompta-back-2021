@@ -16,8 +16,10 @@ public class Societe {
     private String ice; //Identifiant Commun de l'Entreprise
     private String adresse;
     private String raisonSociale;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date dateCreation;
     private int anneeExploitation;
-    private Double age;
+    private double age;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
     @OneToMany(mappedBy = "societe")
@@ -88,11 +90,19 @@ public class Societe {
 
     }
 
-    public Double getAge() {
+    public double getAge() {
         return age;
     }
 
-    public void setAge(Double age) {
+    public void setAge(double age) {
         this.age = age;
+    }
+
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
     }
 }

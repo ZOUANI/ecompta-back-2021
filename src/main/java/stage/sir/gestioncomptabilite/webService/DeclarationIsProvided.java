@@ -13,9 +13,6 @@ import java.util.List;
 @RequestMapping(value = "gestion-comptabilite/declarationIS")
 public class DeclarationIsProvided {
 
-    @Autowired
-    DeclarationISService declarationISService;
-
 
     @GetMapping("/ref/{ref}")
     public DeclarationIS findByRef(@PathVariable String ref) {
@@ -47,9 +44,19 @@ public class DeclarationIsProvided {
         return declarationISService.calculMontantIS(rf);
     }
 
-    @PostMapping("/frontEnd/")
+    @PostMapping("/afficheDecIS/")
     public DeclarationIsObject afficheDecIS(@RequestBody DeclarationIsObject decIsOb) {
         return declarationISService.afficheDecIS(decIsOb);
+    }
+
+    @PutMapping("/")
+    public int update(@RequestBody DeclarationIS declarationIS) {
+        return declarationISService.update(declarationIS);
+    }
+
+    @PostMapping("/saveBrouillon/")
+    public void saveBrouillon(@RequestBody DeclarationIS declarationIS) {
+        declarationISService.saveBrouillon(declarationIS);
     }
 
     @GetMapping("/")
@@ -61,4 +68,7 @@ public class DeclarationIsProvided {
     public int save(@RequestBody DeclarationIS declarationIS) {
         return declarationISService.save(declarationIS);
     }
+
+    @Autowired
+    DeclarationISService declarationISService;
 }

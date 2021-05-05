@@ -16,5 +16,7 @@ public interface DeclarationTvaDao extends JpaRepository<DeclarationTva, Long> {
     int deleteBySocieteIce(String ice);
     List<DeclarationTva> findByTypeDeclarationTvaRef(String ref);
     int deleteByTypeDeclarationTvaRef(String ref);
+    DeclarationTva findBySocieteIceAndEtatDeclarationRefAndAnneeAndTrim(String refsociete,String refetatdeclaration,double annee,double trim);
+    DeclarationTva findBySocieteIceAndEtatDeclarationRefAndAnneeAndMois(String refsociete,String refetatdeclaration,double annee,double mois);
 
 }

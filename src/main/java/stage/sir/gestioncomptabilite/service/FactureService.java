@@ -3,13 +3,14 @@ package stage.sir.gestioncomptabilite.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import stage.sir.gestioncomptabilite.bean.*;
+import stage.sir.gestioncomptabilite.bean.ClasseComptable;
+import stage.sir.gestioncomptabilite.bean.Facture;
+import stage.sir.gestioncomptabilite.bean.Societe;
+import stage.sir.gestioncomptabilite.bean.Tva;
 import stage.sir.gestioncomptabilite.dao.FactureDao;
 import stage.sir.gestioncomptabilite.vo.FactureVo;
 
-
 import javax.persistence.EntityManager;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -66,7 +67,9 @@ public class FactureService extends AbstractFacade<Facture>{
     public List<Facture> findAll() {
         return factureDao.findAll();
     }
-
+    /*public void update(Facture facture){
+        factureDao.save(facture);
+    }*/
 
     public int save(Facture facture) {
         String etatCredit,etatDebit;
@@ -174,9 +177,7 @@ public class FactureService extends AbstractFacade<Facture>{
         facture.setSocieteDistination(societeD);
         Tva tv = tvaService.findByRef(facture.getTva().getRef());
         facture.setTva(tv);
-
         ClasseComptable cpt = comptComptableService.findByNumero(facture.getClassComptable().getNumero());
-
         facture.setClassComptable(cpt);
         Facture facture1 = factureDao.findByRef(facture.getRef());
 
@@ -209,39 +210,5 @@ public class FactureService extends AbstractFacade<Facture>{
     public List<Facture> findBySocieteSourceIceAndAnneeAndTypeOperation(String ice, double annee, String typeoperation) {
         return factureDao.findBySocieteSourceIceAndAnneeAndTypeOperation(ice, annee, typeoperation);
     }
-    public int saveFacturesIS(DeclarationIS declarationIS, List<Facture> listFactures){
-        double gain = 0;
-        double charge = 0;
-        for (Facture f: listFactures){
-            f.setDeclarationIS(declarationIS);
-            Societe societeS = societeService.findByIce(f.getSocieteSource().getIce());
-            f.setSocieteSource(societeS);
-            Societe societeD = societeService.findByIce(f.getSocieteDistination().getIce());
-            f.setSocieteDistination(societeD);
-            Tva tv = tvaService.findByRef(f.getTva().getRef());
-            f.setTva(tv);
-            ClasseComptable cpt = comptComptableService.findByNumero(f.getClassComptable().getNumero());
-            f.setClassComptable(cpt);
-            Facture facture1 = factureDao.findByRef(f.getRef());
-
-            if ((facture1 != null) &&(facture1.getSocieteSource().getIce() == f.getSocieteSource().getIce()) && (facture1.getSocieteDistination().getIce() == f.getSocieteDistination().getIce()) ) {
-                return -1;
-            } else if (societeS == null) {
-                return -2;
-            } else if (societeD == null) {
-                return -3;
-            } else if (tv == null) {
-                return -4;
-            } else if (cpt == null) {
-                return -5;
-            }else {
-                factureDao.save(f);
-                return 1;
-            }
-        }
-        return 0;
-    }
-
-
 
 }
