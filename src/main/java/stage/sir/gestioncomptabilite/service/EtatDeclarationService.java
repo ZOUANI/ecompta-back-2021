@@ -10,6 +10,7 @@ import java.util.List;
 
 @Service
 public class EtatDeclarationService {
+
     public EtatDeclaration findByRef(String ref) {
         return etatDeclarationDao.findByRef(ref);
     }
@@ -18,8 +19,20 @@ public class EtatDeclarationService {
         return etatDeclarationDao.deleteByRef(ref);
     }
 
+    public EtatDeclaration findByLibelle(String libelle) { return etatDeclarationDao.findByLibelle(libelle); }
+
     public List<EtatDeclaration> findAll() {
         return etatDeclarationDao.findAll();
+    }
+
+    public int save(EtatDeclaration etatDeclaration) {
+        if (findByRef(etatDeclaration.getRef()) != null){
+            return -1;
+        }
+        else {
+            etatDeclarationDao.save(etatDeclaration);
+            return 1;
+        }
     }
 
     @Autowired
