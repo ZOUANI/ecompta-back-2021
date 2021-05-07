@@ -55,8 +55,8 @@ public class DeclarationIsProvided {
     }
 
     @PostMapping("/saveBrouillon/")
-    public void saveBrouillon(@RequestBody DeclarationIS declarationIS) {
-        declarationISService.saveBrouillon(declarationIS);
+    public int saveBrouillon(@RequestBody DeclarationIS declarationIS) {
+        return declarationISService.saveBrouillon(declarationIS);
     }
 
     @GetMapping("/")

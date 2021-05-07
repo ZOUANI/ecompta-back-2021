@@ -155,7 +155,6 @@ public class DeclarationISService{
     }
 
     public int update(DeclarationIS declarationIS){
-
         Societe societe = societeService.findByIce(declarationIS.getSociete().getIce());
         declarationIS.setSociete(societe);
         if (findByRef(declarationIS.getRef()) != null){ return -1; }
