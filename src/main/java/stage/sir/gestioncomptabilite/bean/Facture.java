@@ -27,6 +27,10 @@ public class Facture {
     @ManyToOne
     private Tva tva;
     @ManyToOne
+    private EtatFacture etatFacture;
+   @ManyToOne
+   private EtatPaiement etatPaiement;
+    @ManyToOne
     private Societe societeSource;
     @ManyToOne
     private Societe societeDistination;
@@ -197,5 +201,21 @@ public class Facture {
 
     public void setDebit(String debit) {
         this.debit = debit;
+    }
+
+    public EtatFacture getEtatFacture() {
+        return etatFacture;
+    }
+
+    public void setEtatFacture(EtatFacture etatFacture) {
+        this.etatFacture = etatFacture;
+    }
+
+    public EtatPaiement getEtatPaiement() {
+        return etatPaiement;
+    }
+
+    public void setEtatPaiement(EtatPaiement etatPaiement) {
+        this.etatPaiement = etatPaiement;
     }
 }
