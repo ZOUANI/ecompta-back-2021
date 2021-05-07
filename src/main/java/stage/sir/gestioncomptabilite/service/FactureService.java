@@ -3,10 +3,7 @@ package stage.sir.gestioncomptabilite.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import stage.sir.gestioncomptabilite.bean.ClasseComptable;
-import stage.sir.gestioncomptabilite.bean.Facture;
-import stage.sir.gestioncomptabilite.bean.Societe;
-import stage.sir.gestioncomptabilite.bean.Tva;
+import stage.sir.gestioncomptabilite.bean.*;
 import stage.sir.gestioncomptabilite.dao.FactureDao;
 import stage.sir.gestioncomptabilite.vo.FactureVo;
 
@@ -23,6 +20,10 @@ public class FactureService extends AbstractFacade<Facture>{
     @Autowired
     private TvaService tvaService;
     @Autowired
+    private EtatFactureService etatFactureService;
+    @Autowired
+    private EtatPaiementService etatPaiementService;
+    @Autowired
     private ClassComptableService comptComptableService;
     @Autowired
     private DeclarationISService declarationISService;
@@ -32,6 +33,7 @@ public class FactureService extends AbstractFacade<Facture>{
     private  DeclarationTvaService declarationTvaService;
     @Autowired
     private EntityManager entityManager;
+
 
     public Facture findByRef(String ref) {
         return factureDao.findByRef(ref);
@@ -66,17 +68,19 @@ public class FactureService extends AbstractFacade<Facture>{
     public List<Facture> findAll() {
         return factureDao.findAll();
     }
-    /*public void update(Facture facture){
-        factureDao.save(facture);
-    }*/
 
     public int save(Facture facture) {
+        String etatCredit,etatDebit;
         Societe societeS = societeService.findByIce(facture.getSocieteSource().getIce());
         facture.setSocieteSource(societeS);
         Societe societeD = societeService.findByIce(facture.getSocieteDistination().getIce());
         facture.setSocieteDistination(societeD);
         Tva tv = tvaService.findByRef(facture.getTva().getRef());
         facture.setTva(tv);
+        EtatFacture etatFacture = etatFactureService.findByCode(facture.getEtatFacture().getCode());
+        facture.setEtatFacture(etatFacture);
+        EtatPaiement etatPaiement = etatPaiementService.findByCode(facture.getEtatPaiement().getCode());
+        facture.setEtatPaiement(etatPaiement);
         ClasseComptable cpt = comptComptableService.findByNumero(facture.getClassComptable().getNumero());
         facture.setClassComptable(cpt);
         Facture facture1 = factureDao.findByRef(facture.getRef());
@@ -89,8 +93,12 @@ public class FactureService extends AbstractFacade<Facture>{
             return -3;
         } else if (tv == null) {
             return -4;
-        } else if (cpt == null) {
+        }  else if (etatFacture == null) {
             return -5;
+        }  else if (etatPaiement == null) {
+            return -6;
+        } else if (cpt == null) {
+            return -7;
         }
 
         else{
@@ -104,6 +112,19 @@ public class FactureService extends AbstractFacade<Facture>{
             facture.setTrim(Trouvertrim(facture.getDateOperation()));
             facture.setMois(facture.getDateOperation().getMonth() +1);
             facture.setAnnee(facture.getDateOperation().getYear() + 1900);
+
+            if(facture.getTypeOperation().equals("CRÉDIT")){
+                etatCredit = String.valueOf(facture.getMontantTTC());
+                etatDebit = "-";
+                facture.setCredit(etatCredit);
+                facture.setDebit(etatDebit);
+            }
+            if(facture.getTypeOperation().equals("DÉBIT")){
+                etatDebit = String.valueOf(facture.getMontantTTC());
+                etatCredit = "-";
+                facture.setCredit(etatCredit);
+                facture.setDebit(etatDebit);
+            }
             factureDao.save(facture);
             return 1;
         }
@@ -127,13 +148,34 @@ public class FactureService extends AbstractFacade<Facture>{
         }
 
     }
+
     public List<Facture>  Journal(FactureVo factureVo){
 
         String request = "SELECT f FROM Facture f WHERE 1=1 ";
+
         request+=addConstraintMinMaxDate("f","dateOperation",factureVo.getDmin(),factureVo.getDmax());
         return entityManager.createQuery(request).getResultList();
 
     }
+    public FactureVo CalculSomme(FactureVo factureVo){
+        List<Facture> listjournal = Journal(factureVo);
+        double sommecredit = 0,sommeDebit = 0;
+        for (Facture facture: listjournal) {
+            if(facture.getTypeOperation().equals("CRÉDIT")){
+                sommecredit += facture.getMontantTTC();
+
+            }
+            else {
+                sommeDebit += facture.getMontantTTC();
+
+
+            }
+        }
+        factureVo.setTotalcredit(sommecredit);
+        factureVo.setTotaldebit(sommeDebit);
+        return factureVo;
+    }
+
     public int update(Facture facture){
         Societe societeS = societeService.findByIce(facture.getSocieteSource().getIce());
         facture.setSocieteSource(societeS);
@@ -141,6 +183,11 @@ public class FactureService extends AbstractFacade<Facture>{
         facture.setSocieteDistination(societeD);
         Tva tv = tvaService.findByRef(facture.getTva().getRef());
         facture.setTva(tv);
+        EtatFacture etatFacture = etatFactureService.findByCode(facture.getEtatFacture().getCode());
+        facture.setEtatFacture(etatFacture);
+        EtatPaiement etatPaiement = etatPaiementService.findByCode(facture.getEtatPaiement().getCode());
+        facture.setEtatPaiement(etatPaiement);
+
         ClasseComptable cpt = comptComptableService.findByNumero(facture.getClassComptable().getNumero());
         facture.setClassComptable(cpt);
         Facture facture1 = factureDao.findByRef(facture.getRef());
@@ -151,7 +198,11 @@ public class FactureService extends AbstractFacade<Facture>{
             return -2;
         } else if (tv == null) {
             return -3;
-        } else if (cpt == null) {
+        } else if (etatFacture == null) {
+            return -5;
+        }  else if (etatPaiement == null) {
+            return -6;
+        }  else if (cpt == null) {
             return -4;
         }
 

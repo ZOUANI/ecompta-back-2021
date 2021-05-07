@@ -61,6 +61,13 @@ public class FactureProvided {
     public List<Facture> Journal(@RequestBody FactureVo objectVo) {
         return factureService.Journal(objectVo);
     }
+    @PostMapping("/CalculSomme")
+    public FactureVo CalculSomme(@RequestBody FactureVo factureVo) {
+        return factureService.CalculSomme(factureVo);
+    }
+
+
+
 
     @GetMapping("/societeSource/ice/{ice}/typeoperation/{typeoperation}")
     public List<Facture> findBySocieteSourceIceAndTypeOperation(@PathVariable String ice,@PathVariable String typeoperation) {

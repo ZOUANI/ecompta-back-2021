@@ -9,11 +9,15 @@ import stage.sir.gestioncomptabilite.bean.Societe;
 import stage.sir.gestioncomptabilite.bean.TypeDeclarationTva;
 import stage.sir.gestioncomptabilite.dao.DeclarationTvaDao;
 import stage.sir.gestioncomptabilite.util.StringUtil;
-import stage.sir.gestioncomptabilite.vo.DeclarationTvaCriteria;
-import stage.sir.gestioncomptabilite.vo.DeclarationTvaVo1;
-import stage.sir.gestioncomptabilite.vo.DeclarationTvaVo2;
+import stage.sir.gestioncomptabilite.vo.*;
 
 import javax.persistence.EntityManager;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.*;
 
 @Service
@@ -219,6 +223,50 @@ public class DeclarationTvaService {
             query += " AND d.difftva <= '" + declarationTvaCriteria.getDifftvamax() + "'";
         }
         return entityManager.createQuery(query).getResultList();
+    }
+    public void convertToXmlFile(DeclarationTva declarationTva){
+        DeclarationReleveDeduction declarationReleveDeduction = convertdeclarationtva(declarationTva);
+        try
+        {
+            JAXBContext jaxbContext = JAXBContext.newInstance(DeclarationReleveDeduction.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            jaxbMarshaller.marshal(declarationReleveDeduction,new FileOutputStream("C:\\Users\\book\\Downloads\\"+declarationTva.getRef()+".xml"));
+        }
+        catch (JAXBException | FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    public DeclarationReleveDeduction convertdeclarationtva(DeclarationTva declarationTva){
+        DeclarationReleveDeduction declarationReleveDeduction = new DeclarationReleveDeduction();
+        ReleveDeductions releveDeductions = new ReleveDeductions();
+        List<Facture> factures = new ArrayList<Facture>();
+        List<Rd> rds = new ArrayList<Rd>();
+
+        declarationReleveDeduction.setIdentifiantFiscal(declarationTva.getId());
+        declarationReleveDeduction.setAnnee(declarationTva.getAnnee());
+        if (declarationTva.getTypeDeclarationTva().getLibelle().equals("trimestrielle")){
+            declarationReleveDeduction.setPeriode(declarationTva.getTrim());
+            factures = factureService.findBySocieteSourceIceAndAnneeAndTrim(declarationTva.getSociete().getIce(),declarationTva.getAnnee(),declarationTva.getTrim());
+        }else{
+            declarationReleveDeduction.setPeriode(declarationTva.getMois());
+            factures = factureService.findBySocieteSourceIceAndAnneeAndMois(declarationTva.getSociete().getIce(),declarationTva.getAnnee(),declarationTva.getMois());
+        }
+        declarationReleveDeduction.setRegime(1);
+        int i =0;
+        for (Facture facture:factures){
+            Rd rd = new Rd(); RefF refF = new RefF(); Mp mp = new Mp();
+            rd.setOrd(i);  rd.setNum(i);  rd.setDes(facture.getLibelle()); rd.setMht(facture.getMontantHorsTaxe()); rd.setTva(facture.getMontantTVA());
+            rd.setTtc(facture.getMontantTTC()); refF.setIff(facture.getSocieteSource().getId()); refF.setIce(facture.getSocieteSource().getIce()); refF.setNom(facture.getSocieteSource().getRaisonSociale());
+            rd.setRefF(refF);  mp.setId(1); rd.setMp(mp);
+            rds.add(rd);
+            i++;
+        }
+        releveDeductions.setRd(rds);
+        declarationReleveDeduction.setReleveDeductions(releveDeductions);
+
+        return declarationReleveDeduction;
     }
     public List<DeclarationTva> findByAnneeAndMois(double annee, double mois) {
         return declarationTvaDao.findByAnneeAndMois(annee, mois);
