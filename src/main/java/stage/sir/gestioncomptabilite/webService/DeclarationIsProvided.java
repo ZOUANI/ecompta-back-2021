@@ -34,6 +34,11 @@ public class DeclarationIsProvided {
         return declarationISService.findByAnnee(annee);
     }
 
+    @GetMapping("/etatDeclaration/libelle/{libelle}")
+    public List<DeclarationIS> findByEtatDeclarationLibelle(@PathVariable String libelle) {
+        return declarationISService.findByEtatDeclarationLibelle(libelle);
+    }
+
     @PostMapping("/criteria/")
     public List<DeclarationIS> searchCriteria(@RequestBody DeclarationIsVo declarationIsVo) {
         return declarationISService.searchCriteria(declarationIsVo);
@@ -57,6 +62,16 @@ public class DeclarationIsProvided {
     @PostMapping("/saveBrouillon/")
     public int saveBrouillon(@RequestBody DeclarationIS declarationIS) {
         return declarationISService.saveBrouillon(declarationIS);
+    }
+
+    @PostMapping("/validerBrouillon/")
+    public void validerBrouillon(@RequestBody DeclarationIS declarationIS) {
+        declarationISService.validerBrouillon(declarationIS);
+    }
+
+    @GetMapping("/findTauxIS/benefice/{benefice}")
+    public Double findTauxIS(@PathVariable double benefice) {
+        return declarationISService.findTauxIS(benefice);
     }
 
     @GetMapping("/")

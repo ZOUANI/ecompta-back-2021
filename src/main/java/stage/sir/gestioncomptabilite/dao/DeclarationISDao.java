@@ -11,4 +11,5 @@ public interface DeclarationISDao extends JpaRepository<DeclarationIS, Long> {
     int deleteByRef(String ref);
     DeclarationIS findByAnnee(double annee);
     List<DeclarationIS> findBySocieteIce(String ice);
+    List<DeclarationIS> findByEtatDeclarationLibelle(String libelle);
 }
