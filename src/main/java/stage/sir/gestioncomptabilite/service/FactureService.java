@@ -177,6 +177,7 @@ public class FactureService extends AbstractFacade<Facture>{
     }
 
     public int update(Facture facture){
+        String etatCredit,etatDebit;
         Societe societeS = societeService.findByIce(facture.getSocieteSource().getIce());
         facture.setSocieteSource(societeS);
         Societe societeD = societeService.findByIce(facture.getSocieteDistination().getIce());
@@ -213,6 +214,18 @@ public class FactureService extends AbstractFacade<Facture>{
             facture.setTrim(Trouvertrim(facture.getDateOperation()));
             facture.setMois(facture.getDateOperation().getMonth() +1);
             facture.setAnnee(facture.getDateOperation().getYear() + 1900);
+            if(facture.getTypeOperation().equals("CRÉDIT")){
+                etatCredit = String.valueOf(facture.getMontantTTC());
+                etatDebit = "-";
+                facture.setCredit(etatCredit);
+                facture.setDebit(etatDebit);
+            }
+            if(facture.getTypeOperation().equals("DÉBIT")){
+                etatDebit = String.valueOf(facture.getMontantTTC());
+                etatCredit = "-";
+                facture.setCredit(etatCredit);
+                facture.setDebit(etatDebit);
+            }
             factureDao.save(facture);
             return 1;
         }
