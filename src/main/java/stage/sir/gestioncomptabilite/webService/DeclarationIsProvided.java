@@ -54,19 +54,14 @@ public class DeclarationIsProvided {
         return declarationISService.afficheDecIS(decIsOb);
     }
 
-    @PutMapping("/")
-    public int update(@RequestBody DeclarationIS declarationIS) {
-        return declarationISService.update(declarationIS);
-    }
-
     @PostMapping("/saveBrouillon/")
     public int saveBrouillon(@RequestBody DeclarationIS declarationIS) {
         return declarationISService.saveBrouillon(declarationIS);
     }
 
     @PostMapping("/validerBrouillon/")
-    public void validerBrouillon(@RequestBody DeclarationIS declarationIS) {
-        declarationISService.validerBrouillon(declarationIS);
+    public int validerBrouillon(@RequestBody DeclarationIS declarationIS) {
+        return declarationISService.validerBrouillon(declarationIS);
     }
 
     @GetMapping("/findTauxIS/benefice/{benefice}")
@@ -74,9 +69,19 @@ public class DeclarationIsProvided {
         return declarationISService.findTauxIS(benefice);
     }
 
+    @PutMapping("/")
+    public int update(@RequestBody DeclarationIS declarationIS) {
+        return declarationISService.update(declarationIS);
+    }
+
     @GetMapping("/")
     public List<DeclarationIS> findAll() {
         return declarationISService.findAll();
+    }
+
+    @PostMapping("/toXML/")
+    public void declarationIsXML(@RequestBody DeclarationIS declarationIS) {
+        declarationISService.declarationIsXML(declarationIS);
     }
 
     @PostMapping("/")
