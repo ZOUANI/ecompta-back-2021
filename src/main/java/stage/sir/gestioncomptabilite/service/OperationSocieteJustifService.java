@@ -3,6 +3,7 @@ package stage.sir.gestioncomptabilite.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import stage.sir.gestioncomptabilite.bean.OperationSociete;
 import stage.sir.gestioncomptabilite.bean.OperationSocieteJustif;
 import stage.sir.gestioncomptabilite.dao.OperationSocieteJustifDao;
 
@@ -48,7 +49,19 @@ public class OperationSocieteJustifService {
         }
 
     }
-
+    public int save2(OperationSociete operationSociete,List<OperationSocieteJustif> operationSocieteJustifs){
+        if (operationSociete == null) return -1;
+        for (OperationSocieteJustif operationSocieteJustif:operationSocieteJustifs) {
+            if (findByRef(operationSocieteJustif.getRef())!=null){
+                return -2;
+            }
+            else {
+                operationSocieteJustif.setOperationSociete(operationSociete);
+                operationSocieteJustifDao.save(operationSocieteJustif);
+            }
+        }
+        return 1;
+    }
     @Autowired
     OperationSocieteJustifDao operationSocieteJustifDao;
 }

@@ -2,10 +2,7 @@ package stage.sir.gestioncomptabilite.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -18,6 +15,16 @@ public class Paiement {
     private double montant ;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date datePaiement;
+    @ManyToOne
+    private OperationSociete operationSociete;
+
+    public OperationSociete getOperationSociete() {
+        return operationSociete;
+    }
+
+    public void setOperationSociete(OperationSociete operationSociete) {
+        this.operationSociete = operationSociete;
+    }
 
     public Long getId() {
         return id;

@@ -3,6 +3,7 @@ package stage.sir.gestioncomptabilite.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import stage.sir.gestioncomptabilite.bean.OperationSociete;
 import stage.sir.gestioncomptabilite.bean.Paiement;
 import stage.sir.gestioncomptabilite.dao.PaiementDao;
 
@@ -24,10 +25,24 @@ public class PaiementService {
     public List<Paiement> findAll() {
         return paiementDao.findAll();
     }
+
     public int save(Paiement paiement){
         if(paiementDao.findByRef(paiement.getRef()) != null) return -1;
         else {
+            paiementDao.save(paiement);
             return 1;
         }
+    }
+
+    public int save2(OperationSociete operationSociete, List<Paiement> paiements){
+        if (operationSociete == null) return -1;
+        for (Paiement paiement:paiements) {
+            if(findByRef(paiement.getRef())!= null) return -2;
+            else {
+                paiement.setOperationSociete(operationSociete);
+                paiementDao.save(paiement);
+            }
+        }
+        return 1;
     }
 }
