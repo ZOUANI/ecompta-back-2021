@@ -20,32 +20,30 @@ public class Societe {
     private Date dateCreation;
     private int anneeExploitation;
     private double age;
+    @ManyToOne
+    private Comptable comptable;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "societe")
     private List<DeclarationIR> declarationIRs;
-    
-    
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
+
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "societeEmp")
     private List<Employe> employes;
-    
-
-    
-    
-    
-    
-	@Override
-	public String toString() {
-		return "Societe [id=" + id + ", ice=" + ice + ", adresse=" + adresse + ", raisonSociale=" + raisonSociale
-				+ ", anneeExploitation=" + anneeExploitation + ", age=" + age + ", declarationIRs=" + declarationIRs
-				+ ", employes=" + employes + "]";
-	}
 
 
-	public List<Employe> getEmployes() {
-		return employes;
-	}
+    @Override
+    public String toString() {
+        return "Societe [id=" + id + ", ice=" + ice + ", adresse=" + adresse + ", raisonSociale=" + raisonSociale
+                + ", anneeExploitation=" + anneeExploitation + ", age=" + age + ", declarationIRs=" + declarationIRs
+                + ", employes=" + employes + "]";
+    }
+
+
+    public List<Employe> getEmployes() {
+        return employes;
+    }
 
 
     public long getId() {
@@ -88,6 +86,14 @@ public class Societe {
     public void setAnneeExploitation(int anneeExploitation) {
         this.anneeExploitation = anneeExploitation;
 
+    }
+
+    public Comptable getComptable() {
+        return comptable;
+    }
+
+    public void setComptable(Comptable comptable) {
+        this.comptable = comptable;
     }
 
     public double getAge() {
