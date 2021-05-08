@@ -25,6 +25,8 @@ public class DeclarationISService{
 
     public List<DeclarationIS> findBySocieteIce(String ice) { return declarationISDao.findBySocieteIce(ice); }
 
+    public List<DeclarationIS> findByEtatDeclarationLibelle(String libelle) { return declarationISDao.findByEtatDeclarationLibelle(libelle); }
+
     public List<DeclarationIS> searchCriteria(DeclarationIsVo declarationIsVo){
         String query = "SELECT d FROM DeclarationIS d WHERE 1=1";
         if(StringUtil.isNotEmpty(declarationIsVo.getRef())) {
@@ -155,7 +157,6 @@ public class DeclarationISService{
     }
 
     public int update(DeclarationIS declarationIS){
-
         Societe societe = societeService.findByIce(declarationIS.getSociete().getIce());
         declarationIS.setSociete(societe);
         if (findByRef(declarationIS.getRef()) != null){ return -1; }
@@ -235,10 +236,26 @@ public class DeclarationISService{
         return decIsOb;
     }
 
-    public void validerBrouillon(DeclarationIS declarationIS){
-        EtatDeclaration etatDeclaration = etatDeclarationService.findByLibelle("brouillon");
-        declarationIS.setEtatDeclaration(etatDeclaration);
-        update(declarationIS);
+    public int validerBrouillon(DeclarationIS declarationIS){
+        EtatDeclaration etatDeclaration = etatDeclarationService.findByLibelle("valider");
+        if (declarationIS.getEtatDeclaration().getLibelle() == "valider"){
+            return -1;
+        } else {
+            declarationIS.setEtatDeclaration(etatDeclaration);
+            update(declarationIS);
+            return 1;
+        }
+    }
+
+    public Double findTauxIS(double benefice){
+        List<TauxIS> tauxISList = tauxISService.findAll();
+        Double pourc = 0.0;
+        for (TauxIS t: tauxISList) {
+            if (benefice >= t.getResultatFiscalMin() && benefice<=t.getResultatFiscalMax()){
+                pourc = t.getPourcentage();
+            }
+        }
+        return pourc;
     }
 
     @Autowired
