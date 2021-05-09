@@ -264,7 +264,7 @@ public class DeclarationISService{
             JAXBContext jaxbContext = JAXBContext.newInstance(DeclarationIS.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            File fileDecIs = new File("C://Users/hp/Desktop/DecIS-"+declarationIS.getAnnee()+".xml");
+            File fileDecIs = new File("C://Users/hp/Downloads/DecIS-"+declarationIS.getAnnee()+".xml");
             marshaller.marshal(declarationIS, fileDecIs);
             marshaller.marshal(declarationIS, System.out);
 
