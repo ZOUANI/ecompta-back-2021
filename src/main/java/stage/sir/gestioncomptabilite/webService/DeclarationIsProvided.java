@@ -6,6 +6,7 @@ import stage.sir.gestioncomptabilite.bean.DeclarationIS;
 import stage.sir.gestioncomptabilite.service.DeclarationISService;
 import stage.sir.gestioncomptabilite.vo.DeclarationIsObject;
 import stage.sir.gestioncomptabilite.vo.DeclarationIsVo;
+import stage.sir.gestioncomptabilite.vo.DeclarationIsXml;
 
 import java.util.List;
 
@@ -19,9 +20,9 @@ public class DeclarationIsProvided {
         return declarationISService.findByRef(ref);
     }
 
-    @DeleteMapping("/ref/{ref}")
-    public int deleteByRef(@PathVariable String ref) {
-        return declarationISService.deleteByRef(ref);
+    @DeleteMapping("/annee/{annee}")
+    public int deleteByAnnee(@PathVariable double annee) {
+        return declarationISService.deleteByAnnee(annee);
     }
 
     @GetMapping("/societe/ice/{ice}")
@@ -54,9 +55,9 @@ public class DeclarationIsProvided {
         return declarationISService.afficheDecIS(decIsOb);
     }
 
-    @PostMapping("/saveBrouillon/")
-    public int saveBrouillon(@RequestBody DeclarationIS declarationIS) {
-        return declarationISService.saveBrouillon(declarationIS);
+    @GetMapping("/afficheDecIS/ice/{ice}/annee/{annee}")
+    public DeclarationIsObject afficheObject(@PathVariable String ice, @PathVariable double annee) {
+        return declarationISService.afficheObject(ice, annee);
     }
 
     @PostMapping("/validerBrouillon/")
@@ -80,13 +81,18 @@ public class DeclarationIsProvided {
     }
 
     @PostMapping("/toXML/")
-    public void declarationIsXML(@RequestBody DeclarationIS declarationIS) {
-        declarationISService.declarationIsXML(declarationIS);
+    public void declarationIsToXML(@RequestBody DeclarationIS declarationIS) {
+        declarationISService.declarationIsToXML(declarationIS);
     }
 
-    @PostMapping("/")
-    public int save(@RequestBody DeclarationIS declarationIS) {
-        return declarationISService.save(declarationIS);
+    @GetMapping("/xmlToDec/fileName/{fileName}")
+    public DeclarationIsXml XmlToDecIS(@PathVariable String fileName) {
+        return declarationISService.XmlToDecIS(fileName);
+    }
+
+    @GetMapping("/ice/{ice}/annee/{annee}/etat/{etat}")
+    public int save22(@PathVariable String ice, @PathVariable double annee, @PathVariable String etat) {
+        return declarationISService.save22(ice, annee, etat);
     }
 
     @Autowired

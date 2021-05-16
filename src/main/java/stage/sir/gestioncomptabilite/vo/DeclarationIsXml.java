@@ -1,15 +1,12 @@
-package stage.sir.gestioncomptabilite.bean;
+package stage.sir.gestioncomptabilite.vo;
 
+import stage.sir.gestioncomptabilite.bean.*;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
-@Entity @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-public class DeclarationIS {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+@XmlRootElement(name = "DeclarationIS")
+public class DeclarationIsXml {
     private long id;
     private String ref;
     private double annee;
@@ -18,16 +15,13 @@ public class DeclarationIS {
     private Double totalHTDiff;
     private Double montantISCalcule;
     private Double montantISPaye;
-    @ManyToOne
     private Societe societe;
-    @ManyToOne
     private TauxIS tauxIS;
-    @ManyToOne
     private TauxIsConfig tauxIsConfig;
-    @ManyToOne
     private EtatDeclaration etatDeclaration;
-
-
+    /*private List<Facture> facturesD;
+    private List<Facture> facturesC;*/
+    private List<Facture> factures;
 
     public long getId() {
         return id;
@@ -35,6 +29,14 @@ public class DeclarationIS {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getRef() {
+        return ref;
+    }
+
+    public void setRef(String ref) {
+        this.ref = ref;
     }
 
     public double getAnnee() {
@@ -109,16 +111,40 @@ public class DeclarationIS {
         this.tauxIsConfig = tauxIsConfig;
     }
 
-    public String getRef() { return ref; }
+    public EtatDeclaration getEtatDeclaration() {
+        return etatDeclaration;
+    }
 
-    public void setRef(String ref) { this.ref = ref; }
+    public void setEtatDeclaration(EtatDeclaration etatDeclaration) {
+        this.etatDeclaration = etatDeclaration;
+    }
 
-    public EtatDeclaration getEtatDeclaration() { return etatDeclaration; }
-    public void setEtatDeclaration(EtatDeclaration etatDeclaration) { this.etatDeclaration = etatDeclaration; }
+    /*public List<Facture> getFacturesD() {
+        return facturesD;
+    }
+
+    public void setFacturesD(List<Facture> facturesD) {
+        this.facturesD = facturesD;
+    }
+
+    public List<Facture> getFacturesC() {
+        return facturesC;
+    }
+
+    public void setFacturesC(List<Facture> facturesC) {
+        this.facturesC = facturesC;
+    }*/
+    public List<Facture> getFactures() {
+        return factures;
+    }
+
+    public void setFactures(List<Facture> factures) {
+        this.factures = factures;
+    }
 
     @Override
     public String toString() {
-        return "DeclarationIS{" +
+        return "DeclarationIsXml{" +
                 "id=" + id +
                 ", ref='" + ref + '\'' +
                 ", annee=" + annee +
@@ -131,6 +157,9 @@ public class DeclarationIS {
                 ", tauxIS=" + tauxIS +
                 ", tauxIsConfig=" + tauxIsConfig +
                 ", etatDeclaration=" + etatDeclaration +
+              //  ", facturesD=" + facturesD +
+               // ", facturesC=" + facturesC +
+                ", facturesC=" + factures +
                 '}';
     }
 }
