@@ -81,4 +81,9 @@ public class FactureProvided {
     public List<Facture> findBySocieteSourceIceAndAnneeAndTypeOperation( @PathVariable String ice, @PathVariable double annee, @PathVariable String typeoperation) {
         return factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(ice, annee, typeoperation);
     }
+
+    @GetMapping("/annee/{annee}")
+    public List<Facture> findByAnnee(@PathVariable double annee) {
+        return factureService.findByAnnee(annee);
+    }
 }
