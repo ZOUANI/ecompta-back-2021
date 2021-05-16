@@ -10,6 +10,11 @@ import stage.sir.gestioncomptabilite.vo.DeclarationIsObject;
 import stage.sir.gestioncomptabilite.vo.DeclarationIsVo;
 
 import javax.persistence.EntityManager;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.PropertyException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,9 +164,9 @@ public class DeclarationISService{
     public int update(DeclarationIS declarationIS){
         Societe societe = societeService.findByIce(declarationIS.getSociete().getIce());
         declarationIS.setSociete(societe);
-        if (findByRef(declarationIS.getRef()) != null){ return -1; }
-        else if(findByAnnee(declarationIS.getAnnee()) != null){ return -2; }
-        else if(societe == null){ return -3; }
+
+        if(findByAnnee(declarationIS.getAnnee()) != null){ return -1; }
+        else if(societe == null){ return -2; }
         else{
             double gain = 0.0, charge= 0.0, rf = 0.0;
             List<Facture> facturesC = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(declarationIS.getSociete().getIce(), declarationIS.getAnnee(), "credit");
@@ -238,13 +243,9 @@ public class DeclarationISService{
 
     public int validerBrouillon(DeclarationIS declarationIS){
         EtatDeclaration etatDeclaration = etatDeclarationService.findByLibelle("valider");
-        if (declarationIS.getEtatDeclaration().getLibelle() == "valider"){
-            return -1;
-        } else {
-            declarationIS.setEtatDeclaration(etatDeclaration);
-            update(declarationIS);
-            return 1;
-        }
+        declarationIS.setEtatDeclaration(etatDeclaration);
+        update(declarationIS);
+        return 1;
     }
 
     public Double findTauxIS(double benefice){
@@ -256,6 +257,20 @@ public class DeclarationISService{
             }
         }
         return pourc;
+    }
+
+    public void declarationIsXML(DeclarationIS declarationIS){
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(DeclarationIS.class);
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            File fileDecIs = new File("C://Users/hp/Downloads/DecIS-"+declarationIS.getAnnee()+".xml");
+            marshaller.marshal(declarationIS, fileDecIs);
+            marshaller.marshal(declarationIS, System.out);
+
+        } catch (PropertyException e) { e.printStackTrace(); }
+        catch (JAXBException e) { e.printStackTrace(); }
+
     }
 
     @Autowired

@@ -2,8 +2,9 @@ package stage.sir.gestioncomptabilite.bean;
 
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity @XmlRootElement
 public class DeclarationIS {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
