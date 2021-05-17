@@ -12,14 +12,14 @@ import java.util.List;
 public class Societe {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     private String ice; //Identifiant Commun de l'Entreprise
     private String adresse;
     private String raisonSociale;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateCreation;
     private int anneeExploitation;
-    private double age;
+    private Double age;
     @ManyToOne
     private Comptable comptable;
 
@@ -46,12 +46,12 @@ public class Societe {
     }
 
 
-    public long getId() {
+    public Long getId() {
 
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -96,11 +96,11 @@ public class Societe {
         this.comptable = comptable;
     }
 
-    public double getAge() {
+    public Double getAge() {
         return age;
     }
 
-    public void setAge(double age) {
+    public void setAge(Double age) {
         this.age = age;
     }
 

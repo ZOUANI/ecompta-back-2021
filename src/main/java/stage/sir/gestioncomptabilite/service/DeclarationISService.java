@@ -20,16 +20,16 @@ public class DeclarationISService{
     public DeclarationIS findByRef(String ref) { return declarationISDao.findByRef(ref); }
 
     @Transactional
-    public int deleteByAnnee(double annee) {
-    /*    List<Facture> factures = factureService.findByAnnee(annee);
+    public int deleteByAnnee(Integer annee) {
+        List<Facture> factures = factureService.findByAnnee(annee);
         for (Facture f: factures){
             f.setDeclarationIS(null);
             factureService.update(f);
-        }    */
+        }
         return declarationISDao.deleteByAnnee(annee);
     }
 
-    public DeclarationIS findByAnnee(double annee) { return declarationISDao.findByAnnee(annee); }
+    public DeclarationIS findByAnnee(Integer annee) { return declarationISDao.findByAnnee(annee); }
 
     public List<DeclarationIS> findBySocieteIce(String ice) { return declarationISDao.findBySocieteIce(ice); }
 
@@ -54,7 +54,7 @@ public class DeclarationISService{
 
     public List<DeclarationIS> findAll() { return declarationISDao.findAll(); }
 
-    public double calculMontantIS(double rf){
+    public Double calculMontantIS(Double rf){
         List<TauxIS> tauxISList = new ArrayList<TauxIS>();
         tauxISList = tauxISService.findAll();
         Double montantC =0.0;
@@ -73,9 +73,9 @@ public class DeclarationISService{
         return montantC;
     }
 
-    public double montantPaye(DeclarationIS declarationIS){
+    public Double montantPaye(DeclarationIS declarationIS){
         Societe societe = societeService.findByIce(declarationIS.getSociete().getIce());
-        double montantPaye = 0.0;
+        Double montantPaye = 0.0;
         if(societe.getAge() > 3){
             if (declarationIS.getMontantISCalcule() < declarationIS.getTauxIsConfig().getCotisationMinimale()){
                 montantPaye = declarationIS.getTauxIsConfig().getCotisationMinimale();
@@ -112,7 +112,7 @@ public class DeclarationISService{
         if(societe == null){ return -2; }
         else if(etatDeclaration == null){ return -3; }
         else{
-            double gain = 0.0, charge= 0.0, rf = 0.0;
+            Double gain = 0.0, charge= 0.0, rf = 0.0;
             List<Facture> facturesC = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(declarationIS.getSociete().getIce(), declarationIS.getAnnee(), "credit");
             List<Facture> facturesD = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(declarationIS.getSociete().getIce(), declarationIS.getAnnee(), "debit");
             for (Facture fc: facturesC){ gain+= fc.getMontantHorsTaxe(); }
@@ -148,7 +148,7 @@ public class DeclarationISService{
         }
     }
     public DeclarationIsObject afficheDecIS(DeclarationIsObject decIsOb){
-        double gain = 0.0, charge= 0.0, rf = 0.0;
+        Double gain = 0.0, charge= 0.0, rf = 0.0;
         List<Facture> facturesC = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(decIsOb.getIceSociete(), decIsOb.getAnnee(), "credit");
         List<Facture> facturesD = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(decIsOb.getIceSociete(), decIsOb.getAnnee(), "debit");
         for (Facture fc: facturesC){
@@ -185,11 +185,11 @@ public class DeclarationISService{
         return decIsOb;
     }
 
-    public DeclarationIsObject afficheObject(String ice, double annee){
+    public DeclarationIsObject afficheObject(String ice, Integer annee){
         DeclarationIsObject declarationIsObject = new DeclarationIsObject();
         declarationIsObject.setAnnee(annee);
         declarationIsObject.setIceSociete(ice);
-        double gain = 0.0, charge= 0.0, rf = 0.0;
+        Double gain = 0.0, charge= 0.0, rf = 0.0;
         List<Facture> facturesC = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(ice, annee, "credit");
         List<Facture> facturesD = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(ice, annee, "debit");
         for (Facture fc: facturesC){
@@ -237,7 +237,7 @@ public class DeclarationISService{
         return 1;
     }
 
-    public Double findTauxIS(double benefice){
+    public Double findTauxIS(Double benefice){
         List<TauxIS> tauxISList = tauxISService.findAll();
         Double pourc = 0.0;
         for (TauxIS t: tauxISList) {
@@ -334,7 +334,7 @@ public class DeclarationISService{
     @Autowired
     EntityManager entityManager;
 
-    public int save22(String ice, double annee, String etat) {
+    public int save22(String ice, Integer annee, String etat) {
         DeclarationIS declarationIS = new DeclarationIS();
         declarationIS.setAnnee(annee);
         Societe societe = societeService.findByIce(ice);
@@ -347,7 +347,7 @@ public class DeclarationISService{
         else if(societe == null){ return -3; }
         else if(etatDeclaration == null){ return -4; }
         else{
-            double gain = 0.0, charge= 0.0, rf = 0.0;
+            Double gain = 0.0, charge= 0.0, rf = 0.0;
             List<Facture> facturesC = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(declarationIS.getSociete().getIce(), declarationIS.getAnnee(), "credit");
             List<Facture> facturesD = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(declarationIS.getSociete().getIce(), declarationIS.getAnnee(), "debit");
             for (Facture fc: facturesC){ gain+= fc.getMontantHorsTaxe(); }

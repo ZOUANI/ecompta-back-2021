@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import stage.sir.gestioncomptabilite.bean.DeclarationIS;
 import stage.sir.gestioncomptabilite.service.DeclarationISService;
-import stage.sir.gestioncomptabilite.vo.DeclarationIsObject;
-import stage.sir.gestioncomptabilite.vo.DeclarationIsVo;
-import stage.sir.gestioncomptabilite.vo.DeclarationIsXml;
+import stage.sir.gestioncomptabilite.vo.*;
 
 import java.util.List;
 
@@ -21,7 +19,7 @@ public class DeclarationIsProvided {
     }
 
     @DeleteMapping("/annee/{annee}")
-    public int deleteByAnnee(@PathVariable double annee) {
+    public int deleteByAnnee(@PathVariable Integer annee) {
         return declarationISService.deleteByAnnee(annee);
     }
 
@@ -31,7 +29,7 @@ public class DeclarationIsProvided {
     }
 
     @GetMapping("/annee/{annee}")
-    public DeclarationIS findByAnnee(@PathVariable double annee) {
+    public DeclarationIS findByAnnee(@PathVariable Integer annee) {
         return declarationISService.findByAnnee(annee);
     }
 
@@ -46,7 +44,7 @@ public class DeclarationIsProvided {
     }
 
     @GetMapping("/montantISCalcule/rf/{rf}")
-    public double calculMontantIS(@PathVariable double rf) {
+    public Double calculMontantIS(@PathVariable Double rf) {
         return declarationISService.calculMontantIS(rf);
     }
 
@@ -56,7 +54,7 @@ public class DeclarationIsProvided {
     }
 
     @GetMapping("/afficheDecIS/ice/{ice}/annee/{annee}")
-    public DeclarationIsObject afficheObject(@PathVariable String ice, @PathVariable double annee) {
+    public DeclarationIsObject afficheObject(@PathVariable String ice, @PathVariable Integer annee) {
         return declarationISService.afficheObject(ice, annee);
     }
 
@@ -66,7 +64,7 @@ public class DeclarationIsProvided {
     }
 
     @GetMapping("/findTauxIS/benefice/{benefice}")
-    public Double findTauxIS(@PathVariable double benefice) {
+    public Double findTauxIS(@PathVariable Double benefice) {
         return declarationISService.findTauxIS(benefice);
     }
 
@@ -85,13 +83,14 @@ public class DeclarationIsProvided {
         declarationISService.declarationIsToXML(declarationIS);
     }
 
-    @GetMapping("/xmlToDec/fileName/{fileName}")
+    @GetMapping("/xmlToDec/fileName/" +
+            "{fileName}")
     public DeclarationIsXml XmlToDecIS(@PathVariable String fileName) {
         return declarationISService.XmlToDecIS(fileName);
     }
 
     @GetMapping("/ice/{ice}/annee/{annee}/etat/{etat}")
-    public int save22(@PathVariable String ice, @PathVariable double annee, @PathVariable String etat) {
+    public int save22(@PathVariable String ice, @PathVariable Integer annee, @PathVariable String etat) {
         return declarationISService.save22(ice, annee, etat);
     }
 

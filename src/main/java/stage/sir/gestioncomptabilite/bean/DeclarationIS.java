@@ -10,9 +10,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DeclarationIS {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     private String ref;
-    private double annee;
+    private Integer annee;
     private Double totalHTGain;
     private Double totalHTCharge;
     private Double totalHTDiff;
@@ -29,19 +29,19 @@ public class DeclarationIS {
 
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public double getAnnee() {
+    public Integer getAnnee() {
         return annee;
     }
 
-    public void setAnnee(double annee) {
+    public void setAnnee(Integer annee) {
         this.annee = annee;
     }
 

@@ -6,17 +6,17 @@ import javax.persistence.*;
 @Entity
 public class TauxIS {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     private String ref;
     private Double resultatFiscalMin;
     private Double resultatFiscalMax;
     private Double pourcentage;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
