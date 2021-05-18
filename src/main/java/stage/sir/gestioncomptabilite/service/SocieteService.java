@@ -15,9 +15,9 @@ public class SocieteService {
 
     @Autowired
     SocieteDao societeDao;
-    
-    
-    
+
+
+
     public Societe findByIce(String ice) {
         return societeDao.findByIce(ice);
     }
@@ -47,6 +47,7 @@ public class SocieteService {
             Long agee = days/365;
             Double ageSociete = (double) agee;
             societe.setAge(ageSociete);
+            societe.setEtatSociete(null);
             societe.setComptable(null);
             societeDao.save(societe);
             return 1;

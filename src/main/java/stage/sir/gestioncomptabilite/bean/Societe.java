@@ -22,6 +22,8 @@ public class Societe {
     private Double age;
     @ManyToOne
     private Comptable comptable;
+    @ManyToOne
+    private EtatSociete etatSociete;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "societe")
@@ -110,5 +112,13 @@ public class Societe {
 
     public void setDateCreation(Date dateCreation) {
         this.dateCreation = dateCreation;
+    }
+
+    public EtatSociete getEtatSociete() {
+        return etatSociete;
+    }
+
+    public void setEtatSociete(EtatSociete etatSociete) {
+        this.etatSociete = etatSociete;
     }
 }
