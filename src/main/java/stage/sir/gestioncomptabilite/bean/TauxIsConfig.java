@@ -11,8 +11,8 @@ public class TauxIsConfig {
     private Long id;
     private String ref;
     private Double cotisationMinimale;
-    private double anneeMin;
-    private double anneeMax;
+    private Integer anneeMin;
+    private Integer anneeMax;
 
 
     public Long getId() {
@@ -39,19 +39,17 @@ public class TauxIsConfig {
         this.cotisationMinimale = cotisationMinimale;
     }
 
-    public double getAnneeMin() {
-        return anneeMin;
-    }
+    public Integer getAnneeMin() { return anneeMin; }
 
-    public void setAnneeMin(double anneeMin) {
+    public void setAnneeMin(Integer anneeMin) {
         this.anneeMin = anneeMin;
     }
 
-    public double getAnneeMax() {
+    public Integer getAnneeMax() {
         return anneeMax;
     }
 
-    public void setAnneeMax(double anneeMax) {
+    public void setAnneeMax(Integer anneeMax) {
         this.anneeMax = anneeMax;
     }
 }

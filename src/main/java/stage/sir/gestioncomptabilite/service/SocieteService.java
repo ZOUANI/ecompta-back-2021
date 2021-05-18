@@ -45,7 +45,8 @@ public class SocieteService {
 
             Long days = DateUtil.diffDays(new Date(), societe.getDateCreation());
             Long agee = days/365;
-            societe.setAge((double) agee);
+            Double ageSociete = (double) agee;
+            societe.setAge(ageSociete);
             societe.setComptable(null);
             societeDao.save(societe);
             return 1;
