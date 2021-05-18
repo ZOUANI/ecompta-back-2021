@@ -5,11 +5,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import stage.sir.gestioncomptabilite.bean.DeclarationTva;
 import stage.sir.gestioncomptabilite.service.DeclarationTvaService;
-import stage.sir.gestioncomptabilite.vo.DeclarationTvaCriteria;
-import stage.sir.gestioncomptabilite.vo.DeclarationTvaVo1;
-import stage.sir.gestioncomptabilite.vo.DeclarationTvaVo2;
+import stage.sir.gestioncomptabilite.vo.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("gestion-comptabilite/declarationtva")
@@ -77,6 +76,18 @@ public class DeclarationTvaProvided {
     @PostMapping("/convertToXmlFile")
     public void convertToXmlFile(@RequestBody DeclarationTva declarationTva) {
         declarationTvaService.convertToXmlFile(declarationTva);
+    }
+    @PostMapping("/xmltoobject")
+    public DeclarationReleveDeduction convertXmlfileToJavaobject(@RequestBody EmplacementXml emplacementXml) {
+        return declarationTvaService.convertXmlfileToJavaobject(emplacementXml);
+    }
+    @PostMapping("/Tovo1")
+    public DeclarationTvaVo1 convertDeclarationReleveDeductionToDeclarationTvaVo1(@RequestBody EmplacementXml emplacementXml) {
+        return declarationTvaService.convertDeclarationReleveDeductionToDeclarationTvaVo1(emplacementXml);
+    }
+    @PostMapping("/toVo2")
+    public DeclarationTvaVo2 convertDeclarationReleveDeductionToDeclarationTvaVo2(@RequestBody EmplacementXml emplacementXml) {
+        return declarationTvaService.convertDeclarationReleveDeductionToDeclarationTvaVo2(emplacementXml);
     }
 
     @Autowired

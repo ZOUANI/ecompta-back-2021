@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -257,9 +258,16 @@ public class DeclarationTvaService {
         int i =0;
         for (Facture facture:factures){
             Rd rd = new Rd(); RefF refF = new RefF(); Mp mp = new Mp();
-            rd.setOrd(i);  rd.setNum(i);  rd.setDes(facture.getLibelle()); rd.setMht(facture.getMontantHorsTaxe()); rd.setTva(facture.getMontantTVA());
-            rd.setTtc(facture.getMontantTTC()); refF.setIff(facture.getSocieteSource().getId()); refF.setIce(facture.getSocieteSource().getIce()); refF.setNom(facture.getSocieteSource().getRaisonSociale());
-            rd.setRefF(refF);  mp.setId(1); rd.setMp(mp);
+            rd.setOrd(i);  rd.setNum(facture.getRef());  rd.setDes(facture.getLibelle()); rd.setMht(facture.getMontantHorsTaxe()); rd.setTva(facture.getMontantTVA());
+            rd.setDfac(facture.getDateOperation()); rd.setDpai(facture.getDateOperation()); rd.setTtc(facture.getMontantTTC());
+            refF.setIff(facture.getSocieteSource().getId()); refF.setIce(facture.getSocieteSource().getIce()); refF.setNom(facture.getSocieteSource().getRaisonSociale());
+            rd.setRefF(refF);
+            if (facture.getTypeOperation().equals("Credit")){
+                mp.setId(1);
+            } else if (facture.getTypeOperation().equals("Debit")){
+                mp.setId(2);
+            }
+            rd.setMp(mp);
             rds.add(rd);
             i++;
         }
@@ -267,6 +275,62 @@ public class DeclarationTvaService {
         declarationReleveDeduction.setReleveDeductions(releveDeductions);
 
         return declarationReleveDeduction;
+    }
+    public DeclarationReleveDeduction convertXmlfileToJavaobject(EmplacementXml emplacementXml) {
+        DeclarationReleveDeduction declarationReleveDeduction = new DeclarationReleveDeduction();
+        try {
+            File file = new File(emplacementXml.getEmplacement());
+            JAXBContext jaxbContext = JAXBContext.newInstance(DeclarationReleveDeduction.class);
+
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            declarationReleveDeduction = (DeclarationReleveDeduction) jaxbUnmarshaller.unmarshal(file);
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        return declarationReleveDeduction;
+    }
+    public DeclarationTvaVo1 convertDeclarationReleveDeductionToDeclarationTvaVo1(EmplacementXml emplacementXml){
+        DeclarationTvaVo1 declarationTvaVo1 = new DeclarationTvaVo1();
+        DeclarationReleveDeduction declarationReleveDeduction = convertXmlfileToJavaobject(emplacementXml);
+        declarationTvaVo1.setSocieteref(declarationReleveDeduction.getReleveDeductions().getRd().get(0).getRefF().getIce());
+        declarationTvaVo1.setAnnee(declarationReleveDeduction.getAnnee());
+        if (declarationReleveDeduction.getRegime() == 1){
+            declarationTvaVo1.setTypedeclarationtva("TDTV1");
+            declarationTvaVo1.setTrim(declarationReleveDeduction.getPeriode());
+        } else {
+            declarationTvaVo1.setTypedeclarationtva("TDTV2");
+            declarationTvaVo1.setMois(declarationReleveDeduction.getPeriode());
+        }
+        return declarationTvaVo1;
+    }
+    public DeclarationTvaVo2 convertDeclarationReleveDeductionToDeclarationTvaVo2(EmplacementXml emplacementXml){
+        DeclarationTvaVo2 declarationTvaVo2 = new DeclarationTvaVo2();
+        DeclarationReleveDeduction declarationReleveDeduction = convertXmlfileToJavaobject(emplacementXml);
+        for (Rd rd:declarationReleveDeduction.getReleveDeductions().getRd()) {
+            Facture facture = new Facture();
+            if (rd.getMp().getId() == 1){
+                facture = factureService.findByRef(rd.getNum());
+                declarationTvaVo2.getListfacturevente().add(facture);
+            } else if (rd.getMp().getId() == 2){
+                facture = factureService.findByRef(rd.getNum());
+                declarationTvaVo2.getListfactureachat().add(facture);
+            }
+        }
+
+        double tvacollecter = 0, tvadeductible = 0, difftva = 0;
+        for (Facture facture:declarationTvaVo2.getListfacturevente()) {
+            tvacollecter += facture.getMontantTVA();
+        }
+        for (Facture facture:declarationTvaVo2.getListfactureachat()) {
+            tvadeductible += facture.getMontantTVA();
+        }
+        declarationTvaVo2.setTvacollecter(tvacollecter);
+        declarationTvaVo2.setTvadeductible(tvadeductible);
+        difftva = tvacollecter - tvadeductible;
+        declarationTvaVo2.setDifferencetva(difftva);
+
+        return declarationTvaVo2;
     }
     public List<DeclarationTva> findByAnneeAndMois(double annee, double mois) {
         return declarationTvaDao.findByAnneeAndMois(annee, mois);
