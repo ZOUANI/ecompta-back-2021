@@ -20,8 +20,6 @@ public class Societe {
     private Date dateCreation;
     private int anneeExploitation;
     private double age;
-    private String etatSociete ;
-
     @ManyToOne
     private Comptable comptable;
 
@@ -104,14 +102,6 @@ public class Societe {
 
     public void setAge(double age) {
         this.age = age;
-    }
-
-    public String getEtatSociete() {
-        return etatSociete;
-    }
-
-    public void setEtatSociete(String etatSociete) {
-        this.etatSociete = etatSociete;
     }
 
     public Date getDateCreation() {
