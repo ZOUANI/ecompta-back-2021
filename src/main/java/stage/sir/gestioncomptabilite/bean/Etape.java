@@ -9,6 +9,7 @@ public class Etape {
     private Long id;
     private String libelle;
     private String description;
+    private String delai;
     private double MontantFix ;
     private double MontantComptable;
     @ManyToOne
@@ -36,6 +37,14 @@ public class Etape {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getDelai() {
+        return delai;
+    }
+
+    public void setDelai(String delai) {
+        this.delai = delai;
     }
 
     public double getMontantFix() {
