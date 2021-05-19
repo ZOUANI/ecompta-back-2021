@@ -9,9 +9,9 @@ public class Etape {
     private Long id;
     private String libelle;
     private String description;
-    private String délai;
-    private double MontantFix ;
-    private double MontantComptable;
+    private String delai;
+    private double montantfix;
+    private double montantcomptable;
     @ManyToOne
     private TypeOperation typeOperation;
 
@@ -39,28 +39,28 @@ public class Etape {
         this.description = description;
     }
 
-    public String getDélai() {
-        return délai;
+    public String getDelai() {
+        return delai;
     }
 
-    public void setDélai(String délai) {
-        this.délai = délai;
+    public void setDelai(String delai) {
+        this.delai = delai;
     }
 
-    public double getMontantFix() {
-        return MontantFix;
+    public double getMontantfix() {
+        return montantfix;
     }
 
-    public void setMontantFix(double montantFix) {
-        MontantFix = montantFix;
+    public void setMontantfix(double montantfix) {
+        this.montantfix = montantfix;
     }
 
-    public double getMontantComptable() {
-        return MontantComptable;
+    public double getMontantcomptable() {
+        return montantcomptable;
     }
 
-    public void setMontantComptable(double montantComptable) {
-        MontantComptable = montantComptable;
+    public void setMontantcomptable(double montantcomptable) {
+        this.montantcomptable = montantcomptable;
     }
 
     public TypeOperation getTypeOperation() {

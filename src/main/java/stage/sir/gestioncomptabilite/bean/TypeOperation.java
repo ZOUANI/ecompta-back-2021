@@ -12,8 +12,8 @@ public class TypeOperation {
     private Long id;
     private String libelle;
     private String description;
-    private double FraixFixTotal ;
-    private double FraixComptableTotal ;
+    private double fraixfixtotal ;
+    private double fraixcomptabletotal ;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "typeOperation")
@@ -44,20 +44,20 @@ public class TypeOperation {
         this.description = description;
     }
 
-    public double getFraixFixTotal() {
-        return FraixFixTotal;
+    public double getFraixfixtotal() {
+        return fraixfixtotal;
     }
 
-    public void setFraixFixTotal(double fraixFixTotal) {
-        FraixFixTotal = fraixFixTotal;
+    public void setFraixfixtotal(double fraixfixtotal) {
+        this.fraixfixtotal = fraixfixtotal;
     }
 
-    public double getFraixComptableTotal() {
-        return FraixComptableTotal;
+    public double getFraixcomptabletotal() {
+        return fraixcomptabletotal;
     }
 
-    public void setFraixComptableTotal(double fraixComptableTotal) {
-        FraixComptableTotal = fraixComptableTotal;
+    public void setFraixcomptabletotal(double fraixcomptabletotal) {
+        this.fraixcomptabletotal = fraixcomptabletotal;
     }
 
     public List<Etape> getEtapes() {

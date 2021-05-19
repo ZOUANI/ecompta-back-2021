@@ -31,8 +31,8 @@ public class EtapeService {
         for (Etape etape : etapes) {
             if (etapeDao.findByLibelle(etape.getLibelle()) != null) return -1;
             else {
-                typeOperation.setFraixFixTotal(typeOperation.getFraixFixTotal() + etape.getMontantFix());
-                typeOperation.setFraixComptableTotal(typeOperation.getFraixComptableTotal() + etape.getMontantComptable());
+                typeOperation.setFraixfixtotal(typeOperation.getFraixfixtotal() + etape.getMontantfix());
+                typeOperation.setFraixcomptabletotal(typeOperation.getFraixcomptabletotal() + etape.getMontantcomptable());
                 etape.setTypeOperation(typeOperation);
                 etapeDao.save(etape);
             }
