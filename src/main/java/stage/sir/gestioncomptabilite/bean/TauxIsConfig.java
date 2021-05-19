@@ -1,13 +1,9 @@
 package stage.sir.gestioncomptabilite.bean;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.math.BigDecimal;
-import java.util.Date;
 
 @Entity
 public class TauxIsConfig {
@@ -15,10 +11,9 @@ public class TauxIsConfig {
     private Long id;
     private String ref;
     private Double cotisationMinimale;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date dateMin;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date dateMax;
+    private Integer anneeMin;
+    private Integer anneeMax;
+
 
     public Long getId() {
         return id;
@@ -44,19 +39,17 @@ public class TauxIsConfig {
         this.cotisationMinimale = cotisationMinimale;
     }
 
-    public Date getDateMin() {
-        return dateMin;
+    public Integer getAnneeMin() { return anneeMin; }
+
+    public void setAnneeMin(Integer anneeMin) {
+        this.anneeMin = anneeMin;
     }
 
-    public void setDateMin(Date dateMin) {
-        this.dateMin = dateMin;
+    public Integer getAnneeMax() {
+        return anneeMax;
     }
 
-    public Date getDateMax() {
-        return dateMax;
-    }
-
-    public void setDateMax(Date dateMax) {
-        this.dateMax = dateMax;
+    public void setAnneeMax(Integer anneeMax) {
+        this.anneeMax = anneeMax;
     }
 }

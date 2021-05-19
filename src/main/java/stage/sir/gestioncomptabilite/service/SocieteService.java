@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import stage.sir.gestioncomptabilite.bean.Societe;
+import stage.sir.gestioncomptabilite.config.DateUtil;
 import stage.sir.gestioncomptabilite.dao.SocieteDao;
 
-import java.util.Calendar;
-
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -15,6 +15,7 @@ public class SocieteService {
 
     @Autowired
     SocieteDao societeDao;
+
     
     
     
@@ -51,7 +52,13 @@ public class SocieteService {
     	return societeDao.findByLoginAndPassword(login, password);
     }*/
 
-	public Societe findByIce(String ice) {
+	//public Societe findByIce(String ice) {
+
+
+
+
+    public Societe findByIce(String ice) {
+
         return societeDao.findByIce(ice);
     }
 
@@ -69,10 +76,19 @@ public class SocieteService {
             return -1;
         }
         else{
-            Calendar c = Calendar. getInstance();
+
+            /*Calendar c = Calendar. getInstance();
+
             int anneeAct = c. get(Calendar. YEAR);
-            int annee = societe.getAnneeExploitation();
-            societe.setAge((double) anneeAct-annee);
+            int anneeCreation = societe.getDateCreation().getYear() + 1900;
+            societe.setAge((double) anneeAct-anneeCreation);*/
+
+            Long days = DateUtil.diffDays(new Date(), societe.getDateCreation());
+            Long agee = days/365;
+            Double ageSociete = (double) agee;
+            societe.setAge(ageSociete);
+            societe.setEtatSociete(null);
+            societe.setComptable(null);
             societeDao.save(societe);
             return 1;
         }

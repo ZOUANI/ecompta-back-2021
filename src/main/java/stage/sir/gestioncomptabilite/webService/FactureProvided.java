@@ -61,6 +61,13 @@ public class FactureProvided {
     public List<Facture> Journal(@RequestBody FactureVo objectVo) {
         return factureService.Journal(objectVo);
     }
+    @PostMapping("/CalculSomme")
+    public FactureVo CalculSomme(@RequestBody FactureVo factureVo) {
+        return factureService.CalculSomme(factureVo);
+    }
+
+
+
 
     @GetMapping("/societeSource/ice/{ice}/typeoperation/{typeoperation}")
     public List<Facture> findBySocieteSourceIceAndTypeOperation(@PathVariable String ice,@PathVariable String typeoperation) {
@@ -73,5 +80,10 @@ public class FactureProvided {
     @GetMapping("/societeSource/ice/{ice}/annee/{annee}/typeoperation/{typeoperation}")
     public List<Facture> findBySocieteSourceIceAndAnneeAndTypeOperation( @PathVariable String ice, @PathVariable double annee, @PathVariable String typeoperation) {
         return factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(ice, annee, typeoperation);
+    }
+
+    @GetMapping("/annee/{annee}")
+    public List<Facture> findByAnnee(@PathVariable double annee) {
+        return factureService.findByAnnee(annee);
     }
 }

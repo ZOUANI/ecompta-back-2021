@@ -1,8 +1,9 @@
 package stage.sir.gestioncomptabilite.bean;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity @XmlRootElement
 public class DeclarationTva {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -17,6 +18,16 @@ public class DeclarationTva {
     private Societe societe;
     @ManyToOne
     private TypeDeclarationTva typeDeclarationTva;
+    @ManyToOne
+    private EtatDeclaration etatDeclaration;
+
+    public EtatDeclaration getEtatDeclaration() {
+        return etatDeclaration;
+    }
+
+    public void setEtatDeclaration(EtatDeclaration etatDeclaration) {
+        this.etatDeclaration = etatDeclaration;
+    }
 
     public String getRef() {
         return ref;

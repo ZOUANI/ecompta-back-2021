@@ -9,6 +9,8 @@ public class FactureVo {
     private Date dmax;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dmin;
+    private double totaldebit;
+    private double totalcredit ;
 
     public Date getDmax() {
         return dmax;
@@ -24,5 +26,21 @@ public class FactureVo {
 
     public void setDmin(Date dmin) {
         this.dmin = dmin;
+    }
+
+    public double getTotaldebit() {
+        return totaldebit;
+    }
+
+    public void setTotaldebit(double totaldebit) {
+        this.totaldebit = totaldebit;
+    }
+
+    public double getTotalcredit() {
+        return totalcredit;
+    }
+
+    public void setTotalcredit(double totalcredit) {
+        this.totalcredit = totalcredit;
     }
 }

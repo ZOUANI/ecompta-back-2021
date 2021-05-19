@@ -3,6 +3,7 @@ package stage.sir.gestioncomptabilite.bean;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -21,8 +22,14 @@ public class Facture {
     private double montantTTC;
     private double montantTVA;
     private String typeOperation;
+    private String credit ;
+    private String debit;
     @ManyToOne
     private Tva tva;
+    @ManyToOne
+    private EtatFacture etatFacture;
+   @ManyToOne
+   private EtatPaiement etatPaiement;
     @ManyToOne
     private Societe societeSource;
     @ManyToOne
@@ -178,5 +185,37 @@ public class Facture {
 
     public void setDeclarationIS(DeclarationIS declarationIS) {
         this.declarationIS = declarationIS;
+    }
+
+    public String getCredit() {
+        return credit;
+    }
+
+    public void setCredit(String credit) {
+        this.credit = credit;
+    }
+
+    public String getDebit() {
+        return debit;
+    }
+
+    public void setDebit(String debit) {
+        this.debit = debit;
+    }
+
+    public EtatFacture getEtatFacture() {
+        return etatFacture;
+    }
+
+    public void setEtatFacture(EtatFacture etatFacture) {
+        this.etatFacture = etatFacture;
+    }
+
+    public EtatPaiement getEtatPaiement() {
+        return etatPaiement;
+    }
+
+    public void setEtatPaiement(EtatPaiement etatPaiement) {
+        this.etatPaiement = etatPaiement;
     }
 }

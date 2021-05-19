@@ -12,12 +12,15 @@ import java.util.List;
 public class Societe {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     private String ice; //Identifiant Commun de l'Entreprise
     private String adresse;
     private String raisonSociale;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date dateCreation;
     private int anneeExploitation;
     private Double age;
+
    // private String login;
    // private String password;
     private boolean blocked;
@@ -35,6 +38,11 @@ public class Societe {
     
     
 
+    @ManyToOne
+    private Comptable comptable;
+    @ManyToOne
+    private EtatSociete etatSociete;
+
     public Login getLogin() {
 		return login;
 	}
@@ -47,14 +55,18 @@ public class Societe {
 		this.login = login;
 	}
 
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
+	//@JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
     @OneToMany(mappedBy = "societe")
     private List<DeclarationIR> declarationIRs;
-    
-    
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
+
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "societeEmp")
     private List<Employe> employes;
+
     
 
     
@@ -67,6 +79,9 @@ public class Societe {
 				+ ", anneeExploitation=" + anneeExploitation + ", age=" + age + ", declarationIRs=" + declarationIRs
 				+ ", employes=" + employes + "]";
 	}*/
+
+
+
 
 
 	public List<Employe> getEmployes() {
@@ -92,6 +107,12 @@ public class Societe {
 		return password;
 	}*/
 
+    @Override
+    public String toString() {
+        return "Societe [id=" + id + ", ice=" + ice + ", adresse=" + adresse + ", raisonSociale=" + raisonSociale
+                + ", anneeExploitation=" + anneeExploitation + ", age=" + age + ", declarationIRs=" + declarationIRs
+                + ", employes=" + employes + "]";
+    }
 
 /*	public void setPassword(String password) {
 		this.password = password;
@@ -118,12 +139,20 @@ public class Societe {
 	}
 
 
-	public long getId() {
+	//public long getId() {
+
+  /*  public List<Employe> getEmployes() {
+        return employes;
+    }*/
+
+
+    public Long getId() {
+
 
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -160,11 +189,35 @@ public class Societe {
 
     }
 
+    public Comptable getComptable() {
+        return comptable;
+    }
+
+    public void setComptable(Comptable comptable) {
+        this.comptable = comptable;
+    }
+
     public Double getAge() {
         return age;
     }
 
     public void setAge(Double age) {
         this.age = age;
+    }
+
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    public EtatSociete getEtatSociete() {
+        return etatSociete;
+    }
+
+    public void setEtatSociete(EtatSociete etatSociete) {
+        this.etatSociete = etatSociete;
     }
 }
