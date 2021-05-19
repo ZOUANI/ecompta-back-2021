@@ -29,6 +29,7 @@ public class DeclarationIREmployeService {
 	
 	
 
+	
 	@Autowired
 	DetailsService detailsService;
 
@@ -44,6 +45,12 @@ public class DeclarationIREmployeService {
 	
 	@Autowired
 	TauxIrService tauxIrService;
+	
+	
+	
+	public DeclarationIREmploye findBySalaireNet(Double salaireNet) {
+		return declarationIREmployeDao.findBySalaireNet(salaireNet);
+	}
 	
 	List<DeclarationIREmploye> findByDeclarationIREmployes(DeclarationIR declarationIR){
 		List<Employe> employes=employeService.findBySocieteEmpIce(declarationIR.getSociete().getIce());
@@ -65,11 +72,11 @@ public class DeclarationIREmployeService {
 			}
 			
 			
-			
 			declaration.setMontantIR(ir);
 			
 			declaration.setSalaireBrut(employe.getSalaire());
 			declaration.setSalaireNet(employe.getSalaire()-ir);
+			
 			declaration.setEmploye(employe);
 			declaration.setDeclarationIR(declarationIR);
 			

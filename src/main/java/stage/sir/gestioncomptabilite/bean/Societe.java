@@ -18,8 +18,36 @@ public class Societe {
     private String raisonSociale;
     private int anneeExploitation;
     private Double age;
+   // private String login;
+   // private String password;
+    private boolean blocked;
+    private int nbrCnx=4;
+    
+    @OneToOne
+    private Login login;
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
+    public Login getLogin() {
+		return login;
+	}
+
+
+
+
+
+	public void setLogin(Login login) {
+		this.login = login;
+	}
+
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
     @OneToMany(mappedBy = "societe")
     private List<DeclarationIR> declarationIRs;
     
@@ -31,22 +59,66 @@ public class Societe {
 
     
     
-    
+    /*
     
 	@Override
 	public String toString() {
 		return "Societe [id=" + id + ", ice=" + ice + ", adresse=" + adresse + ", raisonSociale=" + raisonSociale
 				+ ", anneeExploitation=" + anneeExploitation + ", age=" + age + ", declarationIRs=" + declarationIRs
 				+ ", employes=" + employes + "]";
-	}
+	}*/
 
 
 	public List<Employe> getEmployes() {
 		return employes;
 	}
+	
+	
+	
+	
+	
+/*
+    public String getLogin() {
+		return login;
+	}*/
+
+/*
+	public void setLogin(String login) {
+		this.login = login;
+	}
+*/
+
+	/*public String getPassword() {
+		return password;
+	}*/
 
 
-    public long getId() {
+/*	public void setPassword(String password) {
+		this.password = password;
+	}*/
+
+
+	public boolean isBlocked() {
+		return blocked;
+	}
+
+
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
+	}
+
+
+	public int getNbrCnx() {
+		return nbrCnx;
+	}
+
+
+	public void setNbrCnx(int nbrCnx) {
+		this.nbrCnx = nbrCnx;
+	}
+
+
+	public long getId() {
 
         return id;
     }
