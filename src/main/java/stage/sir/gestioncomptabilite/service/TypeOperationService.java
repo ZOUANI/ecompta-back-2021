@@ -20,7 +20,9 @@ public class TypeOperationService {
     }
     @Transactional
     public int deleteByLibelle(String libelle) {
-        return typeOperationDao.deleteByLibelle(libelle);
+        int res1 = etapeService.deleteByTypeOperationLibelle(libelle);
+        int res2 = typeOperationDao.deleteByLibelle(libelle);
+        return res1 + res2;
     }
 
     public List<TypeOperation> findAll() {

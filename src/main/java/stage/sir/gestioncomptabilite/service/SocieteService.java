@@ -16,9 +16,49 @@ public class SocieteService {
     @Autowired
     SocieteDao societeDao;
 
+    
+    
+    
+    
+    
+    
+    
+   /* 
+    public Societe findByLoginAndPassword(String login, String password) {
+		return societeDao.findByLoginAndPassword(login, password);
+	}
+    
+    
+    public Societe loginSociete(Societe societe) throws Exception {
+    	String log=societe.getLogin();
+    	String password=societe.getPassword();
+    	Societe userSociete=null;
+    	if (log!=null && password!=null) {
+    		
+			userSociete=fetchLoginByLogAndPassword(log, password);
+		}
+    	if (userSociete==null) {
+    		
+			throw new Exception("login is too bad");
+		}
+    	
+    	return userSociete;
+    	
+    	
+    }
+    
+    
+    public Societe fetchLoginByLogAndPassword(String login,String password) {
+    	return societeDao.findByLoginAndPassword(login, password);
+    }*/
+
+	//public Societe findByIce(String ice) {
+
+
 
 
     public Societe findByIce(String ice) {
+
         return societeDao.findByIce(ice);
     }
 
@@ -53,4 +93,6 @@ public class SocieteService {
             return 1;
         }
     }
+
+	
 }
