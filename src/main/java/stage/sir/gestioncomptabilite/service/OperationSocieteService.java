@@ -47,8 +47,8 @@ public class OperationSocieteService {
         if (etatOperationSociete == null) return -3;
         if (societe == null) return  -4;
         else {
-            operationSociete.setFraixFix(typeOperation.getFraixFixTotal());
-            operationSociete.setFraixComptable(typeOperation.getFraixComptableTotal());
+            operationSociete.setFraixFix(typeOperation.getFraixfixtotal());
+            operationSociete.setFraixComptable(typeOperation.getFraixcomptabletotal());
             operationSociete.setComptableTaiteur(null);
             operationSociete.setComptableValidateur(null);
             operationSociete.setOperationSocieteJustifs(null);

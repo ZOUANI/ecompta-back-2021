@@ -1,10 +1,12 @@
 package stage.sir.gestioncomptabilite.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Rd {
     private double ord;
-    private double num;
+    private String num;
     private String des;
     private double mht;
     private double tva;
@@ -12,8 +14,8 @@ public class Rd {
     private RefF refF;
     private double tx;
     private Mp mp;
-    private Date dpai;
-    private Date dfac;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date dpai,dfac;
 
     public double getOrd() {
         return ord;
@@ -23,11 +25,11 @@ public class Rd {
         this.ord = ord;
     }
 
-    public double getNum() {
+    public String getNum() {
         return num;
     }
 
-    public void setNum(double num) {
+    public void setNum(String num) {
         this.num = num;
     }
 
