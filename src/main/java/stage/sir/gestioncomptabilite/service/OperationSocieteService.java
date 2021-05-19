@@ -53,6 +53,7 @@ public class OperationSocieteService {
             operationSociete.setComptableValidateur(null);
             operationSociete.setOperationSocieteJustifs(null);
             operationSociete.setPaiements(null);
+            operationSociete.setEtatOperationSociete(null);
             operationSocieteDao.save(operationSociete);
             return 1;
         }

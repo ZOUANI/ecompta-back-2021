@@ -26,6 +26,10 @@ public class EtapeService {
         return etapeDao.findAll();
     }
 
+    public List<Etape> findByTypeOperationLibelle(String libelle) {
+        return etapeDao.findByTypeOperationLibelle(libelle);
+    }
+
     public int save(TypeOperation typeOperation, List<Etape> etapes){
         if(typeOperation == null) return -1;
         for (Etape etape : etapes) {
