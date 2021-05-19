@@ -13,8 +13,18 @@ import java.util.List;
 public class SocieteProvided {
     @Autowired
     SocieteService societeService;
+    /*
+    @PostMapping("/loginSociete")
+    public Societe loginSociete(@RequestBody Societe societe) throws Exception {
+		return societeService.loginSociete(societe);
+	}
+    
+    @GetMapping("/login/{login}/password/{password}")
+    public Societe findByLoginAndPassword(@PathVariable String login,@PathVariable String password) {
+		return societeService.findByLoginAndPassword(login, password);
+	}*/
 
-    @GetMapping("/ice/{ice}")
+	@GetMapping("/ice/{ice}")
     public Societe findByIce(@PathVariable String ice) {
         return societeService.findByIce(ice);
     }
