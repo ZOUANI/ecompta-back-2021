@@ -24,8 +24,13 @@ public class EtapeProvided {
         return etapeService.deleteByLibelle(libelle);
     }
     @GetMapping("/findByTypeOperation/libelle/{libelle}")
-    public List<Etape> findByTypeOperationLibelle(String libelle) {
+    public List<Etape> findByTypeOperationLibelle(@PathVariable String libelle) {
         return etapeService.findByTypeOperationLibelle(libelle);
+    }
+
+    @DeleteMapping("/deleteByTypeOperation/libelle/{libelle}")
+    public int deleteByTypeOperationLibelle(@PathVariable String libelle) {
+        return etapeService.deleteByTypeOperationLibelle(libelle);
     }
 
     @GetMapping("/")

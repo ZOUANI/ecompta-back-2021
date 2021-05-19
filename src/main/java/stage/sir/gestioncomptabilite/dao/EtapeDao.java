@@ -11,4 +11,5 @@ public interface EtapeDao  extends JpaRepository<Etape,Long> {
     public Etape findByLibelle(String libelle);
     public int deleteByLibelle(String libelle);
     public List<Etape> findByTypeOperationLibelle(String libelle);
+    public int deleteByTypeOperationLibelle(String libelle);
 }
