@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeclarationIsObject {
-    private Integer annee;
+    private double annee;
     private String iceSociete;
     private Double totalHTGain;
     private Double totalHTCharge;
@@ -22,11 +22,11 @@ public class DeclarationIsObject {
     private TauxIsConfig tauxIsConfig;
     private EtatDeclaration etatDeclaration;
 
-    public Integer getAnnee() {
+    public double getAnnee() {
         return annee;
     }
 
-    public void setAnnee(Integer annee) {
+    public void setAnnee(double annee) {
         this.annee = annee;
     }
 

@@ -12,7 +12,7 @@ public class DeclarationIS {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String ref;
-    private Integer annee;
+    private double annee;
     private Double totalHTGain;
     private Double totalHTCharge;
     private Double totalHTDiff;
@@ -37,11 +37,11 @@ public class DeclarationIS {
         this.id = id;
     }
 
-    public Integer getAnnee() {
+    public double getAnnee() {
         return annee;
     }
 
-    public void setAnnee(Integer annee) {
+    public void setAnnee(double annee) {
         this.annee = annee;
     }
 

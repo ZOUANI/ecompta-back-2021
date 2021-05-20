@@ -8,8 +8,11 @@ import java.util.List;
 @Repository
 public interface DeclarationISDao extends JpaRepository<DeclarationIS, Long> {
     DeclarationIS findByRef(String ref);
-    DeclarationIS findByAnnee(Integer annee);
-    int deleteByAnnee(Integer annee);
+    int deleteByRef(String ref);
+    DeclarationIS findByAnnee(double annee);
+    int deleteByAnnee(double annee);
     List<DeclarationIS> findBySocieteIce(String ice);
+    DeclarationIS findBySocieteIceAndAnnee(String ice, double annee);
+    int deleteBySocieteIceAndAnnee(String ice, double annee);
     List<DeclarationIS> findByEtatDeclarationLibelle(String libelle);
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public class DeclarationIsXml {
     private Long id;
     private String ref;
-    private Integer annee;
+    private double annee;
     private Double totalHTGain;
     private Double totalHTCharge;
     private Double totalHTDiff;
@@ -39,11 +39,11 @@ public class DeclarationIsXml {
         this.ref = ref;
     }
 
-    public Integer getAnnee() {
+    public double getAnnee() {
         return annee;
     }
 
-    public void setAnnee(Integer annee) {
+    public void setAnnee(double annee) {
         this.annee = annee;
     }
 
