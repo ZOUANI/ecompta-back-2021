@@ -32,6 +32,10 @@ public class EtapeProvided {
     public int deleteByTypeOperationLibelle(@PathVariable String libelle) {
         return etapeService.deleteByTypeOperationLibelle(libelle);
     }
+    @PutMapping("/")
+    public void update(@RequestBody Etape etape) {
+        etapeService.update(etape);
+    }
 
     @GetMapping("/")
     public List<Etape> findAll() {
