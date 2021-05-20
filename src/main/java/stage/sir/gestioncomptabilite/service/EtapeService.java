@@ -13,6 +13,8 @@ import java.util.List;
 public class EtapeService {
     @Autowired
     private EtapeDao etapeDao;
+    @Autowired
+    private TypeOperationService typeOperationService;
 
     public Etape findByLibelle(String libelle) {
         return etapeDao.findByLibelle(libelle);
@@ -46,6 +48,11 @@ public class EtapeService {
             }
         }
             return 1;
+
+    }
+    public void update(Etape etape){
+
+            etapeDao.save(etape);
 
     }
 }
