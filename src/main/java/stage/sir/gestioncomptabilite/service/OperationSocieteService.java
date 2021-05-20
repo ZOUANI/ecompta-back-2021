@@ -38,13 +38,10 @@ public class OperationSocieteService {
     public int saveAlone(OperationSociete operationSociete) {
         TypeOperation typeOperation = typeOperationService.findByLibelle(operationSociete.getTypeOperation().getLibelle());
         operationSociete.setTypeOperation(typeOperation);
-        EtatOperationSociete etatOperationSociete = etatOperationSocieteService.findByRef(operationSociete.getRef());
-        operationSociete.setEtatOperationSociete(etatOperationSociete);
         Societe societe = societeService.findByIce(operationSociete.getSociete().getIce());
         operationSociete.setSociete(societe);
         if (findByRef(operationSociete.getRef()) != null) return -1;
         if (typeOperation == null) return -2;
-        if (etatOperationSociete == null) return -3;
         if (societe == null) return  -4;
         else {
             operationSociete.setFraixFix(typeOperation.getFraixfixtotal());
@@ -62,17 +59,17 @@ public class OperationSocieteService {
     public int save(OperationSociete operationSociete) {
         TypeOperation typeOperation = typeOperationService.findByLibelle(operationSociete.getTypeOperation().getLibelle());
         operationSociete.setTypeOperation(typeOperation);
-        EtatOperationSociete etatOperationSociete = etatOperationSocieteService.findByRef(operationSociete.getRef());
-        operationSociete.setEtatOperationSociete(etatOperationSociete);
         Societe societe = societeService.findByIce(operationSociete.getSociete().getIce());
         operationSociete.setSociete(societe);
         if (findByRef(operationSociete.getRef()) != null) return -1;
         if (typeOperation == null) return -2;
-        if (etatOperationSociete == null) return -3;
+
         if (societe == null) return  -4;
         else {
             operationSociete.setComptableTaiteur(null);
             operationSociete.setComptableValidateur(null);
+            operationSociete.setEtatOperationSociete(null);
+
             operationSocieteDao.save(operationSociete);
             operationSocieteJustifService.save2(operationSociete, operationSociete.getOperationSocieteJustifs());
             paiementService.save2(operationSociete, operationSociete.getPaiements());
