@@ -17,7 +17,7 @@ public class OperationSociete {
     private double fraixFix ;
     private double fraixComptable ;
     @ManyToOne
-    private CategorieService categorieService ;
+    private TypeOperation typeOperation  ;
     @ManyToOne
     private EtatOperationSociete etatOperationSociete;
     @ManyToOne
@@ -33,6 +33,7 @@ public class OperationSociete {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "operationSociete")
     private List<Paiement> paiements;
+
     @ManyToOne
     private Societe societe;
 
@@ -76,12 +77,12 @@ public class OperationSociete {
         this.fraixComptable = fraixComptable;
     }
 
-    public CategorieService getCategorieService() {
-        return categorieService;
+    public TypeOperation getTypeOperation() {
+        return typeOperation;
     }
 
-    public void setCategorieService(CategorieService categorieService) {
-        this.categorieService = categorieService;
+    public void setTypeOperation(TypeOperation typeOperation) {
+        this.typeOperation = typeOperation;
     }
 
     public EtatOperationSociete getEtatOperationSociete() {

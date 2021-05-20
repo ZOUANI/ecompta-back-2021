@@ -20,10 +20,45 @@ public class Societe {
     private Date dateCreation;
     private int anneeExploitation;
     private Double age;
+
+   // private String login;
+   // private String password;
+    private boolean blocked;
+    private int nbrCnx=4;
+    
+    @OneToOne
+    private Login login;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
     @ManyToOne
     private Comptable comptable;
+    @ManyToOne
+    private EtatSociete etatSociete;
+
+    public Login getLogin() {
+		return login;
+	}
+
+
+
+
+
+	public void setLogin(Login login) {
+		this.login = login;
+	}
+
+	//@JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
     @OneToMany(mappedBy = "societe")
     private List<DeclarationIR> declarationIRs;
 
@@ -32,6 +67,45 @@ public class Societe {
     @OneToMany(mappedBy = "societeEmp")
     private List<Employe> employes;
 
+    
+
+    
+    
+    /*
+    
+	@Override
+	public String toString() {
+		return "Societe [id=" + id + ", ice=" + ice + ", adresse=" + adresse + ", raisonSociale=" + raisonSociale
+				+ ", anneeExploitation=" + anneeExploitation + ", age=" + age + ", declarationIRs=" + declarationIRs
+				+ ", employes=" + employes + "]";
+	}*/
+
+
+
+
+
+	public List<Employe> getEmployes() {
+		return employes;
+	}
+	
+	
+	
+	
+	
+/*
+    public String getLogin() {
+		return login;
+	}*/
+
+/*
+	public void setLogin(String login) {
+		this.login = login;
+	}
+*/
+
+	/*public String getPassword() {
+		return password;
+	}*/
 
     @Override
     public String toString() {
@@ -40,13 +114,40 @@ public class Societe {
                 + ", employes=" + employes + "]";
     }
 
+/*	public void setPassword(String password) {
+		this.password = password;
+	}*/
 
-    public List<Employe> getEmployes() {
+
+	public boolean isBlocked() {
+		return blocked;
+	}
+
+
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
+	}
+
+
+	public int getNbrCnx() {
+		return nbrCnx;
+	}
+
+
+	public void setNbrCnx(int nbrCnx) {
+		this.nbrCnx = nbrCnx;
+	}
+
+
+	//public long getId() {
+
+  /*  public List<Employe> getEmployes() {
         return employes;
-    }
+    }*/
 
 
     public Long getId() {
+
 
         return id;
     }
@@ -110,5 +211,13 @@ public class Societe {
 
     public void setDateCreation(Date dateCreation) {
         this.dateCreation = dateCreation;
+    }
+
+    public EtatSociete getEtatSociete() {
+        return etatSociete;
+    }
+
+    public void setEtatSociete(EtatSociete etatSociete) {
+        this.etatSociete = etatSociete;
     }
 }
