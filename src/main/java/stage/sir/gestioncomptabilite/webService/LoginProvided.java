@@ -43,6 +43,8 @@ public class LoginProvided {
 	public int save(@RequestBody Login login) {
 		return loginService.save(login);
 	}
+
+
 	@GetMapping("/")
 	public List<Login> findAll() {
 		return loginService.findAll();

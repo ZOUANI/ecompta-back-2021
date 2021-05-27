@@ -1,30 +1,20 @@
 package stage.sir.gestioncomptabilite.bean;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
-public class Login {
+
+public class Connection {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String username;
     private String password;
     private String type;
+    private String etat;
     @OneToOne
     private Societe societeLogin;
 
-
-    public Societe getSocieteLogin() {
-        return societeLogin;
-    }
-
-    public void setSocieteLogin(Societe societeLogin) {
-        this.societeLogin = societeLogin;
-    }
 
     public Long getId() {
         return id;
@@ -58,5 +48,19 @@ public class Login {
         this.type = type;
     }
 
+    public String getEtat() {
+        return etat;
+    }
 
+    public void setEtat(String etat) {
+        this.etat = etat;
+    }
+
+    public Societe getSocieteLogin() {
+        return societeLogin;
+    }
+
+    public void setSocieteLogin(Societe societeLogin) {
+        this.societeLogin = societeLogin;
+    }
 }
