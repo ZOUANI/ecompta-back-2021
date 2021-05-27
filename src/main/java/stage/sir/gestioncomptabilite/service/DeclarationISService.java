@@ -20,16 +20,29 @@ public class DeclarationISService{
     public DeclarationIS findByRef(String ref) { return declarationISDao.findByRef(ref); }
 
     @Transactional
-    public int deleteByAnnee(Integer annee) {
-        List<Facture> factures = factureService.findByAnnee(annee);
+    public int deleteByRef(String ref) { return declarationISDao.deleteByRef(ref); }
+
+    public DeclarationIS findBySocieteIceAndAnnee(String ice, double annee) { return declarationISDao.findBySocieteIceAndAnnee(ice, annee); }
+
+    @Transactional
+    public int deleteBySocieteIceAndAnnee(String ice, double annee) {
+        List<Facture> factures = factureService.findBySocieteSourceIceAndAnnee(ice, annee);
         for (Facture f: factures){
             f.setDeclarationIS(null);
             factureService.update(f);
         }
-        return declarationISDao.deleteByAnnee(annee);
+        return declarationISDao.deleteBySocieteIceAndAnnee(ice, annee);
+    }
+    @Transactional
+    public int deleteMultipleBySocieteIceAndAnnee(List<DeclarationIS> declarations) {
+        int res = 0;
+        for (int i = 0; i < declarations.size(); i++) {
+            res += deleteBySocieteIceAndAnnee(declarations.get(i).getSociete().getIce(), declarations.get(i).getAnnee());
+        }
+        return res;
     }
 
-    public DeclarationIS findByAnnee(Integer annee) { return declarationISDao.findByAnnee(annee); }
+    public DeclarationIS findByAnnee(double annee) { return declarationISDao.findByAnnee(annee); }
 
     public List<DeclarationIS> findBySocieteIce(String ice) { return declarationISDao.findBySocieteIce(ice); }
 
@@ -104,6 +117,14 @@ public class DeclarationISService{
         return tauxIs;
     }
 
+    public void setDecIS(DeclarationIS declarationIS){
+        List<Facture> factures = factureService.findBySocieteSourceIceAndAnnee(declarationIS.getSociete().getIce(), declarationIS.getAnnee());
+        for (Facture f: factures){
+            f.setDeclarationIS(declarationIS);
+            factureService.update(f);
+        }
+    }
+
     public int update(DeclarationIS declarationIS){
         Societe societe = societeService.findByIce(declarationIS.getSociete().getIce());
         declarationIS.setSociete(societe);
@@ -139,11 +160,7 @@ public class DeclarationISService{
                     declarationIS.setTauxIS(t); }
             }
             declarationISDao.save(declarationIS);
-            List<Facture> factures = factureService.findBySocieteSourceIceAndAnnee(declarationIS.getSociete().getIce(), declarationIS.getAnnee());
-            for (Facture f: factures){
-                f.setDeclarationIS(declarationIS);
-                factureService.update(f);
-            }
+            setDecIS(declarationIS);
             return 1;
         }
     }
@@ -185,7 +202,7 @@ public class DeclarationISService{
         return decIsOb;
     }
 
-    public DeclarationIsObject afficheObject(String ice, Integer annee){
+    public DeclarationIsObject afficheObject(String ice, double annee){
         DeclarationIsObject declarationIsObject = new DeclarationIsObject();
         declarationIsObject.setAnnee(annee);
         declarationIsObject.setIceSociete(ice);
@@ -334,7 +351,7 @@ public class DeclarationISService{
     @Autowired
     EntityManager entityManager;
 
-    public int save22(String ice, Integer annee, String etat) {
+    public int save22(String ice, double annee, String etat) {
         DeclarationIS declarationIS = new DeclarationIS();
         declarationIS.setAnnee(annee);
         Societe societe = societeService.findByIce(ice);
@@ -343,7 +360,7 @@ public class DeclarationISService{
         EtatDeclaration etatDeclaration = etatDeclarationService.findByLibelle(etat);
         declarationIS.setEtatDeclaration(etatDeclaration);
         if (findByRef(declarationIS.getRef()) != null){ return -1; }
-        else if(findByAnnee(declarationIS.getAnnee()) != null){ return -2; }
+        else if(findBySocieteIceAndAnnee(declarationIS.getSociete().getIce(), declarationIS.getAnnee()) != null){ return -2; }
         else if(societe == null){ return -3; }
         else if(etatDeclaration == null){ return -4; }
         else{
@@ -361,11 +378,7 @@ public class DeclarationISService{
             declarationIS.setMontantISPaye(montantPaye(declarationIS));
             declarationIS.setTauxIS(tauxIS(declarationIS));
             declarationISDao.save(declarationIS);
-            List<Facture> factures = factureService.findBySocieteSourceIceAndAnnee(declarationIS.getSociete().getIce(), declarationIS.getAnnee());
-            for (Facture f: factures){
-                f.setDeclarationIS(declarationIS);
-                factureService.update(f);
-            }
+            setDecIS(declarationIS);
             return 1;
         }
     }

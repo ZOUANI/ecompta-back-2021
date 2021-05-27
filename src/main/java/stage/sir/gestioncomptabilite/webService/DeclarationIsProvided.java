@@ -18,9 +18,19 @@ public class DeclarationIsProvided {
         return declarationISService.findByRef(ref);
     }
 
-    @DeleteMapping("/annee/{annee}")
-    public int deleteByAnnee(@PathVariable Integer annee) {
-        return declarationISService.deleteByAnnee(annee);
+    @DeleteMapping("/ref/{ref}")
+    public int deleteByRef(@PathVariable String ref) {
+        return declarationISService.deleteByRef(ref);
+    }
+
+    @DeleteMapping("/societe/ice/{ice}/annee/{annee}")
+    public int deleteBySocieteIceAndAnnee(@PathVariable String ice, @PathVariable double annee) {
+        return declarationISService.deleteBySocieteIceAndAnnee(ice, annee);
+    }
+
+    @PostMapping("/delete-multiple-by-societe-ice-and-annee")
+    public int deleteMultipleBySocieteIceAndAnnee(@RequestBody List<DeclarationIS> declarationISList) {
+        return declarationISService.deleteMultipleBySocieteIceAndAnnee(declarationISList);
     }
 
     @GetMapping("/societe/ice/{ice}")
@@ -29,8 +39,13 @@ public class DeclarationIsProvided {
     }
 
     @GetMapping("/annee/{annee}")
-    public DeclarationIS findByAnnee(@PathVariable Integer annee) {
+    public DeclarationIS findByAnnee(@PathVariable double annee) {
         return declarationISService.findByAnnee(annee);
+    }
+
+    @GetMapping("/ice/{ice}/annee/{annee}")
+    public DeclarationIS findBySocieteIceAndAnnee(@PathVariable String ice, @PathVariable double annee) {
+        return declarationISService.findBySocieteIceAndAnnee(ice, annee);
     }
 
     @GetMapping("/etatDeclaration/libelle/{libelle}")
@@ -54,7 +69,7 @@ public class DeclarationIsProvided {
     }
 
     @GetMapping("/afficheDecIS/ice/{ice}/annee/{annee}")
-    public DeclarationIsObject afficheObject(@PathVariable String ice, @PathVariable Integer annee) {
+    public DeclarationIsObject afficheObject(@PathVariable String ice, @PathVariable double annee) {
         return declarationISService.afficheObject(ice, annee);
     }
 
@@ -83,14 +98,13 @@ public class DeclarationIsProvided {
         declarationISService.declarationIsToXML(declarationIS);
     }
 
-    @GetMapping("/xmlToDec/fileName/" +
-            "{fileName}")
+    @GetMapping("/xmlToDec/fileName/{fileName}")
     public DeclarationIsXml XmlToDecIS(@PathVariable String fileName) {
         return declarationISService.XmlToDecIS(fileName);
     }
 
     @GetMapping("/ice/{ice}/annee/{annee}/etat/{etat}")
-    public int save22(@PathVariable String ice, @PathVariable Integer annee, @PathVariable String etat) {
+    public int save22(@PathVariable String ice, @PathVariable double annee, @PathVariable String etat) {
         return declarationISService.save22(ice, annee, etat);
     }
 
