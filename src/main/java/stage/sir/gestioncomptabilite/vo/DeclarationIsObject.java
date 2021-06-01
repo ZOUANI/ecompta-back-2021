@@ -1,26 +1,24 @@
 package stage.sir.gestioncomptabilite.vo;
 
-import stage.sir.gestioncomptabilite.bean.EtatDeclaration;
-import stage.sir.gestioncomptabilite.bean.Facture;
-import stage.sir.gestioncomptabilite.bean.TauxIS;
-import stage.sir.gestioncomptabilite.bean.TauxIsConfig;
+import stage.sir.gestioncomptabilite.bean.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DeclarationIsObject {
     private double annee;
-    private String iceSociete;
     private Double totalHTGain;
     private Double totalHTCharge;
     private Double totalHTDiff;
     private Double montantISCalcule;
     private Double montantISPaye;
+    private Societe societe;
     private List<Facture> factureD = new ArrayList<Facture>();
     private List<Facture> factureC = new ArrayList<Facture>();
     private TauxIS tauxIS;
     private TauxIsConfig tauxIsConfig;
     private EtatDeclaration etatDeclaration;
+    private DeclarationIS declarationIS;
 
     public double getAnnee() {
         return annee;
@@ -86,13 +84,9 @@ public class DeclarationIsObject {
         this.factureC = factureC;
     }
 
-    public String getIceSociete() {
-        return iceSociete;
-    }
+    public Societe getSociete() { return societe; }
 
-    public void setIceSociete(String iceSociete) {
-        this.iceSociete = iceSociete;
-    }
+    public void setSociete(Societe societe) { this.societe = societe; }
 
     public TauxIS getTauxIS() { return tauxIS; }
 
@@ -108,5 +102,13 @@ public class DeclarationIsObject {
 
     public void setEtatDeclaration(EtatDeclaration etatDeclaration) {
         this.etatDeclaration = etatDeclaration;
+    }
+
+    public DeclarationIS getDeclarationIS() {
+        return declarationIS;
+    }
+
+    public void setDeclarationIS(DeclarationIS declarationIS) {
+        this.declarationIS = declarationIS;
     }
 }

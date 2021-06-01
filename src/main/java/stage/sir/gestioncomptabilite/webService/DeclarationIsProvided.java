@@ -3,8 +3,11 @@ package stage.sir.gestioncomptabilite.webService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import stage.sir.gestioncomptabilite.bean.DeclarationIS;
+import stage.sir.gestioncomptabilite.bean.TauxIsConfig;
 import stage.sir.gestioncomptabilite.service.DeclarationISService;
-import stage.sir.gestioncomptabilite.vo.*;
+import stage.sir.gestioncomptabilite.vo.DeclarationIsObject;
+import stage.sir.gestioncomptabilite.vo.DeclarationIsVo;
+import stage.sir.gestioncomptabilite.vo.DeclarationIsXml;
 
 import java.util.List;
 
@@ -16,11 +19,6 @@ public class DeclarationIsProvided {
     @GetMapping("/ref/{ref}")
     public DeclarationIS findByRef(@PathVariable String ref) {
         return declarationISService.findByRef(ref);
-    }
-
-    @DeleteMapping("/ref/{ref}")
-    public int deleteByRef(@PathVariable String ref) {
-        return declarationISService.deleteByRef(ref);
     }
 
     @DeleteMapping("/societe/ice/{ice}/annee/{annee}")
@@ -48,6 +46,16 @@ public class DeclarationIsProvided {
         return declarationISService.findBySocieteIceAndAnnee(ice, annee);
     }
 
+    @GetMapping("/age/{age}/ice/{ice}/montantCalcule/{montantCalcule}")
+    public Double montantPaye(@PathVariable Double age, @PathVariable Double cm, @PathVariable Double montantCalcule) {
+        return declarationISService.montantPaye(age, cm, montantCalcule);
+    }
+
+    @GetMapping("/find-tauxIsConfig/annee/{annee}")
+    public TauxIsConfig findTauxIsConfig(@PathVariable double annee) {
+        return declarationISService.findTauxIsConfig(annee);
+    }
+
     @GetMapping("/etatDeclaration/libelle/{libelle}")
     public List<DeclarationIS> findByEtatDeclarationLibelle(@PathVariable String libelle) {
         return declarationISService.findByEtatDeclarationLibelle(libelle);
@@ -63,24 +71,10 @@ public class DeclarationIsProvided {
         return declarationISService.calculMontantIS(rf);
     }
 
-    @PostMapping("/afficheDecIS/")
-    public DeclarationIsObject afficheDecIS(@RequestBody DeclarationIsObject decIsOb) {
-        return declarationISService.afficheDecIS(decIsOb);
-    }
 
     @GetMapping("/afficheDecIS/ice/{ice}/annee/{annee}")
     public DeclarationIsObject afficheObject(@PathVariable String ice, @PathVariable double annee) {
         return declarationISService.afficheObject(ice, annee);
-    }
-
-    @PostMapping("/validerBrouillon/")
-    public int validerBrouillon(@RequestBody DeclarationIS declarationIS) {
-        return declarationISService.validerBrouillon(declarationIS);
-    }
-
-    @GetMapping("/findTauxIS/benefice/{benefice}")
-    public Double findTauxIS(@PathVariable Double benefice) {
-        return declarationISService.findTauxIS(benefice);
     }
 
     @PutMapping("/")
@@ -104,8 +98,8 @@ public class DeclarationIsProvided {
     }
 
     @GetMapping("/ice/{ice}/annee/{annee}/etat/{etat}")
-    public int save22(@PathVariable String ice, @PathVariable double annee, @PathVariable String etat) {
-        return declarationISService.save22(ice, annee, etat);
+    public int save(@PathVariable String ice, @PathVariable double annee, @PathVariable String etat) {
+        return declarationISService.save(ice, annee, etat);
     }
 
     @Autowired
