@@ -20,10 +20,12 @@ public class DeclarationIREmploye {
 	private Double salaireNet;
 	private Double salaireBrut;
 	private Double montantIR;
+	/*
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
 	@OneToMany(mappedBy = "declarationIREmploye")
-	List<Details> detailsEmploye;
-	
+	List<Details> detailsEmploye;*/
+	@ManyToOne
+	private TauxIr tauxIr;
 	
 	@ManyToOne
 	private Employe employe;
@@ -35,25 +37,36 @@ public class DeclarationIREmploye {
 	
 	
 	
-	
+	/*
 	@Override
 	public String toString() {
 		return "DeclarationIREmploye [id=" + id + ", refEmp=" + refEmp + ", salaireNet=" + salaireNet + ", salaireBrut="
 				+ salaireBrut + ", montantIR=" + montantIR + ", detailsEmploye=" + detailsEmploye + ", employe="
 				+ employe + ", declarationIR=" + declarationIR + "]";
-	}
-
+	}*/
+/*
 	public List<Details> getDetailsEmploye() {
 		return detailsEmploye;
 	}
 
 	public void setDetailsEmploye(List<Details> detailsEmploye) {
 		this.detailsEmploye = detailsEmploye;
-	}
-
+	}*/
+	
+	
 	public String getRefEmp() {
 		return refEmp;
 	}
+
+	public TauxIr getTauxIr() {
+		return tauxIr;
+	}
+
+
+	public void setTauxIr(TauxIr tauxIr) {
+		this.tauxIr = tauxIr;
+	}
+
 
 	public void setRefEmp(String refEmp) {
 		this.refEmp = refEmp;

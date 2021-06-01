@@ -19,16 +19,24 @@ public class TauxIr {
 	private Double salaireMax;
 	private Double pourcentage;
 	@OneToMany(mappedBy = "tauxIr")
-	private List<Details> detailsTauxDetails;
-
+	private List<DeclarationIREmploye> declarationIREmployesList;
+/*
 	public List<Details> getDetailsTauxDetails() {
 		return detailsTauxDetails;
 	}
 	public void setDetailsTauxDetails(List<Details> detailsTauxDetails) {
 		this.detailsTauxDetails = detailsTauxDetails;
-	}
+	}*/
+	
+	
 	public Long getId() {
 		return id;
+	}
+	public List<DeclarationIREmploye> getDeclarationIREmployesList() {
+		return declarationIREmployesList;
+	}
+	public void setDeclarationIREmployesList(List<DeclarationIREmploye> declarationIREmployesList) {
+		this.declarationIREmployesList = declarationIREmployesList;
 	}
 	public void setId(Long id) {
 		this.id = id;
