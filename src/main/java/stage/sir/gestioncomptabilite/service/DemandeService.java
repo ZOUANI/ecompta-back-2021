@@ -6,6 +6,7 @@ import stage.sir.gestioncomptabilite.bean.Demande;
 import stage.sir.gestioncomptabilite.bean.Societe;
 import stage.sir.gestioncomptabilite.dao.DemandeDao;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -49,13 +50,15 @@ public class DemandeService {
         if (findByRef(demande.getRef()) != null){
             return -1;
         }
-        else if (findByOperation(demande.getOperation()) != null){
+        else if (demande.getOperation() == null){
             return -2;
         }
         else if (societe == null){
             return -3;
         }
         else {
+            Date dateDemande = new Date();
+            demande.setDateDemande(dateDemande);
             demandeDao.save(demande);
             return 1;
         }

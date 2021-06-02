@@ -1,8 +1,10 @@
 package stage.sir.gestioncomptabilite.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import stage.sir.gestioncomptabilite.Security.models.User;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Demande {
@@ -10,6 +12,8 @@ public class Demande {
     private Long id;
     private String ref;
     private String operation;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date dateDemande;
     private double annee;
     private Integer mois;
     @ManyToOne
@@ -32,6 +36,14 @@ public class Demande {
 
     public void setRef(String ref) {
         this.ref = ref;
+    }
+
+    public Date getDateDemande() {
+        return dateDemande;
+    }
+
+    public void setDateDemande(Date dateDemande) {
+        this.dateDemande = dateDemande;
     }
 
     public String getOperation() { return operation; }
