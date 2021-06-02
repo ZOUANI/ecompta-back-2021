@@ -93,6 +93,24 @@ public class SocieteService {
             return 1;
         }
     }
+    public int save2(Societe societe) {
+        if(findByIce(societe.getIce()) != null){
+            return -1;
+        }
+        else{
+
+            Long days = DateUtil.diffDays(new Date(), societe.getDateCreation());
+            Long agee = days/365;
+            Double ageSociete = (double) agee;
+            societe.setAge(ageSociete);
+            societe.setLogin(null);
+            societe.setEtatSociete(null);
+            societe.setComptable(null);
+            societeDao.save(societe);
+            return 1;
+        }
+    }
+
 
 	
 }

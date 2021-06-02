@@ -26,6 +26,11 @@ public class OperationSocieteService {
     public OperationSociete findByRef(String ref) {
         return operationSocieteDao.findByRef(ref);
     }
+
+    public List<OperationSociete> findBySocieteIce(String ice) {
+        return operationSocieteDao.findBySocieteIce(ice);
+    }
+
     @Transactional
     public int deleteByRef(String ref) {
         return operationSocieteDao.deleteByRef(ref);

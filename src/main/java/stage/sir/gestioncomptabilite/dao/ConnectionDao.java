@@ -10,9 +10,9 @@ import java.util.List;
 @Repository
 
 public interface ConnectionDao extends JpaRepository<Connection,Long> {
-    List<Login> findByType(String type);
+    List<Connection> findByType(String type);
     int deleteByType(String type);
     int deleteByUsername(String username);
-    Login findByUsernameAndPassword(String username,String password);
-    List<Login> findByUsername(String usename);
+    Connection findByUsernameAndPassword(String username,String password);
+    List<Connection> findByUsername(String usename);
 }
