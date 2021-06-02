@@ -42,13 +42,9 @@ public class DemandeService {
         Societe societe = societeService.findByIce(demande.getSociete().getIce());
         demande.setSociete(societe);
 
-        if (findByRef(demande.getRef()) != null){
-            return -1;
-        }
-        else if (findByOperation(demande.getOperation()) != null){
-            return -2;
-        }
-        else if (societe == null){
+       
+       
+         if (demande.getSociete() == null){
             return -3;
         }
         else {

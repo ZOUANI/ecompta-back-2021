@@ -16,7 +16,8 @@ public class EmployeService {
 	EmployeDao employeDao;
 
 	
-
+@Autowired
+DeclarationIREmployeService declarationIREmployeService;
 	@Autowired
 	SocieteService societeService;
 	
@@ -46,6 +47,8 @@ public class EmployeService {
 			return -1;
 		}else {
 			employeDao.save(employe);
+			
+			 
 			return 1;
 		}
 	}

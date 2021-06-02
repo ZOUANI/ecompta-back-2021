@@ -146,9 +146,7 @@ public class DeclarationIREmployeService {
 
 
 	
-	public DeclarationIREmploye findByRefEmp(String refEmp) {
-		return declarationIREmployeDao.findByRefEmp(refEmp);
-	}
+	
 	
 	public void prepare(DeclarationIREmploye declarationIREmploye) {
 		Employe employe =employeService.findByCin(declarationIREmploye.getEmploye().getCin());
@@ -205,6 +203,9 @@ public class DeclarationIREmployeService {
 	}
 
 
+	}
+
+
 
 	
 	
@@ -254,4 +255,4 @@ public class DeclarationIREmployeService {
 	
 	
 			
-}
+

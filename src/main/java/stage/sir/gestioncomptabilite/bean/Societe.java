@@ -21,11 +21,7 @@ public class Societe {
     private int anneeExploitation;
     private Double age;
 
-   // private String login;
-   // private String password;
-    private boolean blocked;
-    private int nbrCnx=4;
-    
+  
     @OneToOne
     private Login login;
     
@@ -119,25 +115,10 @@ public class Societe {
 	}*/
 
 
-	public boolean isBlocked() {
-		return blocked;
-	}
 
 
-	public void setBlocked(boolean blocked) {
-		this.blocked = blocked;
-	}
 
-
-	public int getNbrCnx() {
-		return nbrCnx;
-	}
-
-
-	public void setNbrCnx(int nbrCnx) {
-		this.nbrCnx = nbrCnx;
-	}
-
+	
 
 	//public long getId() {
 
