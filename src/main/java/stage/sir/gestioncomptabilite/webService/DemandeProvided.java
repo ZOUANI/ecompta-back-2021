@@ -15,14 +15,20 @@ public class DemandeProvided {
     public Demande findByRef(@PathVariable String ref) {
         return demandeService.findByRef(ref);
     }
+
     @DeleteMapping("/ref/{ref}")
     public int deleteByRef(@PathVariable String ref) {
         return demandeService.deleteByRef(ref);
     }
 
-    @GetMapping("operation/{operation}")
+    @GetMapping("/operation/{operation}")
     public List<Demande> findByOperation(@PathVariable String operation) {
         return demandeService.findByOperation(operation);
+    }
+
+    @GetMapping("/user/username/{username}")
+    public Demande findByUserUsername(@PathVariable String username) {
+        return demandeService.findByUserUsername(username);
     }
 
     @GetMapping("/")

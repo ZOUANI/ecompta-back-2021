@@ -11,4 +11,5 @@ public interface DemandeDao extends JpaRepository<Demande, Long> {
     Demande findByRef(String ref);
     int deleteByRef(String ref);
     List<Demande> findByOperation(String operation);
+    Demande findByUserUsername(String username);
 }

@@ -23,6 +23,10 @@ public class DemandeService {
         return demandeDao.findByOperation(operation);
     }
 
+    public Demande findByUserUsername(String username) {
+        return demandeDao.findByUserUsername(username);
+    }
+
     public List<Demande> findAll() {
         return demandeDao.findAll();
     }
