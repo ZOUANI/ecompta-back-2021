@@ -19,9 +19,6 @@ public class DeclarationISService{
 
     public DeclarationIS findByRef(String ref) { return declarationISDao.findByRef(ref); }
 
-    @Transactional
-    public int deleteByRef(String ref) { return declarationISDao.deleteByRef(ref); }
-
     public DeclarationIS findBySocieteIceAndAnnee(String ice, double annee) { return declarationISDao.findBySocieteIceAndAnnee(ice, annee); }
 
     @Transactional
@@ -67,6 +64,12 @@ public class DeclarationISService{
 
     public List<DeclarationIS> findAll() { return declarationISDao.findAll(); }
 
+    public Double calculTotalHT(List<Facture> factures){
+        Double total = 0.0;
+        for (Facture f: factures){ total+= f.getMontantHorsTaxe(); }
+        return total;
+    }
+
     public Double calculMontantIS(Double rf){
         List<TauxIS> tauxISList = new ArrayList<TauxIS>();
         tauxISList = tauxISService.findAll();
@@ -86,38 +89,38 @@ public class DeclarationISService{
         return montantC;
     }
 
-    public Double montantPaye(DeclarationIS declarationIS){
-        Societe societe = societeService.findByIce(declarationIS.getSociete().getIce());
+    public Double montantPaye(Double age, Double cm, Double montantCalcule){
         Double montantPaye = 0.0;
-        if(societe.getAge() > 3){
-            if (declarationIS.getMontantISCalcule() < declarationIS.getTauxIsConfig().getCotisationMinimale()){
-                montantPaye = declarationIS.getTauxIsConfig().getCotisationMinimale();
+        if(age > 3){
+            if (montantCalcule < cm){
+                montantPaye = cm;
             }
-            else{ montantPaye = declarationIS.getMontantISCalcule(); }
+            else{ montantPaye = montantCalcule; }
         }
-        else{ declarationIS.setMontantISPaye(0.0); }
+        else{ montantPaye = 0.0; }
         return montantPaye;
     }
-    public TauxIsConfig tauxIsConfig(DeclarationIS declarationIS){
+
+    public TauxIsConfig findTauxIsConfig(double annee){
         List<TauxIsConfig> tauxIsConfigs = tauxISConfigService.findAll();
         TauxIsConfig tauxIsConfig = new TauxIsConfig();
         for (TauxIsConfig cm: tauxIsConfigs){
-            if (declarationIS.getAnnee() >= cm.getAnneeMin() && declarationIS.getAnnee() <= cm.getAnneeMax()){
+            if (annee >= cm.getAnneeMin() && annee <= cm.getAnneeMax()){
                 tauxIsConfig = cm; }
         }
         return tauxIsConfig;
     }
-    public TauxIS tauxIS(DeclarationIS declarationIS){
+    public TauxIS findTauxIS(Double totalHTDiff){
         List<TauxIS> tauxIS = tauxISService.findAll();
         TauxIS tauxIs = new TauxIS();
         for (TauxIS t: tauxIS){
-            if (declarationIS.getTotalHTDiff() >= t.getResultatFiscalMin() && declarationIS.getTotalHTDiff() <= t.getResultatFiscalMax()){
+            if (totalHTDiff >= t.getResultatFiscalMin() && totalHTDiff <= t.getResultatFiscalMax()){
                 tauxIs = t; }
         }
         return tauxIs;
     }
 
-    public void setDecIS(DeclarationIS declarationIS){
+    public void setFactureDeclarationIS(DeclarationIS declarationIS){
         List<Facture> factures = factureService.findBySocieteSourceIceAndAnnee(declarationIS.getSociete().getIce(), declarationIS.getAnnee());
         for (Facture f: factures){
             f.setDeclarationIS(declarationIS);
@@ -133,139 +136,45 @@ public class DeclarationISService{
         if(societe == null){ return -2; }
         else if(etatDeclaration == null){ return -3; }
         else{
-            Double gain = 0.0, charge= 0.0, rf = 0.0;
             List<Facture> facturesC = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(declarationIS.getSociete().getIce(), declarationIS.getAnnee(), "credit");
             List<Facture> facturesD = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(declarationIS.getSociete().getIce(), declarationIS.getAnnee(), "debit");
-            for (Facture fc: facturesC){ gain+= fc.getMontantHorsTaxe(); }
-            for (Facture fd: facturesD){ charge+= fd.getMontantHorsTaxe(); }
-            declarationIS.setTotalHTGain(gain);
-            declarationIS.setTotalHTCharge(charge);
-            declarationIS.setTotalHTDiff(gain - charge);
-            rf = calculMontantIS(declarationIS.getTotalHTDiff());
-            declarationIS.setMontantISCalcule(rf);
-            List<TauxIsConfig> tauxIsConfigs = tauxISConfigService.findAll();
-            for (TauxIsConfig cm: tauxIsConfigs){
-                if (declarationIS.getAnnee() >= cm.getAnneeMin() && declarationIS.getAnnee() <= cm.getAnneeMax()){
-                    declarationIS.setTauxIsConfig(cm); }
-            }
-            if(societe.getAge() > 3){
-                if (declarationIS.getMontantISCalcule() < declarationIS.getTauxIsConfig().getCotisationMinimale()){
-                    declarationIS.setMontantISPaye(declarationIS.getTauxIsConfig().getCotisationMinimale()); }
-                else{ declarationIS.setMontantISPaye(declarationIS.getMontantISCalcule()); }
-            }
-            else{ declarationIS.setMontantISPaye(0.0); }
-            List<TauxIS> tauxIS = tauxISService.findAll();
-            for (TauxIS t: tauxIS){
-                if (declarationIS.getTotalHTDiff() >= t.getResultatFiscalMin() && declarationIS.getTotalHTDiff() <= t.getResultatFiscalMax()){
-                    declarationIS.setTauxIS(t); }
-            }
+            declarationIS.setTotalHTGain(calculTotalHT(facturesC));
+            declarationIS.setTotalHTCharge(calculTotalHT(facturesD));
+            declarationIS.setTotalHTDiff(declarationIS.getTotalHTGain() - declarationIS.getTotalHTCharge());
+            declarationIS.setMontantISCalcule(calculMontantIS(declarationIS.getTotalHTDiff()));
+            declarationIS.setTauxIsConfig(findTauxIsConfig(declarationIS.getAnnee()));
+            declarationIS.setMontantISPaye(montantPaye(declarationIS.getSociete().getAge(), declarationIS.getTauxIsConfig().getCotisationMinimale(), declarationIS.getMontantISCalcule()));
+            declarationIS.setTauxIS(findTauxIS(declarationIS.getTotalHTDiff()));
             declarationISDao.save(declarationIS);
-            setDecIS(declarationIS);
+            setFactureDeclarationIS(declarationIS);
             return 1;
         }
-    }
-    public DeclarationIsObject afficheDecIS(DeclarationIsObject decIsOb){
-        Double gain = 0.0, charge= 0.0, rf = 0.0;
-        List<Facture> facturesC = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(decIsOb.getIceSociete(), decIsOb.getAnnee(), "credit");
-        List<Facture> facturesD = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(decIsOb.getIceSociete(), decIsOb.getAnnee(), "debit");
-        for (Facture fc: facturesC){
-            gain+= fc.getMontantHorsTaxe();
-        }
-        for (Facture fd: facturesD){
-            charge+= fd.getMontantHorsTaxe();
-        }
-        decIsOb.setFactureC(facturesC);
-        decIsOb.setFactureD(facturesD);
-        decIsOb.setTotalHTGain(gain);
-        decIsOb.setTotalHTCharge(charge);
-        decIsOb.setTotalHTDiff(gain - charge);
-        rf = calculMontantIS(decIsOb.getTotalHTDiff());
-        decIsOb.setMontantISCalcule(rf);
-        List<TauxIsConfig> tauxIsConfigs = tauxISConfigService.findAll();
-        for (TauxIsConfig cm: tauxIsConfigs){
-            if (decIsOb.getAnnee() >= cm.getAnneeMin() && decIsOb.getAnnee() <= cm.getAnneeMax()){
-                decIsOb.setTauxIsConfig(cm);
-            }
-        }
-        Societe societe = societeService.findByIce(decIsOb.getIceSociete());
-        if(societe.getAge() > 3){
-            if (decIsOb.getMontantISCalcule() < decIsOb.getTauxIsConfig().getCotisationMinimale()){
-                decIsOb.setMontantISPaye(decIsOb.getTauxIsConfig().getCotisationMinimale());
-            }
-            else{
-                decIsOb.setMontantISPaye(decIsOb.getMontantISCalcule());
-            }
-        }
-        else{
-            decIsOb.setMontantISPaye(0.0);
-        }
-        return decIsOb;
     }
 
     public DeclarationIsObject afficheObject(String ice, double annee){
         DeclarationIsObject declarationIsObject = new DeclarationIsObject();
         declarationIsObject.setAnnee(annee);
-        declarationIsObject.setIceSociete(ice);
-        Double gain = 0.0, charge= 0.0, rf = 0.0;
+        declarationIsObject.setSociete(societeService.findByIce(ice));
         List<Facture> facturesC = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(ice, annee, "credit");
         List<Facture> facturesD = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(ice, annee, "debit");
-        for (Facture fc: facturesC){
-            gain+= fc.getMontantHorsTaxe();
-        }
-        for (Facture fd: facturesD){
-            charge+= fd.getMontantHorsTaxe();
-        }
         declarationIsObject.setFactureC(facturesC);
         declarationIsObject.setFactureD(facturesD);
-        declarationIsObject.setTotalHTGain(gain);
-        declarationIsObject.setTotalHTCharge(charge);
-        declarationIsObject.setTotalHTDiff(gain - charge);
-        rf = calculMontantIS(declarationIsObject.getTotalHTDiff());
-        declarationIsObject.setMontantISCalcule(rf);
-        List<TauxIsConfig> tauxIsConfigs = tauxISConfigService.findAll();
-        for (TauxIsConfig cm: tauxIsConfigs){
-            if (declarationIsObject.getAnnee() >= cm.getAnneeMin() && declarationIsObject.getAnnee() <= cm.getAnneeMax()){
-                declarationIsObject.setTauxIsConfig(cm);
-            }
-        }
-        Societe societe = societeService.findByIce(ice);
-        if(societe.getAge() > 3){
-            if (declarationIsObject.getMontantISCalcule() < declarationIsObject.getTauxIsConfig().getCotisationMinimale()){
-                declarationIsObject.setMontantISPaye(declarationIsObject.getTauxIsConfig().getCotisationMinimale());
-            }
-            else{
-                declarationIsObject.setMontantISPaye(declarationIsObject.getMontantISCalcule());
-            }
-        }
-        else{
-            declarationIsObject.setMontantISPaye(0.0);
-        }
-        List<TauxIS> tauxIS = tauxISService.findAll();
-        for (TauxIS t: tauxIS){
-            if (declarationIsObject.getTotalHTDiff() >= t.getResultatFiscalMin() && declarationIsObject.getTotalHTDiff() <= t.getResultatFiscalMax()){
-                declarationIsObject.setTauxIS(t); }
-        }
+        declarationIsObject.setTotalHTGain(calculTotalHT(facturesC));
+        declarationIsObject.setTotalHTCharge(calculTotalHT(facturesD));
+        declarationIsObject.setTotalHTDiff(declarationIsObject.getTotalHTGain() - declarationIsObject.getTotalHTCharge());
+        declarationIsObject.setMontantISCalcule(calculMontantIS(declarationIsObject.getTotalHTDiff()));
+        declarationIsObject.setTauxIsConfig(findTauxIsConfig(declarationIsObject.getAnnee()));
+        declarationIsObject.setMontantISPaye(montantPaye(declarationIsObject.getSociete().getAge(), declarationIsObject.getTauxIsConfig().getCotisationMinimale(), declarationIsObject.getMontantISCalcule()));
+        declarationIsObject.setTauxIS(findTauxIS(declarationIsObject.getTotalHTDiff()));
+        DeclarationIS declarationIS = findBySocieteIceAndAnnee(ice, annee);
+        if (declarationIS != null){
+            declarationIsObject.setDeclarationIS(declarationIS);
+        } else { declarationIsObject.setDeclarationIS(null); }
+
         return declarationIsObject;
     }
-    public int validerBrouillon(DeclarationIS declarationIS){
-        EtatDeclaration etatDeclaration = etatDeclarationService.findByLibelle("valider");
-        declarationIS.setEtatDeclaration(etatDeclaration);
-        update(declarationIS);
-        return 1;
-    }
 
-    public Double findTauxIS(Double benefice){
-        List<TauxIS> tauxISList = tauxISService.findAll();
-        Double pourc = 0.0;
-        for (TauxIS t: tauxISList) {
-            if (benefice >= t.getResultatFiscalMin() && benefice<=t.getResultatFiscalMax()){
-                pourc = t.getPourcentage();
-            }
-        }
-        return pourc;
-    }
-
-    public void declarationIsToXML(DeclarationIS declarationIS){
+    public int declarationIsToXML(DeclarationIS declarationIS){
         DeclarationIsXml decXml = convertToDecIsXml(declarationIS);
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(DeclarationIsXml.class);
@@ -277,6 +186,8 @@ public class DeclarationISService{
 
         } catch (PropertyException e) { e.printStackTrace(); }
         catch (JAXBException e) { e.printStackTrace(); }
+
+        return 1;
     }
 
     public DeclarationIsXml XmlToDecIS(String fileName){
@@ -311,10 +222,6 @@ public class DeclarationISService{
         decIsXml.setSociete(declarationIS.getSociete());
         decIsXml.setTauxIsConfig(declarationIS.getTauxIsConfig());
         decIsXml.setEtatDeclaration(declarationIS.getEtatDeclaration());
-        /* facturesD = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(declarationIS.getSociete().getIce(), declarationIS.getAnnee(), "debit");
-        facturesC = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(declarationIS.getSociete().getIce(), declarationIS.getAnnee(), "credit");
-        decIsXml.setFacturesD(facturesD);
-        decIsXml.setFacturesC(facturesC); */
         factures = factureService.findBySocieteSourceIceAndAnnee(declarationIS.getSociete().getIce(), declarationIS.getAnnee());
         decIsXml.setFactures(factures);
         return decIsXml;
@@ -351,7 +258,7 @@ public class DeclarationISService{
     @Autowired
     EntityManager entityManager;
 
-    public int save22(String ice, double annee, String etat) {
+    public int save(String ice, double annee, String etat) {
         DeclarationIS declarationIS = new DeclarationIS();
         declarationIS.setAnnee(annee);
         Societe societe = societeService.findByIce(ice);
@@ -364,21 +271,22 @@ public class DeclarationISService{
         else if(societe == null){ return -3; }
         else if(etatDeclaration == null){ return -4; }
         else{
-            Double gain = 0.0, charge= 0.0, rf = 0.0;
             List<Facture> facturesC = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(declarationIS.getSociete().getIce(), declarationIS.getAnnee(), "credit");
             List<Facture> facturesD = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(declarationIS.getSociete().getIce(), declarationIS.getAnnee(), "debit");
-            for (Facture fc: facturesC){ gain+= fc.getMontantHorsTaxe(); }
-            for (Facture fd: facturesD){ charge+= fd.getMontantHorsTaxe(); }
-            declarationIS.setTotalHTGain(gain);
-            declarationIS.setTotalHTCharge(charge);
-            declarationIS.setTotalHTDiff(gain - charge);
-            rf = calculMontantIS(declarationIS.getTotalHTDiff());
-            declarationIS.setMontantISCalcule(rf);
-            declarationIS.setTauxIsConfig(tauxIsConfig(declarationIS));
-            declarationIS.setMontantISPaye(montantPaye(declarationIS));
-            declarationIS.setTauxIS(tauxIS(declarationIS));
+            declarationIS.setTotalHTGain(calculTotalHT(facturesC));
+            declarationIS.setTotalHTCharge(calculTotalHT(facturesD));
+            declarationIS.setTotalHTDiff(declarationIS.getTotalHTGain() - declarationIS.getTotalHTCharge());
+            if (declarationIS.getTotalHTDiff() > 0){
+                declarationIS.setTauxIS(findTauxIS(declarationIS.getTotalHTDiff()));
+                declarationIS.setMontantISCalcule(calculMontantIS(declarationIS.getTotalHTDiff()));
+            } else{
+                declarationIS.setTauxIS(null);
+                declarationIS.setMontantISCalcule(0.0);
+            }
+            declarationIS.setTauxIsConfig(findTauxIsConfig(declarationIS.getAnnee()));
+            declarationIS.setMontantISPaye(montantPaye(declarationIS.getSociete().getAge(), declarationIS.getTauxIsConfig().getCotisationMinimale(), declarationIS.getMontantISCalcule()));
             declarationISDao.save(declarationIS);
-            setDecIS(declarationIS);
+            setFactureDeclarationIS(declarationIS);
             return 1;
         }
     }
