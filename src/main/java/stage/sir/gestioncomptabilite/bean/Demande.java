@@ -10,13 +10,13 @@ public class Demande {
     private Long id;
     private String ref;
     private String operation;
-    private boolean valider;
     private double annee;
     private Integer mois;
     @ManyToOne
     private Societe societe;
     @ManyToOne
     private User user;
+
 
     public Long getId() {
         return id;
@@ -34,20 +34,10 @@ public class Demande {
         this.ref = ref;
     }
 
-    public String getOperation() {
-        return operation;
-    }
+    public String getOperation() { return operation; }
 
     public void setOperation(String operation) {
         this.operation = operation;
-    }
-
-    public boolean isValider() {
-        return valider;
-    }
-
-    public void setValider(boolean valider) {
-        this.valider = valider;
     }
 
     public double getAnnee() {
