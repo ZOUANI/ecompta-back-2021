@@ -8,10 +8,18 @@ import stage.sir.gestioncomptabilite.bean.Demande;
 import stage.sir.gestioncomptabilite.bean.Societe;
 import stage.sir.gestioncomptabilite.dao.DemandeDao;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class DemandeService {
+	@Autowired
+    DemandeDao demandeDao;
+    @Autowired
+    SocieteService societeService;
+
+	
+
 
     public Demande findByRef(String ref) {
         return demandeDao.findByRef(ref);
@@ -49,19 +57,29 @@ public class DemandeService {
         Societe societe = societeService.findByIce(demande.getSociete().getIce());
         demande.setSociete(societe);
 
+
        
        
          if (demande.getSociete() == null){
+
+        if (findByRef(demande.getRef()) != null){
+            return -1;
+        }
+        else if (demande.getOperation() == null){
+            return -2;
+        }
+        else if (societe == null){
+
             return -3;
         }
         else {
+            Date dateDemande = new Date();
+            demande.setDateDemande(dateDemande);
             demandeDao.save(demande);
-            return 1;
+           // return 1;
         }
     }
+		return 1;
 
-    @Autowired
-    DemandeDao demandeDao;
-    @Autowired
-    SocieteService societeService;
-}
+    } }
+    
