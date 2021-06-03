@@ -43,4 +43,9 @@ public class SocieteProvided {
     public int save(@RequestBody Societe societe) {
         return societeService.save(societe);
     }
+    @PostMapping("/save2")
+    public int save2(@RequestBody Societe societe) {
+        return societeService.save2(societe);
+    }
+
 }

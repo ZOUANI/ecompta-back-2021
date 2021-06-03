@@ -30,8 +30,8 @@ public class DeclarationIREmployeService {
 	
 
 	
-	@Autowired
-	DetailsService detailsService;
+/*	@Autowired
+	DetailsService detailsService;*/
 
 	
 	@Autowired
@@ -62,15 +62,39 @@ public class DeclarationIREmployeService {
 		
 		for (Employe employe : employes) {
 			DeclarationIREmploye declaration=new DeclarationIREmploye();
-			List<Details> details=detailsService.findByDeclarationIR(employe.getSalaire());
-			
-				double ir=0;
-			for (Details det : details) {
+			//List<Details> details=detailsService.findByDeclarationIR(employe.getSalaire());
+			List<TauxIr> decla =tauxIrService.findByDeclarationIR(employe.getSalaire());
+			List<Double> irDetails=new ArrayList<>();	
+				double val=0;
+				double diff=0;
+			for(TauxIr tauxIr: decla) {
+				//double pourc=(tauxIr.getPourcentage())/100;
 				
-				ir+=det.getMontantTrancheRevenu();
+				if (tauxIr.getSalaireMax()>employe.getSalaire() && tauxIr.getSalaireMin()<employe.getSalaire()) {
+					diff=(employe.getSalaire()-tauxIr.getSalaireMin());
+					
+				}
+				else if (tauxIr.getSalaireMax()<employe.getSalaire()) {
+					diff=(tauxIr.getSalaireMax()-tauxIr.getSalaireMin());
+					
+				}
+			
+				val+=diff;
+				double trans=(diff*tauxIr.getPourcentage())/100;
+				irDetails.add(trans);
+			
+			}
+			
+			double ir=0;
+			for(int d=0;d<irDetails.size();d++) {
+				
+				ir+=irDetails.get(d);
 				
 			}
 			
+			
+			
+		
 			
 			declaration.setMontantIR(ir);
 			
@@ -129,12 +153,13 @@ public class DeclarationIREmployeService {
 	public void prepare(DeclarationIREmploye declarationIREmploye) {
 		Employe employe =employeService.findByCin(declarationIREmploye.getEmploye().getCin());
 		declarationIREmploye.setSalaireBrut(employe.getSalaire());
-		List<Details> detailsList =detailsService.findByDeclarationIR(declarationIREmploye.getSalaireBrut());
-		declarationIREmploye.setDetailsEmploye(detailsList);
+		//List<Details> detailsList =detailsService.findByDeclarationIR(declarationIREmploye.getSalaireBrut());
+		//declarationIREmploye.setDetailsEmploye(detailsList);
 		
 	}
 	@Autowired
 	EmployeDao employeDao;
+	/*
 	public DeclarationIREmploye updateMontantEmploye(Employe employe) {
 		
 		Employe employe2=employeService.findByCin(employe.getCin());
@@ -150,26 +175,26 @@ public class DeclarationIREmployeService {
 		}
 		declarationIREmploye.setSalaireBrut(employe.getSalaire());
 		declarationIREmploye.setSalaireNet(employe.getSalaire()-ir);
-		declarationIREmploye.setDetailsEmploye(details);
+		//declarationIREmploye.setDetailsEmploye(details);
 		declarationIREmploye.setMontantIR(ir);
 		declarationIREmploye.setEmploye(employe);
 		
 		
 		return declarationIREmploye;
-	}
+	}*/
 	
 	
 	
 	public int save(DeclarationIR declarationIR) {
 		for (DeclarationIREmploye declarationIREmploye : declarationIR.getDeclarationsIREmployes()) {
-			prepare(declarationIREmploye);
+			//prepare(declarationIREmploye);
 			DeclarationIR nvDeclarationIR=declarationIRService.findByRef(declarationIR.getRef());
 			declarationIREmploye.setDeclarationIR(nvDeclarationIR);
 			declarationIREmployeDao.save(declarationIREmploye);
-			List<Details> details=detailsService.findByDeclarationIR(declarationIREmploye.getEmploye().getSalaire());
+			//List<Details> details=detailsService.findByDeclarationIR(declarationIREmploye.getEmploye().getSalaire());
 			
-			declarationIREmploye.setDetailsEmploye(details);
-			detailsService.save(declarationIREmploye);
+			//declarationIREmploye.setDetailsEmploye(details);
+		//	detailsService.save(declarationIREmploye);
 			
 			
 		}

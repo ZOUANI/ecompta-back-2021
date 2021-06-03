@@ -25,12 +25,12 @@ public class DeclarationIREmployeProvided {
 	DeclarationIREmployeService declarationIREmployeService;
 	
 
-	
+	/*
 	
 	@PostMapping("/updateMontantEmploye")
 	public DeclarationIREmploye updateMontantEmploye(@RequestBody Employe employe) {
 		return declarationIREmployeService.updateMontantEmploye(employe);
-	}
+	}*/
 
 	@GetMapping("/employe/cin/{cin}")
 	public DeclarationIREmploye findByEmployeCin(@PathVariable String cin) {

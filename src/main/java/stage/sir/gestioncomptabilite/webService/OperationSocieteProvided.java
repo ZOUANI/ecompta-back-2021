@@ -17,6 +17,11 @@ public class OperationSocieteProvided {
     public OperationSociete findByRef(@PathVariable String ref) {
         return operationSocieteService.findByRef(ref);
     }
+    @GetMapping("/ice/{ice}")
+    public List<OperationSociete> findBySocieteIce(@PathVariable String ice) {
+        return operationSocieteService.findBySocieteIce(ice);
+    }
+
     @DeleteMapping("/ref/{ref}")
     public int deleteByRef(@PathVariable String ref) {
         return operationSocieteService.deleteByRef(ref);
