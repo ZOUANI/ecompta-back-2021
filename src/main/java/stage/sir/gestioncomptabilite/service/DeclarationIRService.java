@@ -18,6 +18,10 @@ public class DeclarationIRService {
 	
 	@Autowired
 	DeclarationIRDao declarationIRDao;
+	public List<DeclarationIR> findBySocieteIceAndAnnee(String ice,Integer annee) {
+		return declarationIRDao.findBySocieteIceAndAnnee(ice,annee);
+	}
+
 	@Autowired
 	DeclarationIREmployeService declarationIREmployeService;
 
@@ -121,6 +125,7 @@ public class DeclarationIRService {
 	public Optional<DeclarationIR> findById(Long id) {
 		return declarationIRDao.findById(id);
 	}
+	
 
 
 

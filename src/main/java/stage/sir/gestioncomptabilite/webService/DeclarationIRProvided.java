@@ -25,6 +25,22 @@ public class DeclarationIRProvided {
 	DeclarationIRService declarationIRService;
 	
 	
+	
+
+
+
+
+
+	@GetMapping("/ice/{ice}/annee/{annee}")
+	public List<DeclarationIR> findBySocieteIceAndAnnee(@PathVariable String ice,@PathVariable Integer annee) {
+		return declarationIRService.findBySocieteIceAndAnnee(ice, annee);
+	}
+
+
+
+
+
+
 	@PostMapping("/saveModification")
 	public int saveModification(@RequestBody DeclarationIR declarationIR) {
 		return declarationIRService.saveModification(declarationIR);
