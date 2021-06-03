@@ -27,6 +27,7 @@ public class ComptableService {
     public int save(Comptable comptable){
         if(comptableDao.findByCode(comptable.getCode()) != null) return -1;
         else{
+            comptableDao.save(comptable);
             return 1;
         }
     }
