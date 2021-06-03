@@ -93,6 +93,8 @@ public class SocieteService {
             return 1;
         }
     }
-
+    public void update(Societe societe){
+        societeDao.save(societe);
+    }
 	
 }

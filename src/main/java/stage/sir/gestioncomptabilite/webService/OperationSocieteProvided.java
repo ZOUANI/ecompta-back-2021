@@ -2,6 +2,7 @@ package stage.sir.gestioncomptabilite.webService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import stage.sir.gestioncomptabilite.bean.Comptable;
 import stage.sir.gestioncomptabilite.bean.OperationSociete;
 import stage.sir.gestioncomptabilite.service.OperationSocieteService;
 
@@ -27,5 +28,29 @@ public class OperationSocieteProvided {
     @PostMapping("/")
     public int saveAlone(@RequestBody OperationSociete operationSociete) {
         return operationSocieteService.saveAlone(operationSociete);
+    }
+    @GetMapping("/societe/ice/{ice}/etatoperationsociete/ref/{etat}")
+    public List<OperationSociete> findBySocieteIceAndEtatOperationSocieteRef(@PathVariable String ice, @PathVariable String etat) {
+        return operationSocieteService.findBySocieteIceAndEtatOperationSocieteRef(ice, etat);
+    }
+    @PutMapping("/validate")
+    public int validateOperation(@RequestBody OperationSociete operationSociete) {
+        return operationSocieteService.validateOperation(operationSociete);
+    }
+    @PutMapping("/refuse")
+    public int refuseOperation(@RequestBody OperationSociete operationSociete) {
+        return operationSocieteService.refuseOperation(operationSociete);
+    }
+    @GetMapping("/findoperationwherecomptablenull")
+    public List<OperationSociete> findOperationPourAffecterComptable() {
+        return operationSocieteService.findOperationPourAffecterComptable();
+    }
+    @PutMapping("/comptabletraiteur")
+    public int affecterComptableTraiteur(@RequestBody OperationSociete operationSociete) {
+        return operationSocieteService.affecterComptableTraiteur(operationSociete);
+    }
+    @PutMapping("/comptablevalidateur")
+    public int affecterComptableValidateur(@RequestBody OperationSociete operationSociete) {
+        return operationSocieteService.affecterComptableValidateur(operationSociete);
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import stage.sir.gestioncomptabilite.bean.*;
 import stage.sir.gestioncomptabilite.dao.OperationSocieteDao;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 @Service
@@ -22,6 +23,10 @@ public class OperationSocieteService {
     private PaiementService paiementService;
     @Autowired
     private SocieteService societeService;
+    @Autowired
+    private EntityManager entityManager;
+    @Autowired
+    private ComptableService comptableService;
 
     public OperationSociete findByRef(String ref) {
         return operationSocieteDao.findByRef(ref);
@@ -77,4 +82,39 @@ public class OperationSocieteService {
         }
 
     }
+    public int validateOperation(OperationSociete operationSociete){
+        EtatOperationSociete etatOperationSocieteValidate = etatOperationSocieteService.findByRef("Validate");
+        operationSociete.setEtatOperationSociete(etatOperationSocieteValidate);
+        operationSocieteDao.save(operationSociete);
+        return 1;
+    }
+    public int refuseOperation(OperationSociete operationSociete){
+        EtatOperationSociete etatOperationSociete = etatOperationSocieteService.findByRef("Refuse");
+        operationSociete.setEtatOperationSociete(etatOperationSociete);
+        operationSocieteDao.save(operationSociete);
+        return 1;
+    }
+    public List<OperationSociete> findBySocieteIceAndEtatOperationSocieteRef(String ice, String etat) {
+        return operationSocieteDao.findBySocieteIceAndEtatOperationSocieteRef(ice, etat);
+    }
+    public List<OperationSociete> findOperationPourAffecterComptable(){
+        String query = "SELECT o FROM OperationSociete o WHERE o.etatOperationSociete.ref = 'Validate' AND o.comptableTaiteur IS NULL AND o.comptableValidateur IS NULL";
+        return entityManager.createQuery(query).getResultList();
+    }
+    public int affecterComptableTraiteur(OperationSociete operationSociete){
+        Comptable comptableTraiteur = comptableService.findByCode(operationSociete.getComptableTaiteur().getCode());
+        Societe societe = societeService.findByIce(operationSociete.getSociete().getIce());
+        societe.setComptable(comptableTraiteur);
+        operationSociete.setComptableTaiteur(comptableTraiteur);
+        societeService.update(societe);
+        operationSocieteDao.save(operationSociete);
+        return 1;
+    }
+    public int affecterComptableValidateur(OperationSociete operationSociete){
+        Comptable comptableValidateur = comptableService.findByCode(operationSociete.getComptableValidateur().getCode());
+        operationSociete.setComptableValidateur(comptableValidateur);
+        operationSocieteDao.save(operationSociete);
+        return 1;
+    }
+
 }
