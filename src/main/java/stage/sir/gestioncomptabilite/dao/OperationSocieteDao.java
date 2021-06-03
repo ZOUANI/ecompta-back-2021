@@ -11,4 +11,5 @@ public interface OperationSocieteDao extends JpaRepository<OperationSociete,Long
     public OperationSociete findByRef(String ref);
     public int deleteByRef(String ref);
     public List<OperationSociete> findBySocieteIce(String ice);
+    public List<OperationSociete> findBySocieteIceAndEtatOperationSocieteRef(String ice, String etat);
 }
