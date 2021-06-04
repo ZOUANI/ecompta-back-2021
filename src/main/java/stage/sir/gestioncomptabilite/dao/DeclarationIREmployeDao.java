@@ -16,7 +16,7 @@ import stage.sir.gestioncomptabilite.bean.Employe;
 public interface DeclarationIREmployeDao extends JpaRepository<DeclarationIREmploye,Long> {
 
 	
-	DeclarationIREmploye findByRefEmp(String refEmp);
+	
 	DeclarationIREmploye findByEmployeCin(String cin);
 	List<DeclarationIREmploye> findByDeclarationIRRef(String ref);
 	DeclarationIREmploye findBySalaireNet(Double salaireNet);

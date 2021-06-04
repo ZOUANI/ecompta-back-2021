@@ -42,10 +42,7 @@ public class DeclarationIREmployeProvided {
 		return declarationIREmployeService.findByDeclarationIRRef(ref);
 	}
 	
-	@GetMapping("/refemp/{refEmp}")
-	public DeclarationIREmploye findByRefEmp(@PathVariable String refEmp) {
-		return declarationIREmployeService.findByRefEmp(refEmp);
-	}
+
 	@DeleteMapping("/employe/cin/{cin}")
 	public int deleteByEmployeCin(@PathVariable String cin) {
 		return declarationIREmployeService.deleteByEmployeCin(cin);

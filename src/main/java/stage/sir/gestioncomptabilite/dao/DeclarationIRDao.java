@@ -18,7 +18,7 @@ public interface DeclarationIRDao extends JpaRepository<DeclarationIR,Long>  {
 	DeclarationIR findByRef(String ref);
 	int deleteByMois(Integer mois);
 	List<DeclarationIR> findByMoisAndAnnee(Integer mois,Integer annee);
-	
+	List<DeclarationIR> findBySocieteIceAndAnnee(String ice,Integer annee);
 	
 
 }

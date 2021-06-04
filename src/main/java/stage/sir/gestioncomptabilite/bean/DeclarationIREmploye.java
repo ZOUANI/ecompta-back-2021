@@ -16,7 +16,7 @@ public class DeclarationIREmploye {
 	
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String refEmp;
+	
 	private Double salaireNet;
 	private Double salaireBrut;
 	private Double montantIR;
@@ -54,10 +54,7 @@ public class DeclarationIREmploye {
 	}*/
 	
 	
-	public String getRefEmp() {
-		return refEmp;
-	}
-
+	
 	public TauxIr getTauxIr() {
 		return tauxIr;
 	}
@@ -68,9 +65,7 @@ public class DeclarationIREmploye {
 	}
 
 
-	public void setRefEmp(String refEmp) {
-		this.refEmp = refEmp;
-	}
+	
 
 	public Long getId() {
 		return id;
