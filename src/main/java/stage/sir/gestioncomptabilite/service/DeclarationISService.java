@@ -17,6 +17,7 @@ import java.util.List;
 @Service
 public class DeclarationISService{
 
+
     public DeclarationIS findByRef(String ref) { return declarationISDao.findByRef(ref); }
 
     public DeclarationIS findBySocieteIceAndAnnee(String ice, double annee) { return declarationISDao.findBySocieteIceAndAnnee(ice, annee); }
@@ -243,23 +244,10 @@ public class DeclarationISService{
         return declarationIS;
     }
 
-    @Autowired
-    DeclarationISDao declarationISDao;
-    @Autowired
-    SocieteService societeService;
-    @Autowired
-    TauxISService tauxISService;
-    @Autowired
-    FactureService factureService;
-    @Autowired
-    TauxISConfigService tauxISConfigService;
-    @Autowired
-    EtatDeclarationService etatDeclarationService;
-    @Autowired
-    EntityManager entityManager;
 
     public int save(String ice, double annee, String etat) {
         DeclarationIS declarationIS = new DeclarationIS();
+        Acomptes acomptes = new Acomptes();
         declarationIS.setAnnee(annee);
         Societe societe = societeService.findByIce(ice);
         declarationIS.setSociete(societe);
@@ -285,10 +273,39 @@ public class DeclarationISService{
             }
             declarationIS.setTauxIsConfig(findTauxIsConfig(declarationIS.getAnnee()));
             declarationIS.setMontantISPaye(montantPaye(declarationIS.getSociete().getAge(), declarationIS.getTauxIsConfig().getCotisationMinimale(), declarationIS.getMontantISCalcule()));
+
+            if (declarationIS.getMontantISCalcule() > declarationIS.getTauxIsConfig().getCotisationMinimale()){
+                acomptes.setAnneePaye(declarationIS.getAnnee() + 1);
+                acomptes.setNumero(1);
+                acomptes.setMontant(declarationIS.getMontantISPaye() / 4);
+                acomptesService.save(acomptes);
+                declarationIS.setAcomptes(acomptes);
+                declarationIS.setTotalPaye(declarationIS.getMontantISPaye() + declarationIS.getAcomptes().getMontant());
+            } else {
+                declarationIS.setTotalPaye(declarationIS.getMontantISPaye());
+                declarationIS.setAcomptes(null);
+            }
             declarationISDao.save(declarationIS);
             setFactureDeclarationIS(declarationIS);
             return 1;
         }
     }
+
+    @Autowired
+    DeclarationISDao declarationISDao;
+    @Autowired
+    SocieteService societeService;
+    @Autowired
+    TauxISService tauxISService;
+    @Autowired
+    FactureService factureService;
+    @Autowired
+    TauxISConfigService tauxISConfigService;
+    @Autowired
+    EtatDeclarationService etatDeclarationService;
+    @Autowired
+    AcomptesService acomptesService;
+    @Autowired
+    EntityManager entityManager;
 
 }
