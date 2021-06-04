@@ -60,7 +60,7 @@ public class DemandeService {
 
        
        
-         if (demande.getSociete() == null){
+         
 
         if (findByRef(demande.getRef()) != null){
             return -1;
@@ -73,13 +73,15 @@ public class DemandeService {
             return -3;
         }
         else {
+        	
             Date dateDemande = new Date();
             demande.setDateDemande(dateDemande);
             demandeDao.save(demande);
-           // return 1;
+            
+            return 1;
         }
-    }
-		return 1;
+    
+		//return 1;
 
     } }
     

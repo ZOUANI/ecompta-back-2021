@@ -3,6 +3,8 @@ package stage.sir.gestioncomptabilite.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,8 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import net.bytebuddy.dynamic.scaffold.InstrumentedType.Prepareable;
 import stage.sir.gestioncomptabilite.bean.DeclarationIR;
 import stage.sir.gestioncomptabilite.bean.DeclarationIREmploye;
+import stage.sir.gestioncomptabilite.bean.DeclarationIS;
 import stage.sir.gestioncomptabilite.bean.Societe;
 import stage.sir.gestioncomptabilite.dao.DeclarationIRDao;
+import stage.sir.gestioncomptabilite.util.StringUtil;
+import stage.sir.gestioncomptabilite.vo.DeclarationIrVo;
+import stage.sir.gestioncomptabilite.vo.DeclarationIsVo;
 
 @Service
 public class DeclarationIRService {
@@ -27,6 +33,28 @@ public class DeclarationIRService {
 
 	@Autowired
 	SocieteService societeService;
+	@Autowired
+    EntityManager entityManager;
+	
+	public List<DeclarationIR> search(DeclarationIrVo declarationIrVo){
+        String query = "SELECT d FROM DeclarationIR d WHERE 1=1";
+      /*  if(StringUtil.isNotEmpty(declarationIrVo.getRef())) {
+            query+= " AND d.ref LIKE '%"+ declarationIrVo.getRef()+ "%'";
+        }*/
+        if(StringUtil.isNotEmpty(declarationIrVo.getAnnee())) {
+            query+= " AND d.annee = '"+ declarationIrVo.getAnnee()+ "'";
+        }
+        if(StringUtil.isNotEmpty(declarationIrVo.getMoisMin())) {
+            query+= " AND d.mois >= '"+ declarationIrVo.getMoisMin()+ "'";
+        }
+        if(StringUtil.isNotEmpty(declarationIrVo.getMoisMax())) {
+            query+= " AND d.mois <= '"+ declarationIrVo.getMoisMax()+ "'";
+        }
+        return entityManager.createQuery(query).getResultList();
+    }
+	
+	
+	
 	
 	
 	public DeclarationIR findByRef(String ref) {
