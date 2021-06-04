@@ -71,12 +71,6 @@ public class DeclarationIsProvided {
         return declarationISService.calculMontantIS(rf);
     }
 
-
-    @GetMapping("/afficheDecIS/ice/{ice}/annee/{annee}")
-    public DeclarationIsObject afficheObject(@PathVariable String ice, @PathVariable double annee) {
-        return declarationISService.afficheObject(ice, annee);
-    }
-
     @PutMapping("/")
     public int update(@RequestBody DeclarationIS declarationIS) {
         return declarationISService.update(declarationIS);
@@ -100,6 +94,11 @@ public class DeclarationIsProvided {
     @GetMapping("/ice/{ice}/annee/{annee}/etat/{etat}")
     public int save(@PathVariable String ice, @PathVariable double annee, @PathVariable String etat) {
         return declarationISService.save(ice, annee, etat);
+    }
+
+    @PostMapping("/find-declarationIS-object/")
+    public DeclarationIsObject afficheDecIS(@RequestBody DeclarationIsObject decIsOb) {
+        return declarationISService.afficheDecIS(decIsOb);
     }
 
     @Autowired
