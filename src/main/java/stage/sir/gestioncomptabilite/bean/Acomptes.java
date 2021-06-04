@@ -1,9 +1,6 @@
 package stage.sir.gestioncomptabilite.bean;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Acomptes {
@@ -12,6 +9,8 @@ public class Acomptes {
     private Integer numero;
     private double anneePaye;
     private Double montant;
+    @ManyToOne
+    private Societe societe;
 
     public Long getId() {
         return id;
@@ -44,4 +43,8 @@ public class Acomptes {
     public void setMontant(Double montant) {
         this.montant = montant;
     }
+
+    public Societe getSociete() { return societe; }
+
+    public void setSociete(Societe societe) { this.societe = societe; }
 }

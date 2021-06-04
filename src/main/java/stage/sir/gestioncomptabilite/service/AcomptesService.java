@@ -24,6 +24,11 @@ public class AcomptesService {
         return res;
     }
 
+    @Transactional
+    public int deleteBySocieteIceAndAnneePaye(String ice, double annee) {
+        return acomptesDao.deleteBySocieteIceAndAnneePaye(ice, annee);
+    }
+
     public List<Acomptes> findAll() { return acomptesDao.findAll(); }
 
     public int save(Acomptes acomptes) {

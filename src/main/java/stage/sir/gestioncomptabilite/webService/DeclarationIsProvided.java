@@ -102,6 +102,11 @@ public class DeclarationIsProvided {
         return declarationISService.save(ice, annee, etat);
     }
 
+    @PostMapping("/find-declarationIS-object/")
+    public DeclarationIsObject afficheDecIS(@RequestBody DeclarationIsObject decIsOb) {
+        return declarationISService.afficheDecIS(decIsOb);
+    }
+
     @Autowired
     DeclarationISService declarationISService;
 }

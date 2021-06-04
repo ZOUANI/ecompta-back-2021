@@ -29,8 +29,10 @@ public class DeclarationISService{
             f.setDeclarationIS(null);
             factureService.update(f);
         }
+        int acomptesDeleted = acomptesService.deleteBySocieteIceAndAnneePaye(ice, annee + 1);
         return declarationISDao.deleteBySocieteIceAndAnnee(ice, annee);
     }
+
     @Transactional
     public int deleteMultipleBySocieteIceAndAnnee(List<DeclarationIS> declarations) {
         int res = 0;
@@ -175,6 +177,30 @@ public class DeclarationISService{
         return declarationIsObject;
     }
 
+    public DeclarationIsObject afficheDecIS(DeclarationIsObject decIsOb){
+        List<Facture> facturesD = new ArrayList<Facture>();
+        List<Facture> facturesC = new ArrayList<Facture>();
+        Societe societe = societeService.findByIce(decIsOb.getSociete().getIce());
+        decIsOb.setSociete(societe);
+        facturesC = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(decIsOb.getSociete().getIce(), decIsOb.getAnnee(), "credit");
+        facturesD = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(decIsOb.getSociete().getIce(), decIsOb.getAnnee(), "debit");
+        decIsOb.setFactureC(facturesC);
+        decIsOb.setFactureD(facturesD);
+        decIsOb.setTotalHTGain(calculTotalHT(facturesC));
+        decIsOb.setTotalHTCharge(calculTotalHT(facturesD));
+        decIsOb.setTotalHTDiff(decIsOb.getTotalHTGain() - decIsOb.getTotalHTCharge());
+        decIsOb.setMontantISCalcule(calculMontantIS(decIsOb.getTotalHTDiff()));
+        decIsOb.setTauxIsConfig(findTauxIsConfig(decIsOb.getAnnee()));
+        decIsOb.setMontantISPaye(montantPaye(decIsOb.getSociete().getAge(), decIsOb.getTauxIsConfig().getCotisationMinimale(), decIsOb.getMontantISCalcule()));
+        decIsOb.setTauxIS(findTauxIS(decIsOb.getTotalHTDiff()));
+        DeclarationIS declarationIS = findBySocieteIceAndAnnee(decIsOb.getSociete().getIce(), decIsOb.getAnnee());
+        if (declarationIS != null){
+            decIsOb.setDeclarationIS(declarationIS);
+        } else { decIsOb.setDeclarationIS(null); }
+
+        return decIsOb;
+    }
+
     public int declarationIsToXML(DeclarationIS declarationIS){
         DeclarationIsXml decXml = convertToDecIsXml(declarationIS);
         try {
@@ -278,6 +304,7 @@ public class DeclarationISService{
                 acomptes.setAnneePaye(declarationIS.getAnnee() + 1);
                 acomptes.setNumero(1);
                 acomptes.setMontant(declarationIS.getMontantISPaye() / 4);
+                acomptes.setSociete(declarationIS.getSociete());
                 acomptesService.save(acomptes);
                 declarationIS.setAcomptes(acomptes);
                 declarationIS.setTotalPaye(declarationIS.getMontantISPaye() + declarationIS.getAcomptes().getMontant());
