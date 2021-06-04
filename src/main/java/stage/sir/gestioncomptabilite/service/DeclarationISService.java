@@ -62,6 +62,9 @@ public class DeclarationISService{
         if(StringUtil.isNotEmpty(declarationIsVo.getAnneeMax())) {
             query+= " AND d.annee <= '"+ declarationIsVo.getAnneeMax()+ "'";
         }
+        if(StringUtil.isNotEmpty(declarationIsVo.getSociete())) {
+            query+= " AND d.societe.ice LIKE '%"+ declarationIsVo.getSociete()+ "%'";
+        }
         return entityManager.createQuery(query).getResultList();
     }
 
@@ -152,29 +155,6 @@ public class DeclarationISService{
             setFactureDeclarationIS(declarationIS);
             return 1;
         }
-    }
-
-    public DeclarationIsObject afficheObject(String ice, double annee){
-        DeclarationIsObject declarationIsObject = new DeclarationIsObject();
-        declarationIsObject.setAnnee(annee);
-        declarationIsObject.setSociete(societeService.findByIce(ice));
-        List<Facture> facturesC = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(ice, annee, "credit");
-        List<Facture> facturesD = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(ice, annee, "debit");
-        declarationIsObject.setFactureC(facturesC);
-        declarationIsObject.setFactureD(facturesD);
-        declarationIsObject.setTotalHTGain(calculTotalHT(facturesC));
-        declarationIsObject.setTotalHTCharge(calculTotalHT(facturesD));
-        declarationIsObject.setTotalHTDiff(declarationIsObject.getTotalHTGain() - declarationIsObject.getTotalHTCharge());
-        declarationIsObject.setMontantISCalcule(calculMontantIS(declarationIsObject.getTotalHTDiff()));
-        declarationIsObject.setTauxIsConfig(findTauxIsConfig(declarationIsObject.getAnnee()));
-        declarationIsObject.setMontantISPaye(montantPaye(declarationIsObject.getSociete().getAge(), declarationIsObject.getTauxIsConfig().getCotisationMinimale(), declarationIsObject.getMontantISCalcule()));
-        declarationIsObject.setTauxIS(findTauxIS(declarationIsObject.getTotalHTDiff()));
-        DeclarationIS declarationIS = findBySocieteIceAndAnnee(ice, annee);
-        if (declarationIS != null){
-            declarationIsObject.setDeclarationIS(declarationIS);
-        } else { declarationIsObject.setDeclarationIS(null); }
-
-        return declarationIsObject;
     }
 
     public DeclarationIsObject afficheDecIS(DeclarationIsObject decIsOb){

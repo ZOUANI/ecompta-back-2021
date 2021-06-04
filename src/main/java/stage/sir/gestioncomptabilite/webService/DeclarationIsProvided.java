@@ -71,12 +71,6 @@ public class DeclarationIsProvided {
         return declarationISService.calculMontantIS(rf);
     }
 
-
-    @GetMapping("/afficheDecIS/ice/{ice}/annee/{annee}")
-    public DeclarationIsObject afficheObject(@PathVariable String ice, @PathVariable double annee) {
-        return declarationISService.afficheObject(ice, annee);
-    }
-
     @PutMapping("/")
     public int update(@RequestBody DeclarationIS declarationIS) {
         return declarationISService.update(declarationIS);
