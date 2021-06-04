@@ -66,6 +66,7 @@ public class DemandeService {
         else {
             Date dateDemande = new Date();
             demande.setDateDemande(dateDemande);
+            demande.setUser(null);
             demandeDao.save(demande);
             return 1;
         }
