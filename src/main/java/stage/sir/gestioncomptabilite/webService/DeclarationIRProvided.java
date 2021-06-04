@@ -17,14 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 import stage.sir.gestioncomptabilite.bean.DeclarationIR;
 import stage.sir.gestioncomptabilite.bean.DeclarationIREmploye;
 import stage.sir.gestioncomptabilite.service.DeclarationIRService;
+import stage.sir.gestioncomptabilite.vo.DeclarationIrVo;
 
 @RestController
 @RequestMapping("gestion-comptabilite/declarationIr")
 public class DeclarationIRProvided {
 	@Autowired
 	DeclarationIRService declarationIRService;
-	
-	
+	@PostMapping("/search")
+	public List<DeclarationIR> search(@RequestBody DeclarationIrVo declarationIrVo){
+		return declarationIRService.search(declarationIrVo);
+	}
 	
 
 

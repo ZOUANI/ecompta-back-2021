@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import stage.sir.gestioncomptabilite.Security.models.ERole;
 import stage.sir.gestioncomptabilite.Security.models.User;
 
 
@@ -26,5 +27,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	
 	/*@Query("SELECT u FROM User u WHERE u.id IN (SELECT ur.userId FROM UserRole ur WHERE ur.name = :role)")
 	List<User> getAdminList(@Param("role") String userRole);*/
+	//@Query("SELECT u FROM User u WHERE u.id IN (SELECT ur.id FROM Role ur WHERE ur.name = :role)")
 	
+	//List<User> getAdminList(ERole role);
 }

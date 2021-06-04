@@ -1,14 +1,15 @@
 package stage.sir.gestioncomptabilite.service;
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import stage.sir.gestioncomptabilite.bean.*;
+import stage.sir.gestioncomptabilite.bean.Demande;
+import stage.sir.gestioncomptabilite.bean.Societe;
 import stage.sir.gestioncomptabilite.dao.DemandeDao;
-
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class DemandeService {
@@ -51,11 +52,13 @@ public class DemandeService {
     public int save(Demande demande) {
         Societe societe = societeService.findByIce(demande.getSociete().getIce());
         demande.setSociete(societe);
+
         if (findByRef(demande.getRef()) != null){ return -1; }
         else if (demande.getOperation() == null){ return -2; }
         else if (societe == null){ return -3; }
         else if (demande.getOperation() == "Declaration IS" && demande.getAnnee() == 0){
             return -4;
+
         }
         else if (demande.getOperation() == "Declaration IR" && demande.getMois() == null && demande.getAnnee() == 0){
             return -5;
@@ -64,14 +67,20 @@ public class DemandeService {
             return -6;
         }
         else {
+        	
             Date dateDemande = new Date();
             demande.setDateDemande(dateDemande);
             demande.setUser(null);
             demandeDao.save(demande);
+
+
             return 1;
         }
-    }
 
+
+
+   
+}
     @Autowired
     DemandeDao demandeDao;
     @Autowired

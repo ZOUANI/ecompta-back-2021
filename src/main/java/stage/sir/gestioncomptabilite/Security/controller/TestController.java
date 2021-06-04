@@ -1,17 +1,14 @@
 package stage.sir.gestioncomptabilite.Security.controller;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import stage.sir.gestioncomptabilite.Security.models.ERole;
 import stage.sir.gestioncomptabilite.Security.models.User;
 import stage.sir.gestioncomptabilite.Security.repository.UserRepository;
 
@@ -21,6 +18,16 @@ import stage.sir.gestioncomptabilite.Security.repository.UserRepository;
 public class TestController {
 	@Autowired
 	UserRepository userRepository;
+	/*@GetMapping("/role/{role}")
+	public List<User> getAdminList(@PathVariable ERole role) {
+		return userRepository.getAdminList(role);
+	}*/
+	@PreAuthorize("hasRole('ADMIN') or hasRole('COMPTABLE')")
+	@GetMapping("/")
+	public List<User> findAll() {
+		return userRepository.findAll();
+	}
+
 	@GetMapping("/all")
 	public String allAccess() {
 		return "Public Content.";
