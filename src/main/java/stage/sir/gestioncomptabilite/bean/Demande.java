@@ -16,7 +16,7 @@ public class Demande {
     private Date dateDemande;
     private double annee;
     private Integer mois;
-    private Integer trim;
+    private Integer trimestre;
     @ManyToOne
     private Societe societe;
     @ManyToOne
@@ -69,12 +69,12 @@ public class Demande {
         this.mois = mois;
     }
 
-    public Integer getTrim() {
-        return trim;
+    public Integer getTrimestre() {
+        return trimestre;
     }
 
-    public void setTrim(Integer trim) {
-        this.trim = trim;
+    public void setTrimestre(Integer trimestre) {
+        this.trimestre = trimestre;
     }
 
     public Societe getSociete() {

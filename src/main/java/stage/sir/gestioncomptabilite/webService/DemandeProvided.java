@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import stage.sir.gestioncomptabilite.bean.Demande;
 import stage.sir.gestioncomptabilite.service.DemandeService;
+import stage.sir.gestioncomptabilite.vo.DemandeVo;
 
 import java.util.List;
 
@@ -34,6 +35,11 @@ public class DemandeProvided {
     @GetMapping("/")
     public List<Demande> findAll() {
         return demandeService.findAll();
+    }
+
+    @PostMapping("/recherche-multi-critere/")
+    public List<Demande> searchCriteria(@RequestBody DemandeVo demandeVo) {
+        return demandeService.searchCriteria(demandeVo);
     }
 
     @PutMapping("/")
