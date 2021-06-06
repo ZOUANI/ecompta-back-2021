@@ -11,7 +11,7 @@ public class DemandeVo {
     private Date dateDemandeMin;
     private String societe;
     private String comptableTraiteur;
-    private String comptableValidateurt;
+    private String comptableValidateur;
 
     public String getRef() {
         return ref;
@@ -69,11 +69,11 @@ public class DemandeVo {
         this.comptableTraiteur = comptableTraiteur;
     }
 
-    public String getComptableValidateurt() {
-        return comptableValidateurt;
+    public String getComptableValidateur() {
+        return comptableValidateur;
     }
 
-    public void setComptableValidateurt(String comptableValidateurt) {
-        this.comptableValidateurt = comptableValidateurt;
+    public void setComptableValidateur(String comptableValidateur) {
+        this.comptableValidateur = comptableValidateur;
     }
 }

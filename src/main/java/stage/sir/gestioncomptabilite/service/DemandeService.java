@@ -44,8 +44,8 @@ public class DemandeService {
         if(StringUtil.isNotEmpty(demandeVo.getComptableTraiteur())) {
             query+= " AND d.comptableTraiteur.nom LIKE '%"+ demandeVo.getComptableTraiteur()+ "%'";
         }
-        if(StringUtil.isNotEmpty(demandeVo.getComptableValidateurt())) {
-            query+= " AND d.comptableValidateur.nom LIKE '%"+ demandeVo.getComptableValidateurt() + "%'";
+        if(StringUtil.isNotEmpty(demandeVo.getComptableValidateur())) {
+            query+= " AND d.comptableValidateur.nom LIKE '%"+ demandeVo.getComptableValidateur() + "%'";
         }
         if(StringUtil.isNotEmpty(demandeVo.getSociete())) {
             query+= " AND d.societe.ice LIKE '%"+ demandeVo.getSociete() + "%'";
