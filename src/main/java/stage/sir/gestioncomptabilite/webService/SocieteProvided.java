@@ -3,6 +3,8 @@ package stage.sir.gestioncomptabilite.webService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import stage.sir.gestioncomptabilite.bean.Employe;
 import stage.sir.gestioncomptabilite.bean.Societe;
 import stage.sir.gestioncomptabilite.service.SocieteService;
 
@@ -13,6 +15,13 @@ import java.util.List;
 public class SocieteProvided {
     @Autowired
     SocieteService societeService;
+    @GetMapping("/iceSociete/{iceSociete}")
+    public List<Employe> findListEmployes(@PathVariable String iceSociete){
+    	
+    	return societeService.findListEmployes(iceSociete);	
+    }
+    
+    
     /*
     @PostMapping("/loginSociete")
     public Societe loginSociete(@RequestBody Societe societe) throws Exception {

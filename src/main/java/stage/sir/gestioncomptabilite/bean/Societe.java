@@ -3,6 +3,8 @@ package stage.sir.gestioncomptabilite.bean;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import stage.sir.gestioncomptabilite.Security.models.User;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -22,9 +24,6 @@ public class Societe {
     private Double age;
 
   
-    @OneToOne
-    private Login login;
-    
     
     
     
@@ -39,27 +38,36 @@ public class Societe {
     @ManyToOne
     private EtatSociete etatSociete;
 
-    public Login getLogin() {
-		return login;
-	}
+   
+    /*@OneToOne
+    private User user;*/
 
 
+    
 
-
-
-	public void setLogin(Login login) {
-		this.login = login;
-	}
+	
 
 	//@JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+   /* public User getUser() {
+		return user;
+	}
+
+
+
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}*/
+
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 
     @OneToMany(mappedBy = "societe")
     private List<DeclarationIR> declarationIRs;
 
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "societeEmp")
     private List<Employe> employes;
 

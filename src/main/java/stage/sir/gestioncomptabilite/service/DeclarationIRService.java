@@ -125,10 +125,12 @@ public class DeclarationIRService {
 			return new Object[] { -1, null };
 			
 		}else {
+			/*System.out.println("*****************");
+			System.out.println(declarationIR);
+			System.out.println(declarationIR.getSociete());*/
+			//Societe societe = societeService.findByIce("2");
 			
-			Societe societe = societeService.findByIce("2");
-			
-			declarationIR.setSociete(societe);
+			//declarationIR.setSociete(societe);
 			if (saveModification ==false) {
 				
 			

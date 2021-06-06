@@ -25,7 +25,7 @@ public class Employe {
 	private List<DeclarationIREmploye> declarationIREmployes;
 
 	
-	 
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	Societe societeEmp;
 	

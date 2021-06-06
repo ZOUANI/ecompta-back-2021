@@ -5,6 +5,7 @@ import stage.sir.gestioncomptabilite.Security.models.User;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Demande {
@@ -22,8 +23,12 @@ public class Demande {
     @ManyToOne
     private User user;
 
+    
+    
+    
+ 
 
-    public Long getId() {
+	public Long getId() {
         return id;
     }
 

@@ -14,17 +14,22 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import stage.sir.gestioncomptabilite.bean.DeclarationIR;
+import stage.sir.gestioncomptabilite.bean.Societe;
+
 @Entity
 @Table(	name = "users", 
 		uniqueConstraints = { 
 			@UniqueConstraint(columnNames = "username"),
-			@UniqueConstraint(columnNames = "email") 
+			@UniqueConstraint(columnNames = "email"), 
+			
 		})
 public class User {
 	@Id
@@ -51,6 +56,21 @@ public class User {
 	/*@ManyToOne
 	private Role role;*/
 	private Set<Role> roles = new HashSet<>();
+	
+	/*@OneToOne
+	private Societe societe;*/
+	
+	
+	
+	
+/*
+	public Societe getSociete() {
+		return societe;
+	}
+
+	public void setSociete(Societe societe) {
+		this.societe = societe;
+	}*/
 
 	public User() {
 	}
