@@ -21,6 +21,10 @@ public class Demande {
     private Societe societe;
     @ManyToOne
     private User user;
+    @ManyToOne
+    private Comptable comptableTraiteur;
+    @ManyToOne
+    private Comptable comptableValidateur;
 
 
     public Long getId() {
@@ -91,5 +95,21 @@ public class Demande {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Comptable getComptableTraiteur() {
+        return comptableTraiteur;
+    }
+
+    public void setComptableTraiteur(Comptable comptableTraiteur) {
+        this.comptableTraiteur = comptableTraiteur;
+    }
+
+    public Comptable getComptableValidateur() {
+        return comptableValidateur;
+    }
+
+    public void setComptableValidateur(Comptable comptableValidateur) {
+        this.comptableValidateur = comptableValidateur;
     }
 }

@@ -18,7 +18,6 @@ public class DeclarationIS {
     private Double totalHTDiff;
     private Double montantISCalcule;
     private Double montantISPaye;
-    private Double totalPaye;
     @ManyToOne
     private Societe societe;
     @ManyToOne
@@ -27,8 +26,6 @@ public class DeclarationIS {
     private TauxIsConfig tauxIsConfig;
     @ManyToOne
     private EtatDeclaration etatDeclaration;
-    @OneToOne
-    private Acomptes acomptes;
 
 
 
@@ -88,10 +85,6 @@ public class DeclarationIS {
         this.montantISPaye = montantISPaye;
     }
 
-    public Double getTotalPaye() { return totalPaye; }
-
-    public void setTotalPaye(Double totalPaye) { this.totalPaye = totalPaye; }
-
     public Societe getSociete() {
         return societe;
     }
@@ -124,10 +117,6 @@ public class DeclarationIS {
 
     public void setEtatDeclaration(EtatDeclaration etatDeclaration) { this.etatDeclaration = etatDeclaration; }
 
-    public Acomptes getAcomptes() { return acomptes; }
-
-    public void setAcomptes(Acomptes acomptes) { this.acomptes = acomptes; }
-
     @Override
     public String toString() {
         return "DeclarationIS{" +
@@ -143,7 +132,6 @@ public class DeclarationIS {
                 ", tauxIS=" + tauxIS +
                 ", tauxIsConfig=" + tauxIsConfig +
                 ", etatDeclaration=" + etatDeclaration +
-                ", acomptes=" + acomptes +
                 '}';
     }
 }
