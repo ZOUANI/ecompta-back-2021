@@ -175,8 +175,8 @@ public class DeclarationISService{
         decIsOb.setTauxIS(findTauxIS(decIsOb.getTotalHTDiff()));
         DeclarationIS declarationIS = findBySocieteIceAndAnnee(decIsOb.getSociete().getIce(), decIsOb.getAnnee());
         if (declarationIS != null){
-            decIsOb.setDeclarationIS(declarationIS);
-        } else { decIsOb.setDeclarationIS(null); }
+            decIsOb.setEtatDeclaration(declarationIS.getEtatDeclaration());
+        } else { decIsOb.setEtatDeclaration(null); }
 
         return decIsOb;
     }
@@ -215,8 +215,9 @@ public class DeclarationISService{
 
     public DeclarationIsXml convertToDecIsXml(DeclarationIS declarationIS){
         DeclarationIsXml decIsXml = new DeclarationIsXml();
-        //List<Facture> facturesD, facturesC = new ArrayList<Facture>();
         List<Facture> factures = new ArrayList<Facture>();
+        List<FactureXml> facturesXml = new ArrayList<FactureXml>();
+        FactureXml factureXmlVo = new FactureXml();
         decIsXml.setId(declarationIS.getId());
         decIsXml.setRef(declarationIS.getRef());
         decIsXml.setAnnee(declarationIS.getAnnee());
@@ -230,7 +231,10 @@ public class DeclarationISService{
         decIsXml.setTauxIsConfig(declarationIS.getTauxIsConfig());
         decIsXml.setEtatDeclaration(declarationIS.getEtatDeclaration());
         factures = factureService.findBySocieteSourceIceAndAnnee(declarationIS.getSociete().getIce(), declarationIS.getAnnee());
-        decIsXml.setFactures(factures);
+        for (Facture f: factures){
+            facturesXml.add(factureXmlVo.convertToFactXml(f));
+        }
+        decIsXml.setFactures(facturesXml);
         return decIsXml;
     }
     public DeclarationIS convertToDecIs(DeclarationIsXml dexIsXml){

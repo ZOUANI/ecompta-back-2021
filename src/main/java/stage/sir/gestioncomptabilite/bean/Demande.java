@@ -25,6 +25,8 @@ public class Demande {
     private Comptable comptableTraiteur;
     @ManyToOne
     private Comptable comptableValidateur;
+    @ManyToOne
+    private EtatDemande etatDemande;
 
 
     public Long getId() {
@@ -111,5 +113,13 @@ public class Demande {
 
     public void setComptableValidateur(Comptable comptableValidateur) {
         this.comptableValidateur = comptableValidateur;
+    }
+
+    public EtatDemande getEtatDemande() {
+        return etatDemande;
+    }
+
+    public void setEtatDemande(EtatDemande etatDemande) {
+        this.etatDemande = etatDemande;
     }
 }

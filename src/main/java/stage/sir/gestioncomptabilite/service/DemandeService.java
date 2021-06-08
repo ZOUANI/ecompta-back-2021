@@ -50,6 +50,9 @@ public class DemandeService {
         if(StringUtil.isNotEmpty(demandeVo.getSociete())) {
             query+= " AND d.societe.ice LIKE '%"+ demandeVo.getSociete() + "%'";
         }
+        if(StringUtil.isNotEmpty(demandeVo.getEtatDemande())) {
+            query+= " AND d.etatDemande.libelle LIKE '%"+ demandeVo.getEtatDemande() + "%'";
+        }
 
         return entityManager.createQuery(query).getResultList();
     }
@@ -82,7 +85,6 @@ public class DemandeService {
         else if (societe == null){ return -3; }
         else if (demande.getOperation() == "Declaration IS" && demande.getAnnee() == 0){
             return -4;
-
         }
         else if (demande.getOperation() == "Declaration IR" && demande.getMois() == null && demande.getAnnee() == 0){
             return -5;
@@ -91,13 +93,11 @@ public class DemandeService {
             return -6;
         }
         else {
-        	
             Date dateDemande = new Date();
             demande.setDateDemande(dateDemande);
             demande.setUser(null);
+            demande.setEtatDemande(null);
             demandeDao.save(demande);
-
-
             return 1;
         }
     }

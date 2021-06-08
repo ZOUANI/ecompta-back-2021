@@ -12,6 +12,8 @@ public class DemandeVo {
     private String societe;
     private String comptableTraiteur;
     private String comptableValidateur;
+    private String etatDemande;
+
 
     public String getRef() {
         return ref;
@@ -76,4 +78,8 @@ public class DemandeVo {
     public void setComptableValidateur(String comptableValidateur) {
         this.comptableValidateur = comptableValidateur;
     }
+
+    public String getEtatDemande() { return etatDemande; }
+
+    public void setEtatDemande(String etatDemande) { this.etatDemande = etatDemande; }
 }
