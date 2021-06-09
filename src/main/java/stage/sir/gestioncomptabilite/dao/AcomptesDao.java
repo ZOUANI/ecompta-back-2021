@@ -11,5 +11,6 @@ public interface AcomptesDao extends JpaRepository<Acomptes, Long> {
 
     List<Acomptes> findByNumero(Integer numero);
     int deleteByNumero(Integer numero);
+    Acomptes findBySocieteIceAndAnneePayeAndNumero(String ice, double annee, Integer numero);
     int deleteBySocieteIceAndAnneePaye(String ice, double annee);
 }

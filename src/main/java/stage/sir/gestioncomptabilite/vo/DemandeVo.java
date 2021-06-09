@@ -12,6 +12,7 @@ public class DemandeVo {
     private String societe;
     private String comptableTraiteur;
     private String comptableValidateur;
+
     private String annee;
     private String moisMin;
     private String moisMax;
@@ -22,6 +23,10 @@ public class DemandeVo {
     
     
     
+
+    private String etatDemande;
+
+
 
 	public String getComptableValidateurCode() {
 		return comptableValidateurCode;
@@ -126,4 +131,8 @@ public class DemandeVo {
     public void setComptableValidateur(String comptableValidateur) {
         this.comptableValidateur = comptableValidateur;
     }
+
+    public String getEtatDemande() { return etatDemande; }
+
+    public void setEtatDemande(String etatDemande) { this.etatDemande = etatDemande; }
 }

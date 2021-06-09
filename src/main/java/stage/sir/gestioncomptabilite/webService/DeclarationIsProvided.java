@@ -3,6 +3,7 @@ package stage.sir.gestioncomptabilite.webService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import stage.sir.gestioncomptabilite.bean.DeclarationIS;
+import stage.sir.gestioncomptabilite.bean.TauxIS;
 import stage.sir.gestioncomptabilite.bean.TauxIsConfig;
 import stage.sir.gestioncomptabilite.service.DeclarationISService;
 import stage.sir.gestioncomptabilite.vo.DeclarationIsObject;
@@ -46,14 +47,24 @@ public class DeclarationIsProvided {
         return declarationISService.findBySocieteIceAndAnnee(ice, annee);
     }
 
-    @GetMapping("/age/{age}/ice/{ice}/montantCalcule/{montantCalcule}")
+    @GetMapping("/montantPaye/age/{age}/cm/{cm}/montantCalcule/{montantCalcule}")
     public Double montantPaye(@PathVariable Double age, @PathVariable Double cm, @PathVariable Double montantCalcule) {
         return declarationISService.montantPaye(age, cm, montantCalcule);
+    }
+
+    @GetMapping("/montantISCalcule/rf/{rf}")
+    public Double calculMontantIS(@PathVariable Double rf) {
+        return declarationISService.calculMontantIS(rf);
     }
 
     @GetMapping("/find-tauxIsConfig/annee/{annee}")
     public TauxIsConfig findTauxIsConfig(@PathVariable double annee) {
         return declarationISService.findTauxIsConfig(annee);
+    }
+
+    @GetMapping("/find-tauxIS/totalDiff/{totalDiff}")
+    public TauxIS findTauxIS(@PathVariable Double totalDiff) {
+        return declarationISService.findTauxIS(totalDiff);
     }
 
     @GetMapping("/etatDeclaration/libelle/{libelle}")
@@ -64,11 +75,6 @@ public class DeclarationIsProvided {
     @PostMapping("/criteria/")
     public List<DeclarationIS> searchCriteria(@RequestBody DeclarationIsVo declarationIsVo) {
         return declarationISService.searchCriteria(declarationIsVo);
-    }
-
-    @GetMapping("/montantISCalcule/rf/{rf}")
-    public Double calculMontantIS(@PathVariable Double rf) {
-        return declarationISService.calculMontantIS(rf);
     }
 
     @PutMapping("/")

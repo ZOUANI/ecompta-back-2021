@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import stage.sir.gestioncomptabilite.bean.Acomptes;
+import stage.sir.gestioncomptabilite.bean.Societe;
 import stage.sir.gestioncomptabilite.dao.AcomptesDao;
 
 import java.util.List;
@@ -12,6 +13,10 @@ import java.util.List;
 public class AcomptesService {
 
     public List<Acomptes> findByNumero(Integer numero) { return acomptesDao.findByNumero(numero); }
+
+    public Acomptes findBySocieteIceAndAnneePayeAndNumero(String ice, double annee, Integer numero) {
+        return acomptesDao.findBySocieteIceAndAnneePayeAndNumero(ice, annee, numero);
+    }
 
     @Transactional
     public int deleteByNumero(Integer numero) {
@@ -32,10 +37,21 @@ public class AcomptesService {
     public List<Acomptes> findAll() { return acomptesDao.findAll(); }
 
     public int save(Acomptes acomptes) {
-        acomptesDao.save(acomptes);
-        return 1;
+        Societe societe = societeService.findByIce(acomptes.getSociete().getIce());
+        acomptes.setSociete(societe);
+        if(findBySocieteIceAndAnneePayeAndNumero(acomptes.getSociete().getIce(), acomptes.getAnneePaye(), acomptes.getNumero()) != null){
+            return -1;
+        }else if (societe == null){
+            return -2;
+        }else {
+            acomptesDao.save(acomptes);
+            return 1;
+        }
+
     }
 
     @Autowired
     AcomptesDao acomptesDao;
+    @Autowired
+    SocieteService societeService;
 }
