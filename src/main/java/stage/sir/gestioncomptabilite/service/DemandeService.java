@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import stage.sir.gestioncomptabilite.bean.Demande;
+import stage.sir.gestioncomptabilite.bean.EtatDemande;
 import stage.sir.gestioncomptabilite.bean.Societe;
 import stage.sir.gestioncomptabilite.dao.DemandeDao;
 import stage.sir.gestioncomptabilite.util.StringUtil;
@@ -31,6 +32,13 @@ public class DemandeService {
 
     public Demande findByUserUsername(String username) {
         return demandeDao.findByUserUsername(username);
+    }
+
+    public Integer findTrim(Integer mois){
+        if (mois>=1 && mois<=3){ return 1; }
+        if (mois>=4 && mois<=6){ return 2; }
+        if (mois>=7 && mois<=9){ return 3; }
+        else{ return 4; }
     }
 
     public List<Demande> searchCriteria(DemandeVo demandeVo){
@@ -66,7 +74,7 @@ public class DemandeService {
         Societe societe = societeService.findByIce(demande.getSociete().getIce());
         demande.setSociete(societe);
         if (societe == null){
-            return -3;
+            return -1;
         }
         else {
             Date dateDemande = new Date();
@@ -79,24 +87,20 @@ public class DemandeService {
     public int save(Demande demande) {
         Societe societe = societeService.findByIce(demande.getSociete().getIce());
         demande.setSociete(societe);
-
+        EtatDemande etatDemande = etatDemandeService.findByLibelle("en attente de réponse");
         if (findByRef(demande.getRef()) != null){ return -1; }
         else if (demande.getOperation() == null){ return -2; }
         else if (societe == null){ return -3; }
-        else if (demande.getOperation() == "Declaration IS" && demande.getAnnee() == 0){
-            return -4;
-        }
-        else if (demande.getOperation() == "Declaration IR" && demande.getMois() == null && demande.getAnnee() == 0){
-            return -5;
-        }
-        else if (demande.getOperation() == "Declaration TVA" && demande.getMois() == null && demande.getTrimestre() == null && demande.getAnnee() == 0){
-            return -6;
-        }
         else {
+            if (demande.getMois() != null){
+                demande.setTrimestre(findTrim(demande.getMois()));
+            }
             Date dateDemande = new Date();
             demande.setDateDemande(dateDemande);
             demande.setUser(null);
-            demande.setEtatDemande(null);
+            demande.setComptableTraiteur(null);
+            demande.setComptableValidateur(null);
+            demande.setEtatDemande(etatDemande);
             demandeDao.save(demande);
             return 1;
         }
@@ -106,6 +110,8 @@ public class DemandeService {
     DemandeDao demandeDao;
     @Autowired
     SocieteService societeService;
+    @Autowired
+    EtatDemandeService etatDemandeService;
     @Autowired
     EntityManager entityManager;
 }

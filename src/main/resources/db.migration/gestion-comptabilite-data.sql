@@ -327,6 +327,85 @@ INSERT INTO `user_roles` (`user_id`, `role_id`) VALUES
 (6, 5),
 (11, 5),
 (5, 6);
+
+
+-------------------------------------------------------------------------------------------
+--
+-- Déchargement des données de la table `acomptes`
+--
+
+INSERT INTO `acomptes` (`id`, `annee_paye`, `montant`, `numero`, `societe`) VALUES
+(287, 2021, 355608.6025, 1, NULL),
+(285, 2021, 42478.3, 1, NULL),
+(291, 2021, 0, 1, NULL),
+(293, 2021, 290500, 1, NULL),
+(295, 2021, 42478.3, 1, NULL),
+(297, 2021, 42478.3, 1, NULL),
+(330, 2021, 290500, 1, 1);
+
+--
+-- Déchargement des données de la table `declarationis`
+--
+
+INSERT INTO `declarationis` (`id`, `annee`, `montantiscalcule`, `montantispaye`, `totalhtcharge`, `totalhtdiff`, `totalhtgain`, `societe`, `taux_is_config`, `tauxis`, `ref`, `etat_declaration`, `total_paye`, `acomptes`) VALUES
+(294, 2020, 1162000, 1162000, 4100000, 4200000, 8300000, 1, 91, 6, '1622765357838', 101, 1452500, 293),
+(292, 2020, 170000, 0, 8000000, 1000000, 9000000, 157, 91, 6, '1622765343570', 100, 0, 291),
+(325, 2021, 1.1, 3000, 0, 11, 11, 3, 91, 4, '1622852151408', 101, 3000, NULL),
+(289, 2019, 0, 3000, 73200, -36300, 36900, 1, 91, NULL, '1622764928672', 100, 3000, NULL),
+(288, 2020, 1422434.41, 1422434.41, 5100000, 5040111, 10140111, 2, 91, 6, '1622764871986', 100, 1778043.0125, 287);
+
+--
+-- Déchargement des données de la table `demande`
+--
+
+INSERT INTO `demande` (`id`, `annee`, `mois`, `operation`, `ref`, `societe`, `user`, `date_demande`, `trim`, `trimestre`, `comptable_traiteur`, `comptable_validateur`, `etat_demande`) VALUES
+(364, 2020, NULL, 'Declaration IS', 'd1', 2, NULL, '2021-06-09 00:52:14', NULL, NULL, NULL, NULL, 363),
+(365, 2020, NULL, 'Declaration IS', 'd2', 1, NULL, '2021-06-09 00:53:13', NULL, NULL, NULL, NULL, 363),
+(368, 2020, 3, 'Declaration IR', 'd3', 1, NULL, '2021-06-09 01:11:33', NULL, 1, NULL, NULL, 363),
+(369, 2019, 11, 'Declaration IR', 'd4', 1, NULL, '2021-06-09 01:12:45', NULL, 4, NULL, NULL, 363),
+(370, 2019, NULL, 'Declaration IS', 'd5', 1, NULL, '2021-06-09 01:13:43', NULL, NULL, NULL, NULL, 363),
+(371, 2019, 4, 'Declaration TVA', 'd6', 157, NULL, '2021-06-09 01:14:28', NULL, 2, NULL, NULL, 363),
+(372, 2018, 7, 'Declaration TVA', 'd7', 157, NULL, '2021-06-09 01:17:41', NULL, 3, NULL, NULL, 363);
+
+--
+-- Déchargement des données de la table `etat_declaration`
+--
+
+INSERT INTO `etat_declaration` (`id`, `libelle`, `ref`) VALUES
+(100, 'valider', 'etat1'),
+(101, 'brouillon', 'etat2');
+
+--
+-- Déchargement des données de la table `etat_demande`
+--
+
+INSERT INTO `etat_demande` (`id`, `libelle`, `ref`) VALUES
+(359, 'traitée', 'e1'),
+(360, 'en cours de traitement', 'e2'),
+(361, 'rejetée', 'e3'),
+(362, 'acceptée', 'e4'),
+(363, 'en attente de réponse', 'e5');
+
+--
+-- Déchargement des données de la table `tauxis`
+--
+
+INSERT INTO `tauxis` (`id`, `pourcentage`, `ref`, `resultat_fiscal_max`, `resultat_fiscal_min`) VALUES
+(4, 10, 't1', 300000, 0),
+(5, 20, 't2', 1000000, 300000),
+(6, 31, 't3', 9999999999, 1000000);
+
+--
+-- Déchargement des données de la table `taux_is_config`
+--
+
+INSERT INTO `taux_is_config` (`id`, `cotisation_minimale`, `ref`, `annee_max`, `annee_min`) VALUES
+(91, 3000, 'cm1', 2021, 2018),
+(139, 1500, 'cm2', 2017, 2015);
+
+-------------------------------------------------------------------------------------------
+
+
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 

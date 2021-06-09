@@ -21,6 +21,11 @@ public class EtatDemandeProvided {
         return etatDemandeService.deleteByRef(ref);
     }
 
+    @GetMapping("/libelle/{libelle}")
+    public EtatDemande findByLibelle(@PathVariable String libelle) {
+        return etatDemandeService.findByLibelle(libelle);
+    }
+
     @GetMapping("/")
     public List<EtatDemande> findAll() {
         return etatDemandeService.findAll();

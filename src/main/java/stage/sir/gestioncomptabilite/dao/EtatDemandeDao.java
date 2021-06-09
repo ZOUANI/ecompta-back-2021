@@ -8,4 +8,5 @@ import stage.sir.gestioncomptabilite.bean.EtatDemande;
 public interface EtatDemandeDao extends JpaRepository<EtatDemande, Long> {
     EtatDemande findByRef(String ref);
     int deleteByRef(String ref);
+    EtatDemande findByLibelle(String libelle);
 }

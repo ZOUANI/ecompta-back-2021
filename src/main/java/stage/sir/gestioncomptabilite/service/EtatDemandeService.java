@@ -20,6 +20,10 @@ public class EtatDemandeService {
         return etatDemandeDao.deleteByRef(ref);
     }
 
+    public EtatDemande findByLibelle(String libelle) {
+        return etatDemandeDao.findByLibelle(libelle);
+    }
+
     public List<EtatDemande> findAll() {
         return etatDemandeDao.findAll();
     }
