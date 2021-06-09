@@ -34,7 +34,7 @@ public class DemandeService {
         return demandeDao.findByUserUsername(username);
     }
 
-    public Integer findTrim(Integer mois){
+    public Integer findTrimestre(Integer mois){
         if (mois>=1 && mois<=3){ return 1; }
         if (mois>=4 && mois<=6){ return 2; }
         if (mois>=7 && mois<=9){ return 3; }
@@ -93,7 +93,7 @@ public class DemandeService {
         else if (societe == null){ return -3; }
         else {
             if (demande.getMois() != null){
-                demande.setTrimestre(findTrim(demande.getMois()));
+                demande.setTrimestre(findTrimestre(demande.getMois()));
             }
             Date dateDemande = new Date();
             demande.setDateDemande(dateDemande);
