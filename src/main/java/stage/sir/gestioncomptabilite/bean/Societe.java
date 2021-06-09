@@ -22,10 +22,7 @@ public class Societe {
     private Date dateCreation;
     private int anneeExploitation;
     private Double age;
-
-  
-    
-    
+   
     
     
     
@@ -37,11 +34,12 @@ public class Societe {
     private Comptable comptable;
     @ManyToOne
     private EtatSociete etatSociete;
-
-   
-    /*@OneToOne
-    private User user;*/
-
+    @Column(name = "user_name", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "societe")
+    private List<User> userList;
+    
+    
 
     
 
@@ -60,6 +58,18 @@ public class Societe {
 	public void setUser(User user) {
 		this.user = user;
 	}*/
+
+	public List<User> getUserList() {
+		return userList;
+	}
+
+
+
+
+
+	public void setUserList(List<User> userList) {
+		this.userList = userList;
+	}
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 

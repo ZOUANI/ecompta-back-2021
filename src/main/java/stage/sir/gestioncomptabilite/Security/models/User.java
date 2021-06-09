@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,8 +22,20 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+
+
+import stage.sir.gestioncomptabilite.bean.Comptable;
 import stage.sir.gestioncomptabilite.bean.DeclarationIR;
 import stage.sir.gestioncomptabilite.bean.Societe;
+
+
+/*
+, 
+uniqueConstraints = { 
+	@UniqueConstraint(columnNames = "username"),
+	@UniqueConstraint(columnNames = "email"), 
+	
+}*/
 
 @Entity
 @Table(	name = "users", 
@@ -61,6 +74,13 @@ public class User {
 	private Societe societe;*/
 	
 	
+	@ManyToOne
+	private Societe societe;
+	
+	@OneToOne
+    private Comptable comptable;
+	
+	
 	
 	
 /*
@@ -71,6 +91,22 @@ public class User {
 	public void setSociete(Societe societe) {
 		this.societe = societe;
 	}*/
+
+	public Comptable getComptable() {
+		return comptable;
+	}
+
+	public void setComptable(Comptable comptable) {
+		this.comptable = comptable;
+	}
+
+	public Societe getSociete() {
+		return societe;
+	}
+
+	public void setSociete(Societe societe) {
+		this.societe = societe;
+	}
 
 	public User() {
 	}

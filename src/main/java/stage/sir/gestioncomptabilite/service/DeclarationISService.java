@@ -280,18 +280,20 @@ public class DeclarationISService{
             declarationIS.setTauxIsConfig(findTauxIsConfig(declarationIS.getAnnee()));
             declarationIS.setMontantISPaye(montantPaye(declarationIS.getSociete().getAge(), declarationIS.getTauxIsConfig().getCotisationMinimale(), declarationIS.getMontantISCalcule()));
 
+            /*
             if (declarationIS.getMontantISCalcule() > declarationIS.getTauxIsConfig().getCotisationMinimale()){
                 acomptes.setAnneePaye(declarationIS.getAnnee() + 1);
                 acomptes.setNumero(1);
                 acomptes.setMontant(declarationIS.getMontantISPaye() / 4);
                 acomptes.setSociete(declarationIS.getSociete());
                 acomptesService.save(acomptes);
-                declarationIS.setAcomptes(acomptes);
-                declarationIS.setTotalPaye(declarationIS.getMontantISPaye() + declarationIS.getAcomptes().getMontant());
+                //declarationIS.setAcomptes(acomptes);
+                declarationIS.setTotalPaye(declarationIS.getMontantISPaye() + acomptes.getMontant());
             } else {
                 declarationIS.setTotalPaye(declarationIS.getMontantISPaye());
-                declarationIS.setAcomptes(null);
+                //declarationIS.setAcomptes(null);
             }
+            */
             declarationISDao.save(declarationIS);
             setFactureDeclarationIS(declarationIS);
             return 1;

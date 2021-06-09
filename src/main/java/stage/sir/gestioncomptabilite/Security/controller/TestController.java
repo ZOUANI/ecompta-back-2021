@@ -22,7 +22,7 @@ public class TestController {
 	public List<User> getAdminList(@PathVariable ERole role) {
 		return userRepository.getAdminList(role);
 	}*/
-	@PreAuthorize("hasRole('ADMIN') or hasRole('COMPTABLE')")
+	//@PreAuthorize("hasRole('ADMIN') or hasRole('COMPTABLE')")
 	@GetMapping("/")
 	public List<User> findAll() {
 		return userRepository.findAll();
