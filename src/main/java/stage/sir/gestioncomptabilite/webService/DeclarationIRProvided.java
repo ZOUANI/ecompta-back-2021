@@ -62,6 +62,9 @@ public class DeclarationIRProvided {
 	
 	@PostMapping("/createDeclarationIr")
 	public List<DeclarationIREmploye> createDeclarationIr(@RequestBody DeclarationIR declarationIR) {
+		//System.out.println("*****************");
+	//	System.out.println(declarationIR);
+	//	System.out.println(declarationIR.getSociete());
 		return declarationIRService.createDeclarationIr(declarationIR);
 	}
 	/*@GetMapping("/createDeclarationIr")

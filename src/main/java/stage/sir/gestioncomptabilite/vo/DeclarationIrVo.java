@@ -1,11 +1,15 @@
 package stage.sir.gestioncomptabilite.vo;
 
+import stage.sir.gestioncomptabilite.bean.DeclarationIR;
+
 public class DeclarationIrVo {
 	private String ref;
 	private String annee;
     private String moisMin;
     private String moisMax;
     private String societe;
+    
+    
 	public String getRef() {
 		return ref;
 	}

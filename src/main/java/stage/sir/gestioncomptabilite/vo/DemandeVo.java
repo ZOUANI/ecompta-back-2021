@@ -12,10 +12,63 @@ public class DemandeVo {
     private String societe;
     private String comptableTraiteur;
     private String comptableValidateur;
+
+    private String annee;
+    private String moisMin;
+    private String moisMax;
+    private String comptableTraiteurCode;
+    private String comptableValidateurCode;
+    
+    
+    
+    
+    
+
     private String etatDemande;
 
 
-    public String getRef() {
+
+	public String getComptableValidateurCode() {
+		return comptableValidateurCode;
+	}
+
+	public void setComptableValidateurCode(String comptableValidateurCode) {
+		this.comptableValidateurCode = comptableValidateurCode;
+	}
+
+	public String getComptableTraiteurCode() {
+		return comptableTraiteurCode;
+	}
+
+	public void setComptableTraiteurCode(String comptableTraiteurCode) {
+		this.comptableTraiteurCode = comptableTraiteurCode;
+	}
+
+	public String getAnnee() {
+		return annee;
+	}
+
+	public void setAnnee(String annee) {
+		this.annee = annee;
+	}
+
+	public String getMoisMin() {
+		return moisMin;
+	}
+
+	public void setMoisMin(String moisMin) {
+		this.moisMin = moisMin;
+	}
+
+	public String getMoisMax() {
+		return moisMax;
+	}
+
+	public void setMoisMax(String moisMax) {
+		this.moisMax = moisMax;
+	}
+
+	public String getRef() {
         return ref;
     }
 

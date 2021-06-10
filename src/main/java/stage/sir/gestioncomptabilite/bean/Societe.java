@@ -3,6 +3,8 @@ package stage.sir.gestioncomptabilite.bean;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import stage.sir.gestioncomptabilite.Security.models.User;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -20,13 +22,7 @@ public class Societe {
     private Date dateCreation;
     private int anneeExploitation;
     private Double age;
-
-  
-    @OneToOne
-    private Login login;
-    
-    
-    
+   
     
     
     
@@ -38,28 +34,50 @@ public class Societe {
     private Comptable comptable;
     @ManyToOne
     private EtatSociete etatSociete;
+    @Column(name = "user_name", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "societe")
+    private List<User> userList;
+    
+    
 
-    public Login getLogin() {
-		return login;
-	}
+    
 
-
-
-
-
-	public void setLogin(Login login) {
-		this.login = login;
-	}
+	
 
 	//@JsonProperty(access = JsonProperty.Access.WRITE_ONLY )
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+   /* public User getUser() {
+		return user;
+	}
+
+
+
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}*/
+
+	public List<User> getUserList() {
+		return userList;
+	}
+
+
+
+
+
+	public void setUserList(List<User> userList) {
+		this.userList = userList;
+	}
+
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 
     @OneToMany(mappedBy = "societe")
     private List<DeclarationIR> declarationIRs;
 
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "societeEmp")
     private List<Employe> employes;
 

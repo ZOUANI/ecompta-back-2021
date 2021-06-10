@@ -3,8 +3,11 @@ package stage.sir.gestioncomptabilite.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import stage.sir.gestioncomptabilite.bean.Employe;
 import stage.sir.gestioncomptabilite.bean.Societe;
 import stage.sir.gestioncomptabilite.config.DateUtil;
+import stage.sir.gestioncomptabilite.dao.EmployeDao;
 import stage.sir.gestioncomptabilite.dao.SocieteDao;
 
 import java.util.Date;
@@ -15,7 +18,8 @@ public class SocieteService {
 
     @Autowired
     SocieteDao societeDao;
-
+    @Autowired
+    EmployeDao employeDao;
     
     
     
@@ -70,6 +74,10 @@ public class SocieteService {
     public List<Societe> findAll() {
         return societeDao.findAll();
     }
+    public List<Employe> findListEmployes(String ice){
+    	List<Employe> employes=employeDao.findBySocieteEmpIce(ice);
+    	return employes;	
+    }
 
     public int save(Societe societe) {
         if(findByIce(societe.getIce()) != null){
@@ -103,7 +111,7 @@ public class SocieteService {
             Long agee = days/365;
             Double ageSociete = (double) agee;
             societe.setAge(ageSociete);
-            societe.setLogin(null);
+          //  societe.setLogin(null);
             societe.setEtatSociete(null);
             societe.setComptable(null);
             societeDao.save(societe);
