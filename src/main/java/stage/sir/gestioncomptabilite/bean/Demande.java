@@ -1,11 +1,9 @@
 package stage.sir.gestioncomptabilite.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import stage.sir.gestioncomptabilite.Security.models.User;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Demande {
@@ -20,8 +18,6 @@ public class Demande {
     private Integer trimestre;
     @ManyToOne
     private Societe societe;
-    @ManyToOne
-    private User user;
     @ManyToOne
     private Comptable comptableTraiteur;
     @ManyToOne
@@ -94,14 +90,6 @@ public class Demande {
 
     public void setSociete(Societe societe) {
         this.societe = societe;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Comptable getComptableTraiteur() {
