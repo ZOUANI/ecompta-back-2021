@@ -19,6 +19,10 @@ public class DemandeProvided {
 	public List<Demande> findBycomptableTraiteurCodeAndAnneeAndMois(@PathVariable String code,@PathVariable Double annee,@PathVariable Integer mois) {
 		return demandeService.findBycomptableTraiteurCodeAndAnneeAndMois(code, annee, mois);
 	}*/
+	@GetMapping("/societe/ice/{ice}")
+	public List<Demande> findBySocieteIce(@PathVariable String ice) {
+		return demandeService.findBySocieteIce(ice);
+	}
 
 	@GetMapping("/comptableValidateur/code/{code}")
 	public List<Demande> findBycomptableValidateurCode(@PathVariable String code) {

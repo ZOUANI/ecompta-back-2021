@@ -15,6 +15,8 @@ public interface DemandeDao extends JpaRepository<Demande, Long> {
     Demande findByUserUsername(String username);
    // List<Employe> findBySociete
     List<Demande> findBycomptableTraiteurCode(String code);
+    
     List<Demande> findBycomptableValidateurCode(String code);
-   // List<Demande> findBycomptableTraiteurCodeAndAnneeAndMois(String code,Double annee,Integer mois);
+    List<Demande> findBySocieteIce(String ice);
+    Demande findByEtatDemandeLibelle(String libelle);
 }
