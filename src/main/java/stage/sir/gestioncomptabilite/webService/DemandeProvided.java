@@ -49,11 +49,6 @@ public class DemandeProvided {
         return demandeService.findByOperation(operation);
     }
 
-    @GetMapping("/user/username/{username}")
-    public Demande findByUserUsername(@PathVariable String username) {
-        return demandeService.findByUserUsername(username);
-    }
-
     @GetMapping("/")
     public List<Demande> findAll() {
         return demandeService.findAll();
@@ -76,11 +71,14 @@ public class DemandeProvided {
 
     @Autowired
     DemandeService demandeService;
-    @PostMapping("/searchDemandeCriteria")
+    /*
+	@PostMapping("/searchDemandeCriteria")
 	public List<Demande> searchDemandeCriteria(@RequestBody DemandeVo demandeVo) {
     	
     	
 		return demandeService.searchDemandeCriteria(demandeVo);
 	}
+
+     */
 
 }
