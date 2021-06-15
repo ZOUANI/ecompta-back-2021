@@ -81,8 +81,8 @@ public class FactureService extends AbstractFacade<Facture>{
         facture.setEtatFacture(etatFacture);
         EtatPaiement etatPaiement = etatPaiementService.findByCode(facture.getEtatPaiement().getCode());
         facture.setEtatPaiement(etatPaiement);
-        ClasseComptable cpt = comptComptableService.findByNumero(facture.getClassComptable().getNumero());
-        facture.setClassComptable(cpt);
+       /* ClasseComptable cpt = comptComptableService.findByNumero(facture.getClassComptable().getNumero());
+        facture.setClassComptable(cpt); */
         Facture facture1 = factureDao.findByRef(facture.getRef());
 
         if ((facture1 != null) &&(facture1.getSocieteSource().getIce() == facture.getSocieteSource().getIce())  ) {
@@ -97,9 +97,9 @@ public class FactureService extends AbstractFacade<Facture>{
             return -5;
         }  else if (etatPaiement == null) {
             return -6;
-        } else if (cpt == null) {
+        } /*else if (cpt == null) {
             return -7;
-        }
+        }*/
 
         else{
 
@@ -107,6 +107,7 @@ public class FactureService extends AbstractFacade<Facture>{
             facture.setDeclarationIR(null);
             facture.setDeclarationIS(null);
             facture.setDeclarationTva(null);
+            facture.setClassComptable(null);
             facture.setMontantTVA((facture.getMontantHorsTaxe() * facture.getTva().getValeur()) /100);
             facture.setMontantTTC(facture.getMontantHorsTaxe() + facture.getMontantTVA());
             facture.setTrim(Trouvertrim(facture.getDateOperation()));
@@ -114,13 +115,13 @@ public class FactureService extends AbstractFacade<Facture>{
             facture.setAnnee(facture.getDateOperation().getYear() + 1900);
 
             if(facture.getTypeOperation().equals("CRÉDIT")){
-                etatCredit = String.valueOf(facture.getMontantTTC());
+                etatCredit = String.valueOf(facture.getMontantTTC()) +" DH";
                 etatDebit = "-";
                 facture.setCredit(etatCredit);
                 facture.setDebit(etatDebit);
             }
             if(facture.getTypeOperation().equals("DÉBIT")){
-                etatDebit = String.valueOf(facture.getMontantTTC());
+                etatDebit = String.valueOf(facture.getMontantTTC()) +" DH";
                 etatCredit = "-";
                 facture.setCredit(etatCredit);
                 facture.setDebit(etatDebit);
@@ -151,7 +152,9 @@ public class FactureService extends AbstractFacade<Facture>{
 
     public List<Facture>  Journal(FactureVo factureVo){
 
-        String request = "SELECT f FROM Facture f WHERE 1=1 ";
+        String request = "SELECT f FROM Facture f WHERE 1=1";
+        request += " AND f.societeSource.ice = '" + factureVo.getReference() + "' ";
+
 
         request+=addConstraintMinMaxDate("f","dateOperation",factureVo.getDmin(),factureVo.getDmax());
         return entityManager.createQuery(request).getResultList();
@@ -188,9 +191,10 @@ public class FactureService extends AbstractFacade<Facture>{
         facture.setEtatFacture(etatFacture);
         EtatPaiement etatPaiement = etatPaiementService.findByCode(facture.getEtatPaiement().getCode());
         facture.setEtatPaiement(etatPaiement);
+        facture.setClassComptable(null);
 
-        ClasseComptable cpt = comptComptableService.findByNumero(facture.getClassComptable().getNumero());
-        facture.setClassComptable(cpt);
+        /*ClasseComptable cpt = comptComptableService.findByNumero(facture.getClassComptable().getNumero());
+        facture.setClassComptable(cpt); */
         Facture facture1 = factureDao.findByRef(facture.getRef());
 
         if (societeS == null) {
@@ -203,9 +207,9 @@ public class FactureService extends AbstractFacade<Facture>{
             return -5;
         }  else if (etatPaiement == null) {
             return -6;
-        }  else if (cpt == null) {
+        } /* else if (cpt == null) {
             return -4;
-        }
+        }*/
 
         else{
 
@@ -215,13 +219,13 @@ public class FactureService extends AbstractFacade<Facture>{
             facture.setMois(facture.getDateOperation().getMonth() +1);
             facture.setAnnee(facture.getDateOperation().getYear() + 1900);
             if(facture.getTypeOperation().equals("CRÉDIT")){
-                etatCredit = String.valueOf(facture.getMontantTTC());
+                etatCredit = String.valueOf(facture.getMontantTTC()) +" DH";
                 etatDebit = "-";
                 facture.setCredit(etatCredit);
                 facture.setDebit(etatDebit);
             }
             if(facture.getTypeOperation().equals("DÉBIT")){
-                etatDebit = String.valueOf(facture.getMontantTTC());
+                etatDebit = String.valueOf(facture.getMontantTTC()) +" DH";
                 etatCredit = "-";
                 facture.setCredit(etatCredit);
                 facture.setDebit(etatDebit);
