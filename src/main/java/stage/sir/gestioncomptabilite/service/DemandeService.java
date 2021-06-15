@@ -21,6 +21,14 @@ import java.util.List;
 @Service
 public class DemandeService {
 
+	
+	
+	
+	public List<Demande> findBySocieteIce(String ice) {
+		return demandeDao.findBySocieteIce(ice);
+	}
+	
+
 	/*public List<Demande> findBycomptableTraiteurCodeAndAnneeAndMois(String code, Double annee, Integer mois) {
 		return demandeDao.findBycomptableTraiteurCodeAndAnneeAndMois(code, annee, mois);
 	}*/
@@ -93,11 +101,26 @@ public class DemandeService {
     public int edit(Demande demande){
         Societe societe = societeService.findByIce(demande.getSociete().getIce());
         demande.setSociete(societe);
+        String etatFront=demande.getEtatDemande().getLibelle();
+        EtatDemande etatDemande = etatDemandeService.findByLibelle(etatFront);
         if (societe == null){
             return -1;
         }
         else {
-        	
+        	if (demande.getEtatDemande().getLibelle()=="en attente de réponse") {
+				 etatDemande = etatDemandeService.findByLibelle(etatFront);
+			}else if (demande.getEtatDemande().getLibelle()=="en cours de traitement") {
+				 etatDemande = etatDemandeService.findByLibelle(etatFront);
+			}else if (demande.getEtatDemande().getLibelle()=="acceptée") {
+				 etatDemande = etatDemandeService.findByLibelle(etatFront);
+			}else if (demande.getEtatDemande().getLibelle()=="rejetée") {
+				 etatDemande = etatDemandeService.findByLibelle(etatFront);
+			}else if (demande.getEtatDemande().getLibelle()=="traitée") {
+				 etatDemande = etatDemandeService.findByLibelle(etatFront);
+			}
+        	demande.setEtatDemande(etatDemande);
+        	System.out.println(demande);
+        	System.out.println(etatFront);
             Date dateDemande = new Date();
             demande.setDateDemande(dateDemande);
             demandeDao.save(demande);
@@ -144,12 +167,15 @@ public class DemandeService {
     DemandeDao demandeDao;
     
 
+	
+
 	@Autowired
     SocieteService societeService;
     @Autowired
     EtatDemandeService etatDemandeService;
     @Autowired
     EntityManager entityManager;
+
 	
 	
 	
