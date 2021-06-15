@@ -65,4 +65,5 @@ public class Paiement {
     public void setDatePaiement(Date datePaiement) {
         this.datePaiement = datePaiement;
     }
+
 }

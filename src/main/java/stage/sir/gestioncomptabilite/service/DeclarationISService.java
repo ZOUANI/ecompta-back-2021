@@ -6,17 +6,26 @@ import org.springframework.transaction.annotation.Transactional;
 import stage.sir.gestioncomptabilite.bean.*;
 import stage.sir.gestioncomptabilite.dao.DeclarationISDao;
 import stage.sir.gestioncomptabilite.util.StringUtil;
-import stage.sir.gestioncomptabilite.vo.*;
+import stage.sir.gestioncomptabilite.vo.DeclarationIsObject;
+import stage.sir.gestioncomptabilite.vo.DeclarationIsVo;
+import stage.sir.gestioncomptabilite.vo.DeclarationIsXml;
+import stage.sir.gestioncomptabilite.vo.FactureXml;
 
 import javax.persistence.EntityManager;
 import javax.xml.bind.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class DeclarationISService{
 
+
+    public boolean compare(Date min, Date max, Date date){
+        //return min.compareTo(date) * date.compareTo(max) >= 0;
+        return date.compareTo(min) > 0 && date.compareTo(max) < 0;
+    }
 
     public DeclarationIS findByRef(String ref) { return declarationISDao.findByRef(ref); }
 
@@ -29,7 +38,7 @@ public class DeclarationISService{
             f.setDeclarationIS(null);
             factureService.update(f);
         }
-        int acomptesDeleted = acomptesService.deleteBySocieteIceAndAnneePaye(ice, annee + 1);
+        int acomptesDeleted = acomptesService.deleteBySocieteIceAndAnnee(ice, annee + 1);
         return declarationISDao.deleteBySocieteIceAndAnnee(ice, annee);
     }
 
@@ -177,7 +186,14 @@ public class DeclarationISService{
         if (declarationIS != null){
             decIsOb.setEtatDeclaration(declarationIS.getEtatDeclaration());
         } else { decIsOb.setEtatDeclaration(null); }
-
+        Date dateActuelle = new Date();
+        Date dateMin = new Date(dateActuelle.getYear(), 03, 01);
+        Date dateMax = new Date(dateActuelle.getYear(), 03, 31);
+        if (decIsOb.getMontantISPaye() > 0){
+            if (compare(dateMin, dateMax, dateActuelle) && (int)decIsOb.getAnnee() == dateActuelle.getYear() + 1900){
+                decIsOb.setTotalPaye(decIsOb.getMontantISPaye());
+            } else decIsOb.setTotalPaye(decIsOb.getTauxIS().getPenalite() + decIsOb.getMontantISPaye());
+        }
         return decIsOb;
     }
 
@@ -283,21 +299,16 @@ public class DeclarationISService{
             }
             declarationIS.setTauxIsConfig(findTauxIsConfig(declarationIS.getAnnee()));
             declarationIS.setMontantISPaye(montantPaye(declarationIS.getSociete().getAge(), declarationIS.getTauxIsConfig().getCotisationMinimale(), declarationIS.getMontantISCalcule()));
-
-            /*
-            if (declarationIS.getMontantISCalcule() > declarationIS.getTauxIsConfig().getCotisationMinimale()){
-                acomptes.setAnneePaye(declarationIS.getAnnee() + 1);
-                acomptes.setNumero(1);
-                acomptes.setMontant(declarationIS.getMontantISPaye() / 4);
-                acomptes.setSociete(declarationIS.getSociete());
-                acomptesService.save(acomptes);
-                //declarationIS.setAcomptes(acomptes);
-                declarationIS.setTotalPaye(declarationIS.getMontantISPaye() + acomptes.getMontant());
-            } else {
-                declarationIS.setTotalPaye(declarationIS.getMontantISPaye());
-                //declarationIS.setAcomptes(null);
+            Date dateActuelle = new Date();
+            Date dateMin = new Date(dateActuelle.getYear(), 03, 01);
+            Date dateMax = new Date(dateActuelle.getYear(), 03, 31);
+            //dateMin.setYear(dateActuelle.getYear()); dateMin.setMonth(3); dateMin.setDate(01);
+            //dateMax.setYear(dateActuelle.getYear()); dateMax.setMonth(3); dateMax.setDate(31);
+            if (declarationIS.getMontantISPaye() > 0){
+                if (compare(dateMin, dateMax, dateActuelle) && (int)declarationIS.getAnnee() == dateActuelle.getYear() + 1900){
+                    declarationIS.setTotalPaye(declarationIS.getMontantISPaye());
+                } else declarationIS.setTotalPaye(declarationIS.getTauxIS().getPenalite() + declarationIS.getMontantISPaye());
             }
-            */
             declarationISDao.save(declarationIS);
             setFactureDeclarationIS(declarationIS);
             return 1;
