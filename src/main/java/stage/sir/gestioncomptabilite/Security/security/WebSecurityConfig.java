@@ -77,7 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/api/test/**").permitAll()
 
 			.antMatchers("/api/test/**").permitAll()
-			.antMatchers("/gestion-comptabilite/categorieService/**").permitAll()
+			//.antMatchers("/gestion-comptabilite/categorieService/**").permitAll()
 			.antMatchers(AUTH_WHITELIST).permitAll()
 				.antMatchers(HttpMethod.POST, "/gestion-comptabilite/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/gestion-comptabilite/**").permitAll()

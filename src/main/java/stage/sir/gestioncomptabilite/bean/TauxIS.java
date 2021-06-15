@@ -11,6 +11,7 @@ public class TauxIS {
     private Double resultatFiscalMin;
     private Double resultatFiscalMax;
     private Double pourcentage;
+    private Double penalite;
 
     public Long getId() {
         return id;
@@ -51,4 +52,8 @@ public class TauxIS {
     public void setPourcentage(Double pourcentage) {
         this.pourcentage = pourcentage;
     }
+
+    public Double getPenalite() { return penalite; }
+
+    public void setPenalite(Double penalite) { this.penalite = penalite; }
 }
