@@ -30,6 +30,15 @@ public class DeclarationIRProvided {
 	}
 	
 
+	
+
+
+	@DeleteMapping("/ref/{ref}")
+	public int deleteByRef(@PathVariable String ref) {
+		return declarationIRService.deleteByRef(ref);
+	}
+
+
 
 
 

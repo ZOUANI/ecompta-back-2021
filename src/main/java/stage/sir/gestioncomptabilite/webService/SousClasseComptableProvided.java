@@ -38,6 +38,11 @@ public class SousClasseComptableProvided {
         return sousClasseComptableService.findAll();
     }
 
+    @PutMapping("/")
+    public int update(@RequestBody SousClasseComptable sousClasseComptable) {
+        return sousClasseComptableService.update(sousClasseComptable);
+    }
+
     @PostMapping("/class-num/{numero}/")
     public int saveAlone(@PathVariable int numero,@RequestBody SousClasseComptable sousClasseComptable) {
         return sousClasseComptableService.saveAlone(sousClasseComptable, numero);

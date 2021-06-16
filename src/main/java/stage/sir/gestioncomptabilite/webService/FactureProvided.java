@@ -1,5 +1,6 @@
 package stage.sir.gestioncomptabilite.webService;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import stage.sir.gestioncomptabilite.bean.Facture;
@@ -7,6 +8,7 @@ import stage.sir.gestioncomptabilite.service.FactureService;
 import stage.sir.gestioncomptabilite.vo.FactureVo;
 
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -61,13 +63,6 @@ public class FactureProvided {
     public List<Facture> Journal(@RequestBody FactureVo objectVo) {
         return factureService.Journal(objectVo);
     }
-    @PostMapping("/CalculSomme")
-    public FactureVo CalculSomme(@RequestBody FactureVo factureVo) {
-        return factureService.CalculSomme(factureVo);
-    }
-
-
-
 
     @GetMapping("/societeSource/ice/{ice}/typeoperation/{typeoperation}")
     public List<Facture> findBySocieteSourceIceAndTypeOperation(@PathVariable String ice,@PathVariable String typeoperation) {
@@ -82,8 +77,5 @@ public class FactureProvided {
         return factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(ice, annee, typeoperation);
     }
 
-    @GetMapping("/annee/{annee}")
-    public List<Facture> findByAnnee(@PathVariable double annee) {
-        return factureService.findByAnnee(annee);
-    }
+
 }

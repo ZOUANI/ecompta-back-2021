@@ -24,6 +24,12 @@ public class DeclarationIREmployeProvided {
 	@Autowired
 	DeclarationIREmployeService declarationIREmployeService;
 	
+	
+	
+	@DeleteMapping("/DeclarationIR/ref/{ref}")
+	public int deleteByDeclarationIRRef(@PathVariable String ref) {
+		return declarationIREmployeService.deleteByDeclarationIRRef(ref);
+	}
 
 	/*
 	

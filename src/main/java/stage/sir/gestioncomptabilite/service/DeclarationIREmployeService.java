@@ -123,7 +123,11 @@ public class DeclarationIREmployeService {
 
 	
 	
-	
+	@Transactional
+	public int deleteByDeclarationIRRef(String ref) {
+		return declarationIREmployeDao.deleteByDeclarationIRRef(ref);
+	}
+
 	public Double calculTotal(List<DeclarationIREmploye> declarationIREmployes) {
 		double total=0;
 		for (DeclarationIREmploye declarationIREmploye : declarationIREmployes) {
@@ -205,6 +209,7 @@ public class DeclarationIREmployeService {
 		
 	}
 
+	
 
 	}
 

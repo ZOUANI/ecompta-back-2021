@@ -73,7 +73,7 @@ public class DemandeService {
         	
             query+= " AND d.comptableTraiteur.code LIKE '%"+ demandeVo.getComptableTraiteurCode()+ "%'";
         }
-        if(StringUtil.isNotEmpty(demandeVo.getComptableValidateur())) {
+        if(StringUtil.isNotEmpty(demandeVo.getComptableValidateurCode())) {
             query+= " AND d.comptableValidateur.code LIKE '%"+ demandeVo.getComptableValidateurCode()+ "%'";
         }
         if(StringUtil.isNotEmpty(demandeVo.getSociete())) {
