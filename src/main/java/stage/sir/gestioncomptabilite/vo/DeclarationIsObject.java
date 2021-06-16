@@ -12,6 +12,7 @@ public class DeclarationIsObject {
     private Double totalHTDiff;
     private Double montantISCalcule;
     private Double montantISPaye;
+    private Double totalPaye;
     private Societe societe;
     private List<Facture> factureD = new ArrayList<Facture>();
     private List<Facture> factureC = new ArrayList<Facture>();
@@ -67,6 +68,10 @@ public class DeclarationIsObject {
     public void setMontantISPaye(Double montantISPaye) {
         this.montantISPaye = montantISPaye;
     }
+
+    public Double getTotalPaye() { return totalPaye; }
+
+    public void setTotalPaye(Double totalPaye) { this.totalPaye = totalPaye; }
 
     public List<Facture> getFactureD() {
         return factureD;

@@ -7,7 +7,7 @@ public class Acomptes {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Integer numero;
-    private double anneePaye;
+    private double annee;
     private Double montant;
     @ManyToOne
     private Societe societe;
@@ -28,12 +28,12 @@ public class Acomptes {
         this.numero = numero;
     }
 
-    public double getAnneePaye() {
-        return anneePaye;
+    public double getAnnee() {
+        return annee;
     }
 
-    public void setAnneePaye(double anneePaye) {
-        this.anneePaye = anneePaye;
+    public void setAnnee(double annee) {
+        this.annee = annee;
     }
 
     public Double getMontant() {

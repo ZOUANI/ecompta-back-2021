@@ -6,7 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 import stage.sir.gestioncomptabilite.bean.Acomptes;
 import stage.sir.gestioncomptabilite.bean.Societe;
 import stage.sir.gestioncomptabilite.dao.AcomptesDao;
+import stage.sir.gestioncomptabilite.util.StringUtil;
+import stage.sir.gestioncomptabilite.vo.AcomptesVo;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 @Service
@@ -14,24 +17,41 @@ public class AcomptesService {
 
     public List<Acomptes> findByNumero(Integer numero) { return acomptesDao.findByNumero(numero); }
 
-    public Acomptes findBySocieteIceAndAnneePayeAndNumero(String ice, double annee, Integer numero) {
-        return acomptesDao.findBySocieteIceAndAnneePayeAndNumero(ice, annee, numero);
+    public Acomptes findBySocieteIceAndAnneeAndNumero(String ice, double annee, Integer numero) {
+        return acomptesDao.findBySocieteIceAndAnneeAndNumero(ice, annee, numero);
     }
 
     @Transactional
-    public int deleteByNumero(Integer numero) {
+    public int deleteBySocieteIceAndAnneeAndNumero(String ice, double annee, Integer numero) {
+        return acomptesDao.deleteBySocieteIceAndAnneeAndNumero(ice, annee, numero);
+    }
+
+    @Transactional
+    public int deleteBySocieteIceAndAnnee(String ice, double annee) {
+        return acomptesDao.deleteBySocieteIceAndAnnee(ice, annee);
+    }
+
+    @Transactional
+    public int deleteMultipleBySocieteIceAndAnnee(List<Acomptes> acomptesList) {
         int res = 0;
-        List<Acomptes> acomptes = findByNumero(numero);
-        for (Acomptes acompte: acomptes){
-            acomptesDao.deleteByNumero(acompte.getNumero());
-            res+=1;
+        for (int i = 0; i < acomptesList.size(); i++) {
+            res += deleteBySocieteIceAndAnneeAndNumero(acomptesList.get(i).getSociete().getIce(), acomptesList.get(i).getAnnee(), acomptesList.get(i).getNumero());
         }
         return res;
     }
 
-    @Transactional
-    public int deleteBySocieteIceAndAnneePaye(String ice, double annee) {
-        return acomptesDao.deleteBySocieteIceAndAnneePaye(ice, annee);
+    public List<Acomptes> SearchCriteria(AcomptesVo acomptesVo){
+        String query = "SELECT a FROM Acomptes a WHERE 1=1";
+        if (StringUtil.isNotEmpty(acomptesVo.getAnnee())){
+            query += " AND a.annee LIKE '%" + acomptesVo.getAnnee() + "%'";
+        }
+        if(StringUtil.isNotEmpty(acomptesVo.getSociete())) {
+            query+= " AND a.societe.ice LIKE '%"+ acomptesVo.getSociete()+ "%'";
+        }
+        if(StringUtil.isNotEmpty(acomptesVo.getNumero())) {
+            query+= " AND a.numero LIKE '%"+ acomptesVo.getNumero()+ "%'";
+        }
+        return entityManager.createQuery(query).getResultList();
     }
 
     public List<Acomptes> findAll() { return acomptesDao.findAll(); }
@@ -39,7 +59,7 @@ public class AcomptesService {
     public int save(Acomptes acomptes) {
         Societe societe = societeService.findByIce(acomptes.getSociete().getIce());
         acomptes.setSociete(societe);
-        if(findBySocieteIceAndAnneePayeAndNumero(acomptes.getSociete().getIce(), acomptes.getAnneePaye(), acomptes.getNumero()) != null){
+        if(findBySocieteIceAndAnneeAndNumero(acomptes.getSociete().getIce(), acomptes.getAnnee(), acomptes.getNumero()) != null){
             return -1;
         }else if (societe == null){
             return -2;
@@ -55,4 +75,6 @@ public class AcomptesService {
     AcomptesDao acomptesDao;
     @Autowired
     SocieteService societeService;
+    @Autowired
+    EntityManager entityManager;
 }
