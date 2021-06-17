@@ -25,6 +25,9 @@ public class AcomptesProvided {
         return acomptesService.deleteBySocieteIceAndAnneeAndNumero(ice, annee, numero);
     }
 
+    @GetMapping("/ice/{ice}/annee/{annee}")
+    public List<Acomptes> findBySocieteIceAndAnnee(@PathVariable String ice, @PathVariable double annee) { return acomptesService.findBySocieteIceAndAnnee(ice, annee); }
+
     @DeleteMapping("/ice/{ice}/annee/{annee}")
     public int deleteBySocieteIceAndAnnee(@PathVariable String ice, @PathVariable double annee) {
         return acomptesService.deleteBySocieteIceAndAnnee(ice, annee);
@@ -41,6 +44,11 @@ public class AcomptesProvided {
     @GetMapping("/")
     public List<Acomptes> findAll() {
         return acomptesService.findAll();
+    }
+
+    @PutMapping("/")
+    public int update(@RequestBody Acomptes acomptes) {
+        return acomptesService.update(acomptes);
     }
 
     @PostMapping("/")

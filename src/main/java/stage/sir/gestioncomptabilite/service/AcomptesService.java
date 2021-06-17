@@ -21,6 +21,10 @@ public class AcomptesService {
         return acomptesDao.findBySocieteIceAndAnneeAndNumero(ice, annee, numero);
     }
 
+    public List<Acomptes> findBySocieteIceAndAnnee(String ice, double annee) {
+        return acomptesDao.findBySocieteIceAndAnnee(ice, annee);
+    }
+
     @Transactional
     public int deleteBySocieteIceAndAnneeAndNumero(String ice, double annee, Integer numero) {
         return acomptesDao.deleteBySocieteIceAndAnneeAndNumero(ice, annee, numero);
@@ -55,6 +59,17 @@ public class AcomptesService {
     }
 
     public List<Acomptes> findAll() { return acomptesDao.findAll(); }
+
+    public int update(Acomptes acomptes){
+        Societe societe = societeService.findByIce(acomptes.getSociete().getIce());
+        acomptes.setSociete(societe);
+        if (societe == null){
+            return -2;
+        }else {
+            acomptesDao.save(acomptes);
+            return 1;
+        }
+    }
 
     public int save(Acomptes acomptes) {
         Societe societe = societeService.findByIce(acomptes.getSociete().getIce());
