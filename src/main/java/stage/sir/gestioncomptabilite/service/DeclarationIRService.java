@@ -15,13 +15,15 @@ import stage.sir.gestioncomptabilite.bean.DeclarationIREmploye;
 import stage.sir.gestioncomptabilite.bean.DeclarationIS;
 import stage.sir.gestioncomptabilite.bean.Societe;
 import stage.sir.gestioncomptabilite.dao.DeclarationIRDao;
+import stage.sir.gestioncomptabilite.dao.DeclarationIREmployeDao;
 import stage.sir.gestioncomptabilite.util.StringUtil;
 import stage.sir.gestioncomptabilite.vo.DeclarationIrVo;
 import stage.sir.gestioncomptabilite.vo.DeclarationIsVo;
 
 @Service
 public class DeclarationIRService {
-	
+	@Autowired
+	DeclarationIREmployeDao declarationIREmployeDao;
 	@Autowired
 	DeclarationIRDao declarationIRDao;
 	public List<DeclarationIR> findBySocieteIceAndAnnee(String ice,Integer annee) {
@@ -97,7 +99,20 @@ public class DeclarationIRService {
 		}
 
 	}*/
-	
+	@Transactional
+	public int deleteByRef(String ref) {
+		//List<DeclarationIREmploye> declarations=declarationIREmployeService.findByDeclarationIRRef(ref);
+		int decIRsEmp=declarationIREmployeDao.deleteByDeclarationIRRef(ref);
+		int decIR=declarationIRDao.deleteByRef(ref);
+		
+		//return declarationIRDao.deleteByRef(ref);
+		return decIRsEmp + decIR;
+	}
+
+
+
+
+
 	public List<DeclarationIREmploye> createDeclarationIr(DeclarationIR declarationIR) {
 		
 		

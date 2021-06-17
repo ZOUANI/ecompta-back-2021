@@ -47,4 +47,11 @@ public class CompteComptableService {
         compteComptableDao.save(compteComptable);
         return 1;
     }
+    public CompteComptable findByCode(String code) {
+        return compteComptableDao.findByCode(code);
+    }
+    public int update(CompteComptable compteComptable){
+        compteComptableDao.save(compteComptable);
+        return 1;
+    }
 }

@@ -1,9 +1,13 @@
 package stage.sir.gestioncomptabilite.dao;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import stage.sir.gestioncomptabilite.bean.Facture;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -21,4 +25,6 @@ public interface FactureDao extends JpaRepository<Facture,Long> {
     List<Facture> findBySocieteSourceIceAndAnneeAndTypeOperation(String ice, double annee,String typeoperation);
     List<Facture> findByAnnee(double annee);
 
+    @Query("SELECT f FROM Facture f where f.compteComptable.sousClasseComptable.libelle=:type and f.annee <:thisDate and f.annee > :thatDate ")
+    List<Facture> bringFact(@Param("type") String type, @Param("thisDate") Double thisDate, @Param("thatDate") Double thatDate );
 }
