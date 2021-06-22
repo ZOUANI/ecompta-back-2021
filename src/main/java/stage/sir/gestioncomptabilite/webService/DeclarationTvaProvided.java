@@ -19,11 +19,15 @@ public class DeclarationTvaProvided {
         return declarationTvaService.findByRef(ref);
     }
 
-    @DeleteMapping("ref/{ref}")
+    @DeleteMapping("/ref/{ref}")
     public int deleteByRef(@PathVariable String ref) {
         return declarationTvaService.deleteByRef(ref);
     }
 
+    @PostMapping("/deletemultiplebyref")
+    public int deleteMultipleByref(@RequestBody List<DeclarationTva> declarationTvas) {
+        return declarationTvaService.deleteMultipleByref(declarationTvas);
+    }
 
     @GetMapping("societe/ice/{ice}")
     public List<DeclarationTva> findBySocieteIce(@PathVariable String ice) {
