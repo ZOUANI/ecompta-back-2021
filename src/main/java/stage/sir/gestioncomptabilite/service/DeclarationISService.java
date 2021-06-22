@@ -6,16 +6,26 @@ import org.springframework.transaction.annotation.Transactional;
 import stage.sir.gestioncomptabilite.bean.*;
 import stage.sir.gestioncomptabilite.dao.DeclarationISDao;
 import stage.sir.gestioncomptabilite.util.StringUtil;
-import stage.sir.gestioncomptabilite.vo.*;
+import stage.sir.gestioncomptabilite.vo.DeclarationIsObject;
+import stage.sir.gestioncomptabilite.vo.DeclarationIsVo;
+import stage.sir.gestioncomptabilite.vo.DeclarationIsXml;
+import stage.sir.gestioncomptabilite.vo.FactureXml;
 
 import javax.persistence.EntityManager;
 import javax.xml.bind.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class DeclarationISService{
+
+
+    public boolean compare(Date min, Date max, Date date){
+        //return min.compareTo(date) * date.compareTo(max) >= 0;
+        return date.compareTo(min) > 0 && date.compareTo(max) < 0;
+    }
 
     public DeclarationIS findByRef(String ref) { return declarationISDao.findByRef(ref); }
 
@@ -28,8 +38,10 @@ public class DeclarationISService{
             f.setDeclarationIS(null);
             factureService.update(f);
         }
+        int acomptesDeleted = acomptesService.deleteBySocieteIceAndAnnee(ice, annee + 1);
         return declarationISDao.deleteBySocieteIceAndAnnee(ice, annee);
     }
+
     @Transactional
     public int deleteMultipleBySocieteIceAndAnnee(List<DeclarationIS> declarations) {
         int res = 0;
@@ -58,6 +70,9 @@ public class DeclarationISService{
         }
         if(StringUtil.isNotEmpty(declarationIsVo.getAnneeMax())) {
             query+= " AND d.annee <= '"+ declarationIsVo.getAnneeMax()+ "'";
+        }
+        if(StringUtil.isNotEmpty(declarationIsVo.getSociete())) {
+            query+= " AND d.societe.ice LIKE '%"+ declarationIsVo.getSociete()+ "%'";
         }
         return entityManager.createQuery(query).getResultList();
     }
@@ -151,27 +166,35 @@ public class DeclarationISService{
         }
     }
 
-    public DeclarationIsObject afficheObject(String ice, double annee){
-        DeclarationIsObject declarationIsObject = new DeclarationIsObject();
-        declarationIsObject.setAnnee(annee);
-        declarationIsObject.setSociete(societeService.findByIce(ice));
-        List<Facture> facturesC = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(ice, annee, "credit");
-        List<Facture> facturesD = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(ice, annee, "debit");
-        declarationIsObject.setFactureC(facturesC);
-        declarationIsObject.setFactureD(facturesD);
-        declarationIsObject.setTotalHTGain(calculTotalHT(facturesC));
-        declarationIsObject.setTotalHTCharge(calculTotalHT(facturesD));
-        declarationIsObject.setTotalHTDiff(declarationIsObject.getTotalHTGain() - declarationIsObject.getTotalHTCharge());
-        declarationIsObject.setMontantISCalcule(calculMontantIS(declarationIsObject.getTotalHTDiff()));
-        declarationIsObject.setTauxIsConfig(findTauxIsConfig(declarationIsObject.getAnnee()));
-        declarationIsObject.setMontantISPaye(montantPaye(declarationIsObject.getSociete().getAge(), declarationIsObject.getTauxIsConfig().getCotisationMinimale(), declarationIsObject.getMontantISCalcule()));
-        declarationIsObject.setTauxIS(findTauxIS(declarationIsObject.getTotalHTDiff()));
-        DeclarationIS declarationIS = findBySocieteIceAndAnnee(ice, annee);
+    public DeclarationIsObject afficheDecIS(DeclarationIsObject decIsOb){
+        List<Facture> facturesD = new ArrayList<Facture>();
+        List<Facture> facturesC = new ArrayList<Facture>();
+        Societe societe = societeService.findByIce(decIsOb.getSociete().getIce());
+        decIsOb.setSociete(societe);
+        facturesC = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(decIsOb.getSociete().getIce(), decIsOb.getAnnee(), "credit");
+        facturesD = factureService.findBySocieteSourceIceAndAnneeAndTypeOperation(decIsOb.getSociete().getIce(), decIsOb.getAnnee(), "debit");
+        decIsOb.setFactureC(facturesC);
+        decIsOb.setFactureD(facturesD);
+        decIsOb.setTotalHTGain(calculTotalHT(facturesC));
+        decIsOb.setTotalHTCharge(calculTotalHT(facturesD));
+        decIsOb.setTotalHTDiff(decIsOb.getTotalHTGain() - decIsOb.getTotalHTCharge());
+        decIsOb.setMontantISCalcule(calculMontantIS(decIsOb.getTotalHTDiff()));
+        decIsOb.setTauxIsConfig(findTauxIsConfig(decIsOb.getAnnee()));
+        decIsOb.setMontantISPaye(montantPaye(decIsOb.getSociete().getAge(), decIsOb.getTauxIsConfig().getCotisationMinimale(), decIsOb.getMontantISCalcule()));
+        decIsOb.setTauxIS(findTauxIS(decIsOb.getTotalHTDiff()));
+        DeclarationIS declarationIS = findBySocieteIceAndAnnee(decIsOb.getSociete().getIce(), decIsOb.getAnnee());
         if (declarationIS != null){
-            declarationIsObject.setDeclarationIS(declarationIS);
-        } else { declarationIsObject.setDeclarationIS(null); }
-
-        return declarationIsObject;
+            decIsOb.setEtatDeclaration(declarationIS.getEtatDeclaration());
+        } else { decIsOb.setEtatDeclaration(null); }
+        Date dateActuelle = new Date();
+        Date dateMin = new Date(dateActuelle.getYear(), 03, 01);
+        Date dateMax = new Date(dateActuelle.getYear(), 03, 31);
+        if (decIsOb.getMontantISPaye() > 0){
+            if (compare(dateMin, dateMax, dateActuelle) && (int)decIsOb.getAnnee() == dateActuelle.getYear() + 1900){
+                decIsOb.setTotalPaye(decIsOb.getMontantISPaye());
+            } else decIsOb.setTotalPaye(decIsOb.getTauxIS().getPenalite() + decIsOb.getMontantISPaye());
+        }
+        return decIsOb;
     }
 
     public int declarationIsToXML(DeclarationIS declarationIS){
@@ -208,8 +231,9 @@ public class DeclarationISService{
 
     public DeclarationIsXml convertToDecIsXml(DeclarationIS declarationIS){
         DeclarationIsXml decIsXml = new DeclarationIsXml();
-        //List<Facture> facturesD, facturesC = new ArrayList<Facture>();
         List<Facture> factures = new ArrayList<Facture>();
+        List<FactureXml> facturesXml = new ArrayList<FactureXml>();
+        FactureXml factureXmlVo = new FactureXml();
         decIsXml.setId(declarationIS.getId());
         decIsXml.setRef(declarationIS.getRef());
         decIsXml.setAnnee(declarationIS.getAnnee());
@@ -223,7 +247,10 @@ public class DeclarationISService{
         decIsXml.setTauxIsConfig(declarationIS.getTauxIsConfig());
         decIsXml.setEtatDeclaration(declarationIS.getEtatDeclaration());
         factures = factureService.findBySocieteSourceIceAndAnnee(declarationIS.getSociete().getIce(), declarationIS.getAnnee());
-        decIsXml.setFactures(factures);
+        for (Facture f: factures){
+            facturesXml.add(factureXmlVo.convertToFactXml(f));
+        }
+        decIsXml.setFactures(facturesXml);
         return decIsXml;
     }
     public DeclarationIS convertToDecIs(DeclarationIsXml dexIsXml){
@@ -243,23 +270,10 @@ public class DeclarationISService{
         return declarationIS;
     }
 
-    @Autowired
-    DeclarationISDao declarationISDao;
-    @Autowired
-    SocieteService societeService;
-    @Autowired
-    TauxISService tauxISService;
-    @Autowired
-    FactureService factureService;
-    @Autowired
-    TauxISConfigService tauxISConfigService;
-    @Autowired
-    EtatDeclarationService etatDeclarationService;
-    @Autowired
-    EntityManager entityManager;
 
     public int save(String ice, double annee, String etat) {
         DeclarationIS declarationIS = new DeclarationIS();
+        Acomptes acomptes = new Acomptes();
         declarationIS.setAnnee(annee);
         Societe societe = societeService.findByIce(ice);
         declarationIS.setSociete(societe);
@@ -285,10 +299,37 @@ public class DeclarationISService{
             }
             declarationIS.setTauxIsConfig(findTauxIsConfig(declarationIS.getAnnee()));
             declarationIS.setMontantISPaye(montantPaye(declarationIS.getSociete().getAge(), declarationIS.getTauxIsConfig().getCotisationMinimale(), declarationIS.getMontantISCalcule()));
+            Date dateActuelle = new Date();
+            Date dateMin = new Date(dateActuelle.getYear(), 03, 01);
+            Date dateMax = new Date(dateActuelle.getYear(), 03, 31);
+            //dateMin.setYear(dateActuelle.getYear()); dateMin.setMonth(3); dateMin.setDate(01);
+            //dateMax.setYear(dateActuelle.getYear()); dateMax.setMonth(3); dateMax.setDate(31);
+            if (declarationIS.getMontantISPaye() > 0){
+                if (compare(dateMin, dateMax, dateActuelle) && (int)declarationIS.getAnnee() == dateActuelle.getYear() + 1900){
+                    declarationIS.setTotalPaye(declarationIS.getMontantISPaye());
+                } else declarationIS.setTotalPaye(declarationIS.getTauxIS().getPenalite() + declarationIS.getMontantISPaye());
+            }
             declarationISDao.save(declarationIS);
             setFactureDeclarationIS(declarationIS);
             return 1;
         }
     }
+
+    @Autowired
+    DeclarationISDao declarationISDao;
+    @Autowired
+    SocieteService societeService;
+    @Autowired
+    TauxISService tauxISService;
+    @Autowired
+    FactureService factureService;
+    @Autowired
+    TauxISConfigService tauxISConfigService;
+    @Autowired
+    EtatDeclarationService etatDeclarationService;
+    @Autowired
+    AcomptesService acomptesService;
+    @Autowired
+    EntityManager entityManager;
 
 }

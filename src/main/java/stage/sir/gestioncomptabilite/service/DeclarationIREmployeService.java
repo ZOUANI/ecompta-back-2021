@@ -53,8 +53,11 @@ public class DeclarationIREmployeService {
 	}
 	
 	List<DeclarationIREmploye> findByDeclarationIREmployes(DeclarationIR declarationIR){
-		List<Employe> employes=employeService.findBySocieteEmpIce(declarationIR.getSociete().getIce());
+		//List<Employe> employes=employeService.findBySocieteEmpIce(declarationIR.getSociete().getIce());
+		//System.out.println("*****************");
+		//System.out.println(declarationIR.getSociete());
 		
+		List<Employe> employes=declarationIR.getSociete().getEmployes();
 		List<DeclarationIREmploye> declarationIREmployes= new ArrayList<>();
 		
 		
@@ -120,7 +123,11 @@ public class DeclarationIREmployeService {
 
 	
 	
-	
+	@Transactional
+	public int deleteByDeclarationIRRef(String ref) {
+		return declarationIREmployeDao.deleteByDeclarationIRRef(ref);
+	}
+
 	public Double calculTotal(List<DeclarationIREmploye> declarationIREmployes) {
 		double total=0;
 		for (DeclarationIREmploye declarationIREmploye : declarationIREmployes) {
@@ -202,6 +209,7 @@ public class DeclarationIREmployeService {
 		
 	}
 
+	
 
 	}
 

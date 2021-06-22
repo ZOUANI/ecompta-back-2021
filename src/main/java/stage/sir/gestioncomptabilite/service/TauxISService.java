@@ -36,4 +36,14 @@ public class TauxISService {
             return 1;
         }
     }
+    public Double findTauxIs(Double benefice){
+        List<TauxIS> tauxISList = tauxISDao.findAll();
+        Double pourc  = 1.0;
+        for (TauxIS t:tauxISList) {
+            if (benefice >= t.getResultatFiscalMin() && benefice<=t.getResultatFiscalMax()){
+                pourc = t.getPourcentage();
+            }
+        }
+        return pourc;
+    }
 }

@@ -9,6 +9,16 @@ public class FactureVo {
     private Date dmax;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dmin;
+    private String reference;
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
     private double totaldebit;
     private double totalcredit ;
 

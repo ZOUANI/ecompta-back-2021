@@ -21,6 +21,7 @@ public interface DeclarationIREmployeDao extends JpaRepository<DeclarationIREmpl
 	List<DeclarationIREmploye> findByDeclarationIRRef(String ref);
 	DeclarationIREmploye findBySalaireNet(Double salaireNet);
 	int deleteByEmployeCin(String cin);
+	int deleteByDeclarationIRRef(String ref);
 	
 	
 	

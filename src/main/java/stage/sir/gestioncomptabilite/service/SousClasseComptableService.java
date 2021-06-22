@@ -58,4 +58,8 @@ public class SousClasseComptableService {
         sousClasseComptableDao.save(sousClasseComptable);
         return 1;
     }
+    public int update(SousClasseComptable sousClasseComptable){
+        sousClasseComptableDao.save(sousClasseComptable);
+        return 1;
+    }
 }

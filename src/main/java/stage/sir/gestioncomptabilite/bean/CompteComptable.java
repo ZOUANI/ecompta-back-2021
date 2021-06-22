@@ -6,11 +6,11 @@ import javax.persistence.*;
 public class CompteComptable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-   private long id;
-   private String libelle;
+    private long id;
+    private String libelle;
     private String code;
-   @ManyToOne
-   private SousClasseComptable sousClasseComptable;
+    @ManyToOne
+    private SousClasseComptable sousClasseComptable;
 
     public long getId() {
         return id;

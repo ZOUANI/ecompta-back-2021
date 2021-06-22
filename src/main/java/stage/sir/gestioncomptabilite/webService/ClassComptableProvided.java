@@ -33,6 +33,11 @@ public class ClassComptableProvided {
          classComptableService.save(classeComptable);
         return 1;
     }
+    @PutMapping("/")
+    public int update(@RequestBody ClasseComptable classeComptable) {
+        return classComptableService.update(classeComptable);
+    }
+
     @PostMapping("/alone/")
     public int saveAlone(@RequestBody ClasseComptable classeComptable) {
         classComptableService.saveAlone(classeComptable);

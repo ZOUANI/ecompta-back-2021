@@ -30,6 +30,10 @@ public class CompteComptableProvided {
     public int deleteBySousClasseComptableNumero(@PathVariable int numero) {
         return compteComptableService.deleteBySousClasseComptableNumero(numero);
     }
+    @PutMapping("/")
+    public int update(@RequestBody CompteComptable compteComptable) {
+        return compteComptableService.update(compteComptable);
+    }
 
     @PostMapping("/sousClass-num/{numero}/")
     public int saveAlone(@PathVariable int numero,@RequestBody CompteComptable compteComptable) {

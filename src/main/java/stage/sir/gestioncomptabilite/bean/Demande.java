@@ -1,7 +1,6 @@
 package stage.sir.gestioncomptabilite.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import stage.sir.gestioncomptabilite.Security.models.User;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,13 +15,22 @@ public class Demande {
     private Date dateDemande;
     private double annee;
     private Integer mois;
+    private Integer trimestre;
     @ManyToOne
     private Societe societe;
     @ManyToOne
-    private User user;
+    private Comptable comptableTraiteur;
+    @ManyToOne
+    private Comptable comptableValidateur;
+    @ManyToOne
+    private EtatDemande etatDemande;
 
+    
+    
+    
+ 
 
-    public Long getId() {
+	public Long getId() {
         return id;
     }
 
@@ -68,6 +76,14 @@ public class Demande {
         this.mois = mois;
     }
 
+    public Integer getTrimestre() {
+        return trimestre;
+    }
+
+    public void setTrimestre(Integer trimestre) {
+        this.trimestre = trimestre;
+    }
+
     public Societe getSociete() {
         return societe;
     }
@@ -76,11 +92,27 @@ public class Demande {
         this.societe = societe;
     }
 
-    public User getUser() {
-        return user;
+    public Comptable getComptableTraiteur() {
+        return comptableTraiteur;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setComptableTraiteur(Comptable comptableTraiteur) {
+        this.comptableTraiteur = comptableTraiteur;
+    }
+
+    public Comptable getComptableValidateur() {
+        return comptableValidateur;
+    }
+
+    public void setComptableValidateur(Comptable comptableValidateur) {
+        this.comptableValidateur = comptableValidateur;
+    }
+
+    public EtatDemande getEtatDemande() {
+        return etatDemande;
+    }
+
+    public void setEtatDemande(EtatDemande etatDemande) {
+        this.etatDemande = etatDemande;
     }
 }

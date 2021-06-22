@@ -19,9 +19,7 @@ public class DeclarationIsXml {
     private TauxIS tauxIS;
     private TauxIsConfig tauxIsConfig;
     private EtatDeclaration etatDeclaration;
-    /*private List<Facture> facturesD;
-    private List<Facture> facturesC;*/
-    private List<Facture> factures;
+    private List<FactureXml> factures;
 
     public Long getId() {
         return id;
@@ -119,26 +117,11 @@ public class DeclarationIsXml {
         this.etatDeclaration = etatDeclaration;
     }
 
-    /*public List<Facture> getFacturesD() {
-        return facturesD;
-    }
-
-    public void setFacturesD(List<Facture> facturesD) {
-        this.facturesD = facturesD;
-    }
-
-    public List<Facture> getFacturesC() {
-        return facturesC;
-    }
-
-    public void setFacturesC(List<Facture> facturesC) {
-        this.facturesC = facturesC;
-    }*/
-    public List<Facture> getFactures() {
+    public List<FactureXml> getFactures() {
         return factures;
     }
 
-    public void setFactures(List<Facture> factures) {
+    public void setFactures(List<FactureXml> factures) {
         this.factures = factures;
     }
 
@@ -157,9 +140,7 @@ public class DeclarationIsXml {
                 ", tauxIS=" + tauxIS +
                 ", tauxIsConfig=" + tauxIsConfig +
                 ", etatDeclaration=" + etatDeclaration +
-              //  ", facturesD=" + facturesD +
-               // ", facturesC=" + facturesC +
-                ", facturesC=" + factures +
+                ", factures=" + factures +
                 '}';
     }
 }

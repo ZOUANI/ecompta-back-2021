@@ -21,7 +21,7 @@ public class ClassComptableService {
     }
     @Transactional
     public int deleteByNumero(int numero) {
-        return classComptableDao.deleteByNumero(numero);
+        return sousClasseComptableService.deleteByClasseComptableNumero(numero) + classComptableDao.deleteByNumero(numero) ;
     }
 
     public List<ClasseComptable> findAll() {
@@ -41,6 +41,10 @@ public class ClassComptableService {
         if (this.findByNumero(classeComptable.getNumero())!=null){
             return -1;
         }
+        classComptableDao.save(classeComptable);
+        return 1;
+    }
+    public int update(ClasseComptable classeComptable){
         classComptableDao.save(classeComptable);
         return 1;
     }
