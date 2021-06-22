@@ -236,9 +236,15 @@ public class FactureService extends AbstractFacade<Facture>{
     public List<Facture> findBySocieteSourceIceAndAnnee(String ice, double annee) {
         return factureDao.findBySocieteSourceIceAndAnnee(ice, annee);
     }
+
     public List<Facture> findBySocieteSourceIceAndAnneeAndTypeOperation(String ice, double annee, String typeoperation) {
         return factureDao.findBySocieteSourceIceAndAnneeAndTypeOperation(ice, annee, typeoperation);
     }
+
+    public List<Facture> findBySocieteSourceIce(String ice) {
+        return factureDao.findBySocieteSourceIce(ice);
+    }
+
     public int saveFacturesIS(DeclarationIS declarationIS, List<Facture> listFactures){
         double gain = 0;
         double charge = 0;
