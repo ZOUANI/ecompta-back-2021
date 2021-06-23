@@ -23,6 +23,11 @@ public class Paiement2Provided {
         return paiement2Service.deleteByRef(ref);
     }
 
+    @PostMapping("/delete-multiple-by-ref/")
+    public int deleteMultipleByRef(@RequestBody List<Paiement2> paiement2s) {
+        return paiement2Service.deleteMultipleByRef(paiement2s);
+    }
+
     @GetMapping("/bydecltvaref/ref/{ref}")
     public List<Paiement2> findByDeclarationTvaRef(@PathVariable String ref) {
         return paiement2Service.findByDeclarationTvaRef(ref);

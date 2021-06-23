@@ -24,6 +24,16 @@ public class Paiement2Service {
         return paiement2Dao.deleteByRef(ref);
     }
 
+    @Transactional
+    public int deleteMultipleByRef(List<Paiement2> paiement2s) {
+        int res = 0;
+        for (int i = 0; i < paiement2s.size(); i++) {
+            res += deleteByRef(paiement2s.get(i).getRef());
+        }
+        return res;
+    }
+
+
     public List<Paiement2> findByDeclarationTvaRef(String ref) {
         return paiement2Dao.findByDeclarationTvaRef(ref);
     }
