@@ -15,10 +15,9 @@ public class DeclarationIsXml {
     private Double totalHTDiff;
     private Double montantISCalcule;
     private Double montantISPaye;
-    private Societe societe;
+    private SocieteXml societeXml;
     private TauxIS tauxIS;
     private TauxIsConfig tauxIsConfig;
-    private EtatDeclaration etatDeclaration;
     private List<FactureXml> factures;
 
     public Long getId() {
@@ -85,12 +84,12 @@ public class DeclarationIsXml {
         this.montantISPaye = montantISPaye;
     }
 
-    public Societe getSociete() {
-        return societe;
+    public SocieteXml getSocieteXml() {
+        return societeXml;
     }
 
-    public void setSociete(Societe societe) {
-        this.societe = societe;
+    public void setSocieteXml(SocieteXml societeXml) {
+        this.societeXml = societeXml;
     }
 
     public TauxIS getTauxIS() {
@@ -107,14 +106,6 @@ public class DeclarationIsXml {
 
     public void setTauxIsConfig(TauxIsConfig tauxIsConfig) {
         this.tauxIsConfig = tauxIsConfig;
-    }
-
-    public EtatDeclaration getEtatDeclaration() {
-        return etatDeclaration;
-    }
-
-    public void setEtatDeclaration(EtatDeclaration etatDeclaration) {
-        this.etatDeclaration = etatDeclaration;
     }
 
     public List<FactureXml> getFactures() {
@@ -136,10 +127,9 @@ public class DeclarationIsXml {
                 ", totalHTDiff=" + totalHTDiff +
                 ", montantISCalcule=" + montantISCalcule +
                 ", montantISPaye=" + montantISPaye +
-                ", societe=" + societe +
+                ", societeXml=" + societeXml +
                 ", tauxIS=" + tauxIS +
                 ", tauxIsConfig=" + tauxIsConfig +
-                ", etatDeclaration=" + etatDeclaration +
                 ", factures=" + factures +
                 '}';
     }

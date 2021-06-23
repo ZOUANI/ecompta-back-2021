@@ -23,7 +23,6 @@ public class FactureXml {
     private EtatPaiement etatPaiement;
     private Societe societeSource;
     private Societe societeDistination;
-    private CompteComptable compteComptable;
 
 
     public FactureXml convertToFactXml(Facture facture){
@@ -44,25 +43,8 @@ public class FactureXml {
         factureXml.setEtatPaiement(facture.getEtatPaiement());
         factureXml.setSocieteSource(facture.getSocieteSource());
         factureXml.setSocieteDistination(facture.getSocieteDistination());
-        factureXml.setCompteComptable(facture.getCompteComptable());
         return factureXml;
     }
-
-    
-    
-    
-    public CompteComptable getCompteComptable() {
-		return compteComptable;
-	}
-
-
-
-
-	public void setCompteComptable(CompteComptable compteComptable) {
-		this.compteComptable = compteComptable;
-	}
-
-
 
 
 	public Long getId() {

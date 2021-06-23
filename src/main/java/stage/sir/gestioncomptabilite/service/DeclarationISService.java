@@ -6,10 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import stage.sir.gestioncomptabilite.bean.*;
 import stage.sir.gestioncomptabilite.dao.DeclarationISDao;
 import stage.sir.gestioncomptabilite.util.StringUtil;
-import stage.sir.gestioncomptabilite.vo.DeclarationIsObject;
-import stage.sir.gestioncomptabilite.vo.DeclarationIsVo;
-import stage.sir.gestioncomptabilite.vo.DeclarationIsXml;
-import stage.sir.gestioncomptabilite.vo.FactureXml;
+import stage.sir.gestioncomptabilite.vo.*;
 
 import javax.persistence.EntityManager;
 import javax.xml.bind.*;
@@ -233,6 +230,7 @@ public class DeclarationISService{
         DeclarationIsXml decIsXml = new DeclarationIsXml();
         List<Facture> factures = new ArrayList<Facture>();
         List<FactureXml> facturesXml = new ArrayList<FactureXml>();
+        SocieteXml societeXml = new SocieteXml();
         FactureXml factureXmlVo = new FactureXml();
         decIsXml.setId(declarationIS.getId());
         decIsXml.setRef(declarationIS.getRef());
@@ -243,14 +241,15 @@ public class DeclarationISService{
         decIsXml.setMontantISCalcule(declarationIS.getMontantISCalcule());
         decIsXml.setMontantISPaye(declarationIS.getMontantISPaye());
         decIsXml.setTauxIS(declarationIS.getTauxIS());
-        decIsXml.setSociete(declarationIS.getSociete());
+        //decIsXml.setSociete(declarationIS.getSociete());
         decIsXml.setTauxIsConfig(declarationIS.getTauxIsConfig());
-        decIsXml.setEtatDeclaration(declarationIS.getEtatDeclaration());
         factures = factureService.findBySocieteSourceIceAndAnnee(declarationIS.getSociete().getIce(), declarationIS.getAnnee());
         for (Facture f: factures){
             facturesXml.add(factureXmlVo.convertToFactXml(f));
         }
         decIsXml.setFactures(facturesXml);
+        societeXml = societeXml.convertToSteXml(declarationIS.getSociete());
+        decIsXml.setSocieteXml(societeXml);
         return decIsXml;
     }
     public DeclarationIS convertToDecIs(DeclarationIsXml dexIsXml){
@@ -264,9 +263,8 @@ public class DeclarationISService{
         declarationIS.setMontantISCalcule(dexIsXml.getMontantISCalcule());
         declarationIS.setMontantISPaye(dexIsXml.getMontantISPaye());
         declarationIS.setTauxIS(dexIsXml.getTauxIS());
-        declarationIS.setSociete(dexIsXml.getSociete());
+        //declarationIS.setSociete(dexIsXml.getSocieteXml());
         declarationIS.setTauxIsConfig(dexIsXml.getTauxIsConfig());
-        declarationIS.setEtatDeclaration(dexIsXml.getEtatDeclaration());
         return declarationIS;
     }
 
