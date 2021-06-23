@@ -8,7 +8,10 @@ import stage.sir.gestioncomptabilite.bean.DeclarationIS;
 import stage.sir.gestioncomptabilite.bean.DeclarationTva;
 import stage.sir.gestioncomptabilite.bean.Paiement2;
 import stage.sir.gestioncomptabilite.dao.Paiement2Dao;
+import stage.sir.gestioncomptabilite.util.StringUtil;
+import stage.sir.gestioncomptabilite.vo.Paiement2Vo;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 @Service
@@ -82,6 +85,31 @@ public class Paiement2Service {
             return 1;
         }
     }
+    public List<Paiement2> paiementCriteria(Paiement2Vo paiement2Vo){
+        String query = "SELECT p FROM Paiement2 p WHERE 1=1";
+        if (StringUtil.isNotEmpty(paiement2Vo.getRef())){
+            query += " AND p.ref = '" + paiement2Vo.getRef() + "'";
+        }
+        if (StringUtil.isNotEmpty(paiement2Vo.getSocieteis())){
+            query += " AND p.declarationIS.societe.ice = '" + paiement2Vo.getSocieteis() + "'";
+        }
+        if (StringUtil.isNotEmpty(paiement2Vo.getAnneeis())){
+            query += " AND p.declarationIS.annee = '" + paiement2Vo.getAnneeis() + "'";
+        }
+        if (StringUtil.isNotEmpty(paiement2Vo.getSocietetva())){
+            query += " AND p.declarationTva.societe.ice = '" + paiement2Vo.getSocietetva() +"'";
+        }
+        if (StringUtil.isNotEmpty(paiement2Vo.getAnneetva())){
+            query += " AND p.declarationTva.annee = '" + paiement2Vo.getAnneetva() + "'";
+        }
+        if (StringUtil.isNotEmpty(paiement2Vo.getMois())){
+            query += " AND p.declarationTva.mois = '" + paiement2Vo.getMois() + "'";
+        }
+        if (StringUtil.isNotEmpty(paiement2Vo.getTrim())){
+            query += " AND p.declarationTva.trim = '" + paiement2Vo.getTrim() + "'";
+        }
+        return entityManager.createQuery(query).getResultList();
+    }
     @Autowired
     DeclarationIRService declarationIRService;
     @Autowired
@@ -90,4 +118,6 @@ public class Paiement2Service {
     DeclarationTvaService declarationTvaService;
     @Autowired
     Paiement2Dao paiement2Dao ;
+    @Autowired
+    private EntityManager entityManager;
 }

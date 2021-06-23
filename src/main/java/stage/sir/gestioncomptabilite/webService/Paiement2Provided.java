@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import stage.sir.gestioncomptabilite.bean.Paiement2;
 import stage.sir.gestioncomptabilite.service.Paiement2Service;
+import stage.sir.gestioncomptabilite.vo.Paiement2Vo;
 
 import java.util.List;
 
@@ -46,6 +47,10 @@ public class Paiement2Provided {
     @PostMapping("/forir")
     public int savepaiementir(@RequestBody Paiement2 paiement2) {
         return paiement2Service.savepaiementir(paiement2);
+    }
+    @PostMapping("/criteria")
+    public List<Paiement2> paiementCriteria(@RequestBody Paiement2Vo paiement2Vo) {
+        return paiement2Service.paiementCriteria(paiement2Vo);
     }
 
     @Autowired
