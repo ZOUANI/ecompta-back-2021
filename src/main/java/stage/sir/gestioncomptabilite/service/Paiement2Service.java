@@ -48,10 +48,10 @@ public class Paiement2Service {
     public int savepaiementtva(Paiement2 paiement2){
         DeclarationTva declarationTva = new DeclarationTva();
         if(paiement2.getTypeTva() == 1){
-            declarationTva = declarationTvaService.declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndTrim(paiement2.getDeclarationTva().getSociete().getIce(),"Valider",paiement2.getDeclarationTva().getAnnee(),paiement2.getDeclarationTva().getTrim());
+            declarationTva = declarationTvaService.findBySocieteIceAndEtatDeclarationRefAndAnneeAndTrim(paiement2.getDeclarationTva().getSociete().getIce(),"Valider",paiement2.getDeclarationTva().getAnnee(),paiement2.getDeclarationTva().getTrim());
             paiement2.setDeclarationTva(declarationTva);
         } else if (paiement2.getTypeTva() == 2){
-            declarationTva = declarationTvaService.declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndMois(paiement2.getDeclarationTva().getSociete().getIce(),"Valider",paiement2.getDeclarationTva().getAnnee(),paiement2.getDeclarationTva().getMois());
+            declarationTva = declarationTvaService.findBySocieteIceAndEtatDeclarationRefAndAnneeAndMois(paiement2.getDeclarationTva().getSociete().getIce(),"Valider",paiement2.getDeclarationTva().getAnnee(),paiement2.getDeclarationTva().getMois());
             paiement2.setDeclarationTva(declarationTva);
         }
 

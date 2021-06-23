@@ -93,6 +93,15 @@ public class DeclarationTvaProvided {
     public DeclarationTvaVo2 convertDeclarationReleveDeductionToDeclarationTvaVo2(@RequestBody EmplacementXml emplacementXml) {
         return declarationTvaService.convertDeclarationReleveDeductionToDeclarationTvaVo2(emplacementXml);
     }
+    @GetMapping("/amine/refsociete/{refsociete}/refetatdeclaration/{refetatdeclaration}/annee/{annee}/trim/{trim}")
+    public DeclarationTva findBySocieteIceAndEtatDeclarationRefAndAnneeAndTrim(@PathVariable String refsociete, @PathVariable String refetatdeclaration, @PathVariable double annee, @PathVariable double trim) {
+        return declarationTvaService.findBySocieteIceAndEtatDeclarationRefAndAnneeAndTrim(refsociete, refetatdeclaration, annee, trim);
+    }
+
+    @GetMapping("/amine-7emar/refsociete/{refsociete}/refetatdeclaration/{refetatdeclaration}/annee/{annee}/mois/{mois}")
+    public DeclarationTva findBySocieteIceAndEtatDeclarationRefAndAnneeAndMois(@PathVariable String refsociete, @PathVariable String refetatdeclaration, @PathVariable double annee, @PathVariable double mois) {
+        return declarationTvaService.findBySocieteIceAndEtatDeclarationRefAndAnneeAndMois(refsociete, refetatdeclaration, annee, mois);
+    }
 
     @Autowired
     DeclarationTvaService declarationTvaService;

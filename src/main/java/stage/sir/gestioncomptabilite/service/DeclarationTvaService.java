@@ -359,6 +359,14 @@ public class DeclarationTvaService {
         return declarationTvaDao.findByAnneeAndTrim(annee, trim);
     }
 
+    public DeclarationTva findBySocieteIceAndEtatDeclarationRefAndAnneeAndTrim(String refsociete, String refetatdeclaration, double annee, double trim) {
+        return declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndTrim(refsociete, refetatdeclaration, annee, trim);
+    }
+
+    public DeclarationTva findBySocieteIceAndEtatDeclarationRefAndAnneeAndMois(String refsociete, String refetatdeclaration, double annee, double mois) {
+        return declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndMois(refsociete, refetatdeclaration, annee, mois);
+    }
+
     @Autowired
     DeclarationTvaDao declarationTvaDao;
     @Autowired
