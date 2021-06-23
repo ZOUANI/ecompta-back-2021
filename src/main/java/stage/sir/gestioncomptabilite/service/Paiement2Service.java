@@ -36,8 +36,15 @@ public class Paiement2Service {
         return paiement2Dao.findAll();
     }
     public int savepaiementtva(Paiement2 paiement2){
-        DeclarationTva declarationTva = declarationTvaService.findByRef(paiement2.getDeclarationTva().getRef());
-        paiement2.setDeclarationTva(declarationTva);
+        DeclarationTva declarationTva = new DeclarationTva();
+        if(paiement2.getTypeTva() == 1){
+            declarationTva = declarationTvaService.declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndTrim(paiement2.getDeclarationTva().getSociete().getIce(),"Valider",paiement2.getDeclarationTva().getAnnee(),paiement2.getDeclarationTva().getTrim());
+            paiement2.setDeclarationTva(declarationTva);
+        } else if (paiement2.getTypeTva() == 2){
+            declarationTva = declarationTvaService.declarationTvaDao.findBySocieteIceAndEtatDeclarationRefAndAnneeAndMois(paiement2.getDeclarationTva().getSociete().getIce(),"Valider",paiement2.getDeclarationTva().getAnnee(),paiement2.getDeclarationTva().getMois());
+            paiement2.setDeclarationTva(declarationTva);
+        }
+
         if (findByRef(paiement2.getRef())!= null){
             return -1;
         } else if(declarationTva == null){
@@ -53,7 +60,7 @@ public class Paiement2Service {
     }
 
     public int savepaiementis(Paiement2 paiement2){
-        DeclarationIS declarationIS = declarationISService.findByRef(paiement2.getDeclarationIS().getRef());
+        DeclarationIS declarationIS = declarationISService.findBySocieteIceAndAnnee(paiement2.getDeclarationIS().getSociete().getIce(),paiement2.getDeclarationIS().getAnnee());
         paiement2.setDeclarationIS(declarationIS);
         if (findByRef(paiement2.getRef())!= null){
             return -1;
