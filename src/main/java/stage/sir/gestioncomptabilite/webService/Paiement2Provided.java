@@ -52,6 +52,10 @@ public class Paiement2Provided {
     public List<Paiement2> paiementCriteria(@RequestBody Paiement2Vo paiement2Vo) {
         return paiement2Service.paiementCriteria(paiement2Vo);
     }
+    @PutMapping("/update")
+    public int update(@RequestBody Paiement2 paiement2) {
+        return paiement2Service.update(paiement2);
+    }
 
     @Autowired
     Paiement2Service paiement2Service;

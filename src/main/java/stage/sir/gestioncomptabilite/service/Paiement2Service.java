@@ -110,6 +110,28 @@ public class Paiement2Service {
         }
         return entityManager.createQuery(query).getResultList();
     }
+
+    public int update(Paiement2 paiement2){
+        DeclarationTva declarationTva = new DeclarationTva();
+        DeclarationIS declarationIS = new DeclarationIS();
+        if (paiement2.getDeclarationIR() == null && paiement2.getDeclarationIS() == null){
+            declarationTva = declarationTvaService.findByRef(paiement2.getDeclarationTva().getRef());
+            paiement2.setDeclarationTva(declarationTva);
+        } else if (paiement2.getDeclarationIR() == null && paiement2.getDeclarationTva() == null){
+            declarationIS = declarationISService.findByRef(paiement2.getDeclarationIS().getRef());
+            paiement2.setDeclarationIS(declarationIS);
+        }
+        if (declarationTva == null){
+            return -1;
+        } else if(declarationIS == null){
+            return -2;
+        } else{
+            Double reste = paiement2.getTotal() - (paiement2.getMontantCptValidateur() + paiement2.getMontantCptTraiteur());
+            paiement2.setReste(reste);
+            paiement2Dao.save(paiement2);
+            return 1;
+        }
+    }
     @Autowired
     DeclarationIRService declarationIRService;
     @Autowired
