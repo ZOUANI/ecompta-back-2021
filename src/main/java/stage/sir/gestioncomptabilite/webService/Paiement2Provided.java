@@ -11,20 +11,22 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "gestion-comptabilite/paiement2")
 public class Paiement2Provided {
-    @GetMapping("ref/{ref}")
+
+    @GetMapping("/ref/{ref}")
     public Paiement2 findByRef(@PathVariable String ref) {
         return paiement2Service.findByRef(ref);
     }
 
-    @DeleteMapping("ref/{ref}")
+    @DeleteMapping("/ref/{ref}")
     public int deleteByRef(@PathVariable String ref) {
         return paiement2Service.deleteByRef(ref);
     }
-    @GetMapping("bydecltvaref/ref/{ref}")
+
+    @GetMapping("/bydecltvaref/ref/{ref}")
     public List<Paiement2> findByDeclarationTvaRef(@PathVariable String ref) {
         return paiement2Service.findByDeclarationTvaRef(ref);
     }
-    @GetMapping("bydeclisref/ref/{ref}")
+    @GetMapping("/bydeclisref/ref/{ref}")
     public List<Paiement2> findByDeclarationISRef(@PathVariable String ref) {
         return paiement2Service.findByDeclarationISRef(ref);
     }
@@ -32,6 +34,7 @@ public class Paiement2Provided {
     public List<Paiement2> findAll() {
         return paiement2Service.findAll();
     }
+
     @PostMapping("/fortva")
     public int savepaiementtva(@RequestBody Paiement2 paiement2) {
         return paiement2Service.savepaiementtva(paiement2);
