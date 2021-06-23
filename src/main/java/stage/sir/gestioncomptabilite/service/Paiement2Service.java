@@ -81,6 +81,7 @@ public class Paiement2Service {
             paiement2.setReste(reste);
             paiement2.setDeclarationTva(null);
             paiement2.setDeclarationIR(null);
+            paiement2.setTypeTva(0);
             paiement2Dao.save(paiement2);
             return 1;
         }

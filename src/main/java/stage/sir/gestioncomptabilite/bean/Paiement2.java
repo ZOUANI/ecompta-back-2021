@@ -17,7 +17,7 @@ public class Paiement2 {
     private Double montantCptTraiteur;
     private Double montantCptValidateur;
     private Double reste;
-    private Double typeTva;
+    private double typeTva;
     @ManyToOne
     private DeclarationIS declarationIS;
     @ManyToOne
@@ -105,11 +105,11 @@ public class Paiement2 {
         this.declarationIR = declarationIR;
     }
 
-    public Double getTypeTva() {
+    public double getTypeTva() {
         return typeTva;
     }
 
-    public void setTypeTva(Double typeTva) {
+    public void setTypeTva(double typeTva) {
         this.typeTva = typeTva;
     }
 }
