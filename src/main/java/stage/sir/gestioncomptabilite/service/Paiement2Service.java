@@ -69,6 +69,7 @@ public class Paiement2Service {
         }
     }
 
+
     public int savepaiementis(Paiement2 paiement2){
         DeclarationIS declarationIS = declarationISService.findBySocieteIceAndAnnee(paiement2.getDeclarationIS().getSociete().getIce(),paiement2.getDeclarationIS().getAnnee());
         paiement2.setDeclarationIS(declarationIS);
