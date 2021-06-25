@@ -16,7 +16,7 @@ public interface TauxIrDao extends JpaRepository<TauxIr,Long> {
 	 Optional<TauxIr> findById(Long id);
 	@Override
 	void deleteById(Long id);
-	
+	TauxIr findByPourcentage(Double pourcentage);
 	
 	
 

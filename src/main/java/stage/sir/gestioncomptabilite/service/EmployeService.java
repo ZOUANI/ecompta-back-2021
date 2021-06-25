@@ -42,7 +42,7 @@ DeclarationIREmployeService declarationIREmployeService;
 	}
 
 	public int save(Employe employe) {
-		if (employeDao.findByCin(employe.getCin())!=null) {
+		if (findByCin(employe.getCin())!=null) {
 			
 			return -1;
 		}else {

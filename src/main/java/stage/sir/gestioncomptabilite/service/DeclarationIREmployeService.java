@@ -2,6 +2,8 @@ package stage.sir.gestioncomptabilite.service;
 
 import java.io.Console;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +23,7 @@ import stage.sir.gestioncomptabilite.bean.TauxIr;
 import stage.sir.gestioncomptabilite.dao.DeclarationIREmployeDao;
 import stage.sir.gestioncomptabilite.dao.EmployeDao;
 import stage.sir.gestioncomptabilite.dao.SocieteDao;
+import stage.sir.gestioncomptabilite.dao.TauxIrDao;
 
 @Service
 public class DeclarationIREmployeService {
@@ -32,7 +35,8 @@ public class DeclarationIREmployeService {
 	
 /*	@Autowired
 	DetailsService detailsService;*/
-
+	@Autowired
+	TauxIrDao tauxIrDao;
 	
 	@Autowired
 	EmployeService employeService;
@@ -67,6 +71,16 @@ public class DeclarationIREmployeService {
 			DeclarationIREmploye declaration=new DeclarationIREmploye();
 			//List<Details> details=detailsService.findByDeclarationIR(employe.getSalaire());
 			List<TauxIr> decla =tauxIrService.findByDeclarationIR(employe.getSalaire());
+			ArrayList<Double> tauxPorc=new ArrayList<Double>();
+			for (TauxIr taux : decla) {
+				tauxPorc.add(taux.getPourcentage());
+			}
+			
+			
+			Double maximumTaux=Collections.max(tauxPorc);
+			TauxIr maxTaux=tauxIrDao.findByPourcentage(maximumTaux);
+			
+			
 			List<Double> irDetails=new ArrayList<>();	
 				double val=0;
 				double diff=0;
@@ -103,7 +117,7 @@ public class DeclarationIREmployeService {
 			
 			declaration.setSalaireBrut(employe.getSalaire());
 			declaration.setSalaireNet(employe.getSalaire()-ir);
-			
+			declaration.setTauxIr(maxTaux);
 			declaration.setEmploye(employe);
 			declaration.setDeclarationIR(declarationIR);
 			
@@ -194,6 +208,8 @@ public class DeclarationIREmployeService {
 		for (DeclarationIREmploye declarationIREmploye : declarationIR.getDeclarationsIREmployes()) {
 			//prepare(declarationIREmploye);
 			DeclarationIR nvDeclarationIR=declarationIRService.findByRef(declarationIR.getRef());
+			Employe employe= employeDao.findByCin(declarationIREmploye.getEmploye().getCin());
+			declarationIREmploye.setEmploye(employe);
 			declarationIREmploye.setDeclarationIR(nvDeclarationIR);
 			declarationIREmployeDao.save(declarationIREmploye);
 			//List<Details> details=detailsService.findByDeclarationIR(declarationIREmploye.getEmploye().getSalaire());
